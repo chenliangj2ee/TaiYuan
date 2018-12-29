@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="AstListViewProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/ast_listview_progress_rotate</item>
+        　　
+        <item name="android:minWidth">20dip</item>
+        　　
+        <item name="android:maxWidth">20dip</item>
+        　　
+        <item name="android:minHeight">20dip</item>
+        　　
+        <item name="android:maxHeight">20dip</item>
+    </style>
+</resources>

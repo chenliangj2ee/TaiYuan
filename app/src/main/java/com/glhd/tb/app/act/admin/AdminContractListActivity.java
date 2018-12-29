@@ -1,0 +1,72 @@
+package com.glhd.tb.app.act.admin;
+
+import android.os.Bundle;
+
+import com.ast365.library.listview.AstListView;
+import com.glhd.tb.app.API;
+import com.glhd.tb.app.R;
+import com.glhd.tb.app.adapter.ItemAdminContractListAdapter;
+import com.glhd.tb.app.base.BaseActivity;
+import com.glhd.tb.app.base.bean.BeanContract;
+import com.glhd.tb.app.http.MyHttp;
+import com.glhd.tb.app.http.res.ResGetCustommerContract;
+import com.glhd.tb.app.utils.MySp;
+
+import java.util.ArrayList;
+
+public class AdminContractListActivity extends BaseActivity {
+
+    private AstListView listview;
+    private ArrayList<BeanContract> beans = new ArrayList<>();
+    private ItemAdminContractListAdapter adapter;
+    private int pageNum = 0;
+    private String pageSize = "20";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_listview_contract);
+        initView();
+    }
+
+    private void initView() {
+        listview = (AstListView) findViewById(R.id.listview);
+        adapter = new ItemAdminContractListAdapter(this, beans);
+        listview.setAdapter(adapter);
+        listview.setOnRefreshListener(new AstListView.RefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageNum=0;
+                contractListHttp(pageNum);
+            }
+
+            @Override
+            public void onLoadMore() {
+                contractListHttp(pageNum);
+            }
+        });
+
+    }
+
+    private void contractListHttp(int num) {
+        API.getAdminContractList(MySp.getUser(this).getAccountId(), num + "", pageSize, new MyHttp.ResultCallback<ResGetCustommerContract>() {
+            @Override
+            public void onSuccess(ResGetCustommerContract res) {
+                listview.stop();
+                if (res.getCode() == 0) {
+                    if(pageNum==0)
+                        beans.clear();
+                    beans.addAll(res.getDatas());
+                    pageNum++;
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String message) {
+                listview.stop();
+            }
+        });
+
+    }
+}

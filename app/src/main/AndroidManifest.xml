@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.glhd.tb.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.hardware.camera" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".act.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".act.ResetPasswordActivity" />
+        <activity android:name=".act.InspMyActivity" />
+        <activity android:name=".act.UserInfoActivity" />
+
+        <!--巡检端-->
+        <activity android:name=".act.inspection.MainInspectionActivity" />
+        <activity android:name=".act.inspection.InspSubmitActivity" />
+        <activity android:name=".act.inspection.InspIndexActivity" />
+        <activity android:name=".act.inspection.InspInfoActivity" />
+        <activity android:name=".act.inspection.InspFilterActivity" />
+        <activity android:name=".act.inspection.InspFilterSpinnerActivity" />
+        <activity android:name=".act.inspection.InspHistoryActivity" />
+        <activity android:name=".act.inspection.InspConstructionSubmitActivity" />
+        <activity android:name=".act.inspection.InspConstructionInfoActivity" />
+
+        <!--客户端-->
+        <activity android:name=".act.customer.MainCustomerActivity" />
+        <activity android:name=".act.customer.ContractListActivity" />
+        <activity android:name=".act.customer.ContractInfoActivity" />
+        <activity android:name=".act.customer.SearchActivity" />
+        <activity android:name=".act.customer.CusAdsListActivity" />
+        <activity android:name=".act.customer.CusUpAdsListActivity" />
+        <activity android:name=".act.customer.CusInspInfoActivity" />
+        <activity android:name=".act.customer.CusInspActivity" />
+        <activity android:name=".act.customer.CusFanKuiActivity" />
+        <activity android:name=".act.customer.CusNoticeListActivity" />
+        <activity android:name=".act.customer.NoticeInfoActivity" />
+        <activity android:name=".act.customer.CusFuKuanListActivity" />
+
+        <!--管理端-->
+        <activity android:name=".act.admin.AdminActivity" />
+        <activity android:name=".act.admin.AdminAdvertsListActivity" />
+        <activity android:name=".act.admin.AdminContractListActivity" />
+        <activity android:name=".act.admin.AdminUpAdsListActivity" />
+        <activity android:name=".act.admin.AdminInspInfoActivity" />
+        <activity android:name=".act.admin.AdminAdvertInfoActivity" />
+        <activity android:name=".act.admin.AdminContractInfoActivity" />
+        <activity android:name=".act.admin.AdminFuKuanListActivity" />
+        <activity android:name=".act.admin.AdminConstructionInfoActivity" />
+
+    </application>
+
+</manifest>

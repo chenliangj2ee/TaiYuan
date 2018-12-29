@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eee"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="back"
+            android:padding="15dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="招商公告"
+            android:textColor="#000"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5px"
+        android:background="#ccc" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="招商标题"
+                    android:textColor="#547bd0"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:text="XXXX-XXXX-XX-XXX-XXX"
+                    android:textColor="#646464"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#eee" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="开始日期"
+                    android:textColor="#547bd0"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/start_date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:text="2014-4-4"
+                    android:textColor="#646464"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#eee" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="截止日期"
+                    android:textColor="#547bd0"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/end_date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:text="2014-4-4"
+                    android:textColor="#646464"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#eee" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="top"
+                    android:layout_marginTop="15dp"
+                    android:text="公告内容"
+                    android:textColor="#547bd0"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:minHeight="50dp"
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:text="XXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.docXXXXXXXXXX.doc"
+                    android:textColor="#646464"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#eee" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:gravity="top"
+                    android:layout_marginTop="15dp"
+                    android:text="媒体资源"
+                    android:textColor="#547bd0"
+                    android:textSize="14sp" />
+
+                <com.ast365.library.listview.FullListView
+                    android:id="@+id/listview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:dividerHeight="0dp"
+                    android:divider="#0000"
+                    android:layout_weight="4"
+                    android:background="#fff"
+                />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#eee" />
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#eee" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

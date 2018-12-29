@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/scan"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:background="@drawable/scan" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/my_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/selector_insp_search"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:hint="手动输入媒体资源编码"
+            android:imeOptions="actionSearch"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/selector_login_button"
+            android:gravity="center"
+            android:onClick="searchButton"
+            android:text="搜索"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#eee" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:id="@+id/ico"
+            android:layout_width="2dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="#5178cc" />
+
+        <TextView
+            android:id="@+id/batch_btn"
+            android:layout_toRightOf="@+id/ico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="批量处理"
+            android:drawablePadding="3dp"
+            android:drawableLeft="@drawable/batch_img"
+            android:textColor="#333"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/station_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            android:textColor="#333"
+            android:textSize="14sp" />
+        <ImageView
+            android:id="@+id/rig_ico"
+            android:layout_alignParentRight="true"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/filter" />
+
+        <TextView
+            android:id="@+id/filter"
+            android:layout_toLeftOf="@+id/rig_ico"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="范围过滤"
+            android:textColor="#333"
+            android:layout_marginRight="5dp"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
+
+        <RadioButton
+            android:id="@+id/no_insp"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/selector_insp_no"
+            android:button="@null"
+            android:gravity="center"
+            android:text="待巡"
+            android:textColor="@drawable/selector_insp_index_color"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/yes_insp"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/selector_insp_yes"
+            android:button="@null"
+            android:gravity="center"
+            android:text="已巡"
+            android:textColor="@drawable/selector_insp_index_color"
+            android:textSize="12sp" />
+
+    </RadioGroup>
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><!--付款详情-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eee"
+    android:orientation="vertical"
+   >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/contract_list_bg"
+        android:fitsSystemWindows="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="#0000">
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="back"
+            android:padding="15dp"
+            android:src="@drawable/back_w" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="合同信息"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <com.ast365.library.listview.AstListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:divider="#0000"
+        android:dividerHeight="0px" />
+
+</FrameLayout>

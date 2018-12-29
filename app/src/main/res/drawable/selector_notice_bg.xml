@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item>-->
+    <!--<shape>-->
+    <!--<solid android:color="#内部颜色"/>-->
+    <!--<stroke android:width="边宽px"-->
+    <!--android:color="#边颜色"-->
+    <!--android:dashGap="虚线间隔dp"-->
+    <!--android:dashWidth="虚线宽度dp"/>-->
+    <!--<corners android:bottomLeftRadius="20px"-->
+    <!--android:bottomRightRadius="20px"-->
+    <!--android:topLeftRadius="20px"-->
+    <!--android:topRightRadius="20px"/>-->
+    <!--</shape>-->
+    <!--</item>-->
+
+
+    <!--默认状态-->
+    <item>
+        <shape>
+            <solid android:color="#fff" />
+            <stroke android:width="1px" android:color="#fb5564" android:dashGap="0px" android:dashWidth="0px" />
+            <corners android:bottomLeftRadius="20px" android:bottomRightRadius="20px" android:topLeftRadius="20px" android:topRightRadius="20px" />
+        </shape>
+    </item>
+
+</selector>

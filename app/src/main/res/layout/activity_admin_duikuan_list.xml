@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#fff"
+android:fitsSystemWindows="true"
+android:orientation="vertical">
+
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#fff">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="back"
+        android:padding="15dp"
+        android:src="@drawable/back" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="付款提醒"
+        android:textColor="#343434"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="10dp"
+        android:gravity="center|right"
+        android:text="催款"
+        android:onClick="cuikuanAction"
+        android:textColor="#343434"
+        android:textSize="20sp" />
+
+</FrameLayout>
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1px"
+    android:background="#bbb" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:orientation="horizontal">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:text="全选"
+        android:onClick="allSelectAction"
+        android:textColor="#3699c9" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:background="#bbb" />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:text="清空"
+        android:onClick="clearAction"
+        android:textColor="#3699c9" />
+</LinearLayout>
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1px"
+    android:background="#bbb" />
+
+<com.ast365.library.listview.AstListView
+    android:id="@+id/listview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="#bbb"
+    android:dividerHeight="1px"
+    android:layerType="software" />
+
+</LinearLayout>
