@@ -2,6 +2,7 @@ package com.glhd.tb.app.act;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +13,8 @@ import com.glhd.tb.app.R;
 import com.glhd.tb.app.act.admin.AdminActivity;
 import com.glhd.tb.app.act.customer.MainCustomerActivity;
 import com.glhd.tb.app.act.inspection.InspIndexActivity;
+import com.glhd.tb.app.act.inspection.SelectStationActivity;
+import com.glhd.tb.app.act.repair.RepairIndexActivity;
 import com.glhd.tb.app.base.BaseActivity;
 import com.glhd.tb.app.base.bean.BeanUser;
 import com.glhd.tb.app.http.MyHttp;
@@ -46,6 +49,7 @@ public class LoginActivity extends BaseActivity {
         //自动登陆
         BeanUser user = MySp.getUser(this);
         if (user != null && user.isLogin()) {
+            classMap.put("U02", InspIndexActivity.class);//巡检端
             String ip = MySp.getString(this, "ip");
             String port = MySp.getString(this, "port");
             String projectname = MySp.getString(this, "projectname");
@@ -98,6 +102,7 @@ public class LoginActivity extends BaseActivity {
                 if (res.getCode() == 0) {
                     BeanUser user = res.getData();
                     user.setAccount(account);
+                    user.setLoginPhone(phone.getText().toString());
                     toMain(user);
                 } else {
                     MyToast.showMessage(LoginActivity.this, res.getMessage());
@@ -116,21 +121,24 @@ public class LoginActivity extends BaseActivity {
 
     private void initView() {
         classMap.put("U01", AdminActivity.class);//管理端
-        classMap.put("U02", InspIndexActivity.class);//巡检端
+        classMap.put("U02", SelectStationActivity.class);//巡检端
         classMap.put("U03", MainCustomerActivity.class);//客户端
+        classMap.put("U04",RepairIndexActivity.class);
 
         accountE = (EditText) findViewById(R.id.account_e);
         passwordE = (EditText) findViewById(R.id.password_e);
+        phone = (EditText) findViewById(R.id.phone);
         ipt = (EditText) findViewById(R.id.ip);
 
         BeanUser user = MySp.getUser(this);
         if (user != null && user.isLogin() == false) {
             accountE.setText(user.getAccount());
+            phone.setText(user.getLoginPhone());
             passwordE.requestFocus();
         }
 
         permission();
-        phone = (EditText) findViewById(R.id.phone);
+
     }
 
     /**
@@ -142,6 +150,8 @@ public class LoginActivity extends BaseActivity {
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.READ_EXTERNAL_STORAGE
         ).subscribe(new Action1<Boolean>() {
             @Override
@@ -163,7 +173,11 @@ public class LoginActivity extends BaseActivity {
         if (classMap.get(user.getType()) == null) {
             MyToast.showMessage(this, "登录异常：不存在该登录账号类型");
         } else {
-            startActivity(classMap.get(user.getType()));
+//            startActivity(classMap.get(user.getType()));
+            Intent intent=new Intent(this,classMap.get(user.getType()));
+            intent.putExtra("fromActivity",getClass().getSimpleName());
+            intent.putExtra("nodate", true);
+            startActivity(intent);
             user.setLogin(true);
             MySp.setUser(LoginActivity.this, user);//缓存用户信息
             finish();
@@ -175,7 +189,7 @@ public class LoginActivity extends BaseActivity {
         pd = new ProgressDialog(this);
         pd.setMessage("正在登录...");
         pd.show();
-        API.getIp(account, pass, phone, new MyHttp.ResultCallback<ResGetPi>() {
+        API.getIp(account, MyMd5.md5(pass), phone, new MyHttp.ResultCallback<ResGetPi>() {
             @Override
             public void onSuccess(ResGetPi res) {
                 if (res != null && res.getResult().equals("success")) {

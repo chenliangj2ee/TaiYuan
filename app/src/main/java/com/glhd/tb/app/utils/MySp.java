@@ -78,7 +78,7 @@ public class MySp {
             return 0;
         preferences = context.getSharedPreferences(cacheName,
                 Context.MODE_PRIVATE);
-        return preferences.getInt(key, 0);
+        return preferences.getInt(key, -1);
     }
 
     public static void putLong(Context context, String key, long value) {

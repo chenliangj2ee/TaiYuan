@@ -7,6 +7,16 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.hardware.camera" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -39,7 +49,17 @@
         <activity android:name=".act.inspection.InspHistoryActivity" />
         <activity android:name=".act.inspection.InspConstructionSubmitActivity" />
         <activity android:name=".act.inspection.InspConstructionInfoActivity" />
-
+        <activity android:name=".act.inspection.SelectStationActivity" />
+        <activity android:name=".act.inspection.InspSubmitMoreActivity" />
+        <activity
+            android:name=".act.inspection.NotiUserActivity"
+            android:theme="@style/transparent" />
+        <activity
+            android:name=".act.inspection.RepairUserActivity"
+            android:theme="@style/transparent" />
+        <activity
+            android:name=".act.repair.RepairIndexActivity"
+        />
         <!--客户端-->
         <activity android:name=".act.customer.MainCustomerActivity" />
         <activity android:name=".act.customer.ContractListActivity" />
@@ -64,6 +84,20 @@
         <activity android:name=".act.admin.AdminContractInfoActivity" />
         <activity android:name=".act.admin.AdminFuKuanListActivity" />
         <activity android:name=".act.admin.AdminConstructionInfoActivity" />
+
+
+        <!-- 声明service组件 -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote"></service>
+
+        <!-- AK鉴权 -->
+        <!-- meta-data需要写在application中 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="07QSNGaHGVaoGGorOH5mPPdiEKk3ZGcG" />  <!-- http://lbsyun.baidu.com/apiconsole/key -->
+
 
     </application>
 

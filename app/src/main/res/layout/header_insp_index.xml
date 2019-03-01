@@ -97,7 +97,7 @@
             android:layout_toLeftOf="@+id/rig_ico"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:text="范围过滤"
+            android:text="巡检范围"
             android:textColor="#333"
             android:layout_marginRight="5dp"
             android:textSize="14sp" />

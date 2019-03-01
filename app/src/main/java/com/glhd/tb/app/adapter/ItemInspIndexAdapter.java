@@ -66,6 +66,8 @@ public class ItemInspIndexAdapter extends BaseAdapter {
         MyImage.load(context, b.getImage(), h.advertIcon);
         h.coding.setText("编码:" + b.getCoding());
         h.location.setText(b.getLocationdescribe());
+        h.stationName.setText(b.getProperystation());
+
 
         h.typeSize.setText(b.getTypeTitle() + "   " + b.getWhSize());
         if ("0".equals(b.getInspCycle()) || "日检".equals(b.getInspCycle())) {
@@ -155,6 +157,7 @@ public class ItemInspIndexAdapter extends BaseAdapter {
     static class ViewHolder {
         protected ImageView advertIcon;
         protected TextView coding;
+        protected TextView stationName;
         protected TextView typeSize;
         protected TextView inspCycle;
         protected TextView location;
@@ -171,6 +174,7 @@ public class ItemInspIndexAdapter extends BaseAdapter {
             avdent_checkbox=(CheckBox)rootView.findViewById(R.id.avdent_checkbox);
             advertIcon = (ImageView) rootView.findViewById(R.id.advert_icon);
             coding = (TextView) rootView.findViewById(R.id.coding);
+            stationName = (TextView) rootView.findViewById(R.id.station_name);
             typeSize = (TextView) rootView.findViewById(R.id.type_size);
             inspCycle = (TextView) rootView.findViewById(R.id.insp_cycle);
             location = (TextView) rootView.findViewById(R.id.location);

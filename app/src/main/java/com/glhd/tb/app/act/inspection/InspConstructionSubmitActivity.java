@@ -179,7 +179,7 @@ public class InspConstructionSubmitActivity extends BaseActivity implements View
             @Override
             public void onSuccess(ResUpload res) {
                 if (res.getCode() == 0) {
-                    uploadUrl = res.getUrl();
+                    uploadUrl = res.getData();
                     inspFeedback(uploadUrl);
                 } else {
                     dialog.dismiss();

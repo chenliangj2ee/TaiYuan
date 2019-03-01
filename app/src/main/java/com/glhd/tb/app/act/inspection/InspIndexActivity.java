@@ -6,9 +6,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.glhd.tb.app.R;
 import com.glhd.tb.app.act.InspMyActivity;
 import com.glhd.tb.app.base.BaseActivity;
+import com.glhd.tb.app.utils.MyLocation;
+import com.glhd.tb.app.utils.MyLog;
+
 
 public class InspIndexActivity extends BaseActivity implements View.OnClickListener {
 
@@ -29,6 +34,32 @@ public class InspIndexActivity extends BaseActivity implements View.OnClickListe
         initFragment();
         initView();
         upgrade();
+        startLocation();
+    }
+
+
+    /**
+     * 启动定位
+     */
+    private void startLocation(){
+        final MyLocation location = new MyLocation(getApplicationContext());
+        location.start(new BDAbstractLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+
+                MyLog.i("", "------------------------------------------------");
+                MyLocation.latitude = bdLocation.getLatitude() + "";
+                MyLocation.longitude = bdLocation.getLongitude() + "";
+
+                MyLog.i("", "latitude:" + MyLocation.latitude);
+                MyLog.i("", "longitude:" + MyLocation.longitude);
+
+                location.stop();
+
+            }
+
+
+        });
     }
 
     private void initView() {
@@ -70,7 +101,8 @@ public class InspIndexActivity extends BaseActivity implements View.OnClickListe
     }
 
     public void historyAction(View view) {
-        Intent intent = new Intent(this, InspFilterActivity.class);
+        Intent intent = new Intent(this, SelectStationActivity.class);
+        intent.putExtra("fromActivity",getClass().getSimpleName());
         startActivity(intent);
     }
 

@@ -23,9 +23,18 @@ public class BeanUser implements Serializable{
     private String type="";
     private String name="";
     private String phone="";
+    private String loginPhone="";
     private String company="";
     private String remarks="";
     private boolean isLogin;
+
+    public String getLoginPhone() {
+        return loginPhone;
+    }
+
+    public void setLoginPhone(String loginPhone) {
+        this.loginPhone = loginPhone;
+    }
 
     public String getAccount() {
         return account;

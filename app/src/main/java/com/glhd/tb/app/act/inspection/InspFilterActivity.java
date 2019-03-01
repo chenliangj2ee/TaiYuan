@@ -28,6 +28,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * 作废，不在使用
+ */
 public class InspFilterActivity extends BaseActivity {
 
 
@@ -405,16 +408,16 @@ public class InspFilterActivity extends BaseActivity {
                     public void onSuccess(ResGetInspSearchBaseData res) {
                         dialog.dismiss();
                         if (res.getCode() == 0 && res.getData() != null) {
-                            if (res.getData().getLocations() != null)
-                                locations.addAll(res.getData().getLocations());
-                            if (res.getData().getStations() != null)
-                                stations.addAll(res.getData().getStations());
-                            if (res.getData().getTypes() != null)
-                                types.addAll(res.getData().getTypes());
-                            if (res.getData().getCarno() != null)
-                                carno.addAll(res.getData().getCarno());
-                            if (res.getData().getMarshalling() != null)
-                                marshalling.addAll(res.getData().getMarshalling());
+//                            if (res.getData().getLocations() != null)
+//                                locations.addAll(res.getData().getLocations());
+//                            if (res.getData().getStations() != null)
+//                                stations.addAll(res.getData().getStations());
+//                            if (res.getData().getTypes() != null)
+//                                types.addAll(res.getData().getTypes());
+//                            if (res.getData().getCarno() != null)
+//                                carno.addAll(res.getData().getCarno());
+//                            if (res.getData().getMarshalling() != null)
+//                                marshalling.addAll(res.getData().getMarshalling());
                         }
                     }
 

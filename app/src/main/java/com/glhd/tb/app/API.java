@@ -23,10 +23,13 @@ import com.glhd.tb.app.http.res.ResGetInspSearchBaseData;
 import com.glhd.tb.app.http.res.ResGetMyAdverts;
 import com.glhd.tb.app.http.res.ResGetNoticeList;
 import com.glhd.tb.app.http.res.ResGetPi;
+import com.glhd.tb.app.http.res.ResGetRepair;
+import com.glhd.tb.app.http.res.ResGetRepairList;
 import com.glhd.tb.app.http.res.ResLogin;
 import com.glhd.tb.app.http.res.ResSearchOne;
 import com.glhd.tb.app.http.res.ResUpgrade;
 import com.glhd.tb.app.http.res.ResUpload;
+import com.glhd.tb.app.utils.MyLocation;
 
 import java.io.File;
 
@@ -37,7 +40,10 @@ import java.io.File;
 
 public class API {
 
-    public static String MAIN_IP = "192.168.1.113:8080";
+    //47.104.81.230:8901外网
+    // 内网
+
+    public static String MAIN_IP = "192.168.6.117:8080";
 
     public static String IP = "192.168.6.129:8080";
     public static String HOST_IMAGE = "http://" + IP + "/advertmanageapp";
@@ -60,7 +66,8 @@ public class API {
     private static String URL_UPDATE_USER_INFO = HOST + "/inspection/modifyuser";                   //获取搜索基础数据
     private static String URL_GET_CONSTRUCTION = HOST + "/inspection/publish";                      //获取施工/未完成，已完成
     private static String URL_CONSTRUCTION_SUBMIT = HOST + "/inspection/register";                   //施工登记
-
+    private static String URL_GET_REPAIR = HOST + "/inspection/maintenance";                   //获取维修人员
+    private static String URL_GET_REPAIR_LIST = HOST + "/administrators/press";                  //获取已维修，未维修
 
     /**
      * 客户端接口
@@ -117,6 +124,8 @@ public class API {
         API.URL_UPDATE_USER_INFO = HOST + "/inspection/modifyuser";                   //获取搜索基础数据
         API.URL_GET_CONSTRUCTION = HOST + "/inspection/publish";                   //获取施工/未完成，已完成
         API.URL_CONSTRUCTION_SUBMIT = HOST + "/inspection/register";                   //施工登记
+        API.URL_GET_REPAIR = HOST + "/inspection/maintenance";                   //获取维修人员
+        API.URL_GET_REPAIR_LIST = HOST + "/inspection/repairlist";                   //获取已维修、未维修
 
         /**
          * 客户端接口
@@ -246,7 +255,7 @@ public class API {
      * @param callback
      */
     public static void getMyInspList(String accountId, String inspStatus, String pageNum, String pageSize,
-                                     String stationId, String typeId, String locationId, String carnoId, String marshallingId,
+                                     String stationId,  String locationId, String carnoId, String marshallingId,
                                      MyHttp.ResultCallback<ResGetInspList>... callback) {
 
         MyHttp<ResGetInspList> http = new MyHttp<>(ResGetInspList.class);
@@ -256,7 +265,6 @@ public class API {
         http.put("pageSize", pageSize);
 
         http.put("stationId", stationId);
-        http.put("typeId", typeId);
         http.put("locationId", locationId);
         http.put("carnoId", carnoId);
         http.put("marshallingId", marshallingId);
@@ -275,14 +283,20 @@ public class API {
      * @param status
      * @param callback
      */
-    public static void inspFeedback(String accountId, String id, String url, String remarks, String status,
+    public static void inspFeedback(String accountId, String id, String fileName, String remarks, String status,String repairPersonnel,String viewStaff,
                                     MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("id", id);
         http.put("accountId", accountId);
         http.put("remarks", remarks);
         http.put("status", status);
-        http.put("imageUrl", url);
+        http.put("fileName", fileName);
+
+
+        http.put("repairPersonnel", repairPersonnel);
+        http.put("viewStaff", viewStaff);
+        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
+
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_FEEDBACK);
@@ -292,14 +306,30 @@ public class API {
      *
      * 批量巡检
      * */
-    public static void inspFeedbackBatch(String accountId, String ids,
-                                         MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void inspFeedbackBatch(String accountId, String ids, String fileName, String remarks, String status,MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
         http.put("ids", ids);
+        http.put("remarks", remarks);
+        http.put("status", status);
+        http.put("fileName", fileName);
+        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
+
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_FEEDBACKBATCH);
+    }
+
+    /*
+     *
+     * 获取维修人员，通知人员
+     * */
+    public static void getRepair(MyHttp.ResultCallback<ResGetRepair>... callback) {
+        MyHttp<ResGetRepair> http = new MyHttp<>(ResGetRepair.class);
+        http.put("fileName", "ddd");
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_GET_REPAIR);
     }
 
 
@@ -399,9 +429,8 @@ public class API {
         http.put("accountId", accountId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-
-        http.put("stationId", stationId);
         http.put("typeId", typeId);
+        http.put("stationId", stationId);
         http.put("locationId", locationId);
         http.put("carnoId", carnoId);
         http.put("marshallingId", marshallingId);
@@ -759,6 +788,7 @@ public class API {
         http.put("type", type);
         http.put("pageNo", pageNo + "");
         http.put("pageSize", pageSize + "");
+        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CONSTRUCTION);
@@ -787,6 +817,7 @@ public class API {
         http.put("remarks", remarks);
         http.put("imageUrl", imageUrl);
         http.put("date", date);
+        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
 
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
@@ -858,5 +889,36 @@ public class API {
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_ADMIN_CUI_KUAN);
+    }
+
+    /**
+     * 管理端付款提醒
+     *
+     * @param versionCode:版本号
+     * @param callback
+     */
+    public static void getRepariList(
+            String accountId,
+            String repairState,
+            String pageNo,
+            String pageSize,
+            MyHttp.ResultCallback<ResGetRepairList>... callback) {
+
+        MyHttp<ResGetRepairList> http = new MyHttp<>(ResGetRepairList.class);
+        http.put("accountId", accountId);
+        http.put("repairState", repairState);
+        http.put("stationId", "");
+        http.put("locationId", "");
+        http.put("carnoId", "");
+        http.put("marshallingId", "");
+        http.put("multiple", "");
+        http.put("pageNo", pageNo);
+        http.put("pageSize", pageSize);
+
+
+
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_GET_REPAIR_LIST);
     }
 }

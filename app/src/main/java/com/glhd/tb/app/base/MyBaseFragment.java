@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 public abstract class MyBaseFragment  extends Fragment {
 	public String TAG;
 
@@ -28,9 +32,20 @@ public abstract class MyBaseFragment  extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
+		EventBus.getDefault().register(this);
 	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
 
+	}
+
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void setEvent(Activity event) {
+
+
+	}
 	public void setContentView(int id) {
 		this.mLayoutId = id;
 	}

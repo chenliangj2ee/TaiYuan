@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.SyncStateContract;
 import android.widget.Toast;
 
 import java.io.File;
@@ -79,6 +81,13 @@ public class Multi {
         act.startActivityForResult(intent, requestCode);
     }
 
+
+    public static void openVideo(Activity act,int requestCode){
+        Intent _video_intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        _video_intent.putExtra(MediaStore.EXTRA_OUTPUT, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + "/Camera/");
+        _video_intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY,1);
+        act.startActivityForResult(_video_intent, requestCode);
+    }
     public static void openCamera(Activity act, int requestCode) {
 //        // 跳转到系统照相机
 //        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

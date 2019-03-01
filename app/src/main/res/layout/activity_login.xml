@@ -109,8 +109,8 @@
                     android:background="#0000"
                     android:cursorVisible="true"
                     android:hint="请输入手机号"
-                    android:password="true"
                     android:singleLine="true"
+                    android:inputType="phone"
                     android:textSize="16sp" />
             </LinearLayout>
 

@@ -1,8 +1,10 @@
 package com.glhd.tb.app.act.inspection;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -17,20 +19,21 @@ import com.ast365.library.listview.AstListView;
 import com.glhd.tb.app.API;
 import com.glhd.tb.app.R;
 import com.glhd.tb.app.adapter.ItemInspIndexAdapter;
-import com.glhd.tb.app.base.BaseRes;
 import com.glhd.tb.app.base.MyBaseFragment;
 import com.glhd.tb.app.base.bean.BeanAdvert;
-import com.glhd.tb.app.base.bean.BeanSpinner;
+import com.glhd.tb.app.event.EventInspSubmitMore;
 import com.glhd.tb.app.http.MyHttp;
 import com.glhd.tb.app.http.res.ResGetInspBaseData;
 import com.glhd.tb.app.http.res.ResGetInspList;
 import com.glhd.tb.app.http.res.ResSearchOne;
 import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
-import com.google.gson.Gson;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -55,10 +58,10 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
     private String pageSize = "100";
     private ProgressDialog dialog;
     private String stationId;
-    private String typeId;
     private String locationId;
     private String carnoId;
     private String marshallingId;
+    private String stationTitle;
 
     private boolean isBatch = false;//是否是批量处理
 
@@ -70,11 +73,18 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
 
     @Override
     public void initView() {
+        stationId=MySp.getString(getContext(), "stationId");
+        locationId=MySp.getString(getContext(), "locationId");
+        carnoId=MySp.getString(getContext(), "carnoId");
+        marshallingId=MySp.getString(getContext(), "marshallingId");
+        stationTitle= MySp.getString(getContext(), "stationName");
+
         checkLin = findViewById(R.id.checkLin);
 
         listview = (AstListView) findViewById(R.id.listview);
         header = View.inflate(getContext(), R.layout.header_insp_index, null);
-        stationName=header.findViewById(R.id.station_name);
+        stationName = header.findViewById(R.id.station_name);
+        stationName.setText(stationTitle);
         searchButton = header.findViewById(R.id.search_button);
         scan = (ImageView) header.findViewById(R.id.scan);
         scan.setOnClickListener(TodayInspFragment.this);
@@ -145,20 +155,18 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
                 isBatch = false;
                 adapter.setCheckBoxIsShow(false);
             }
-//            if (beansYes.size() == 0) {
-//
-//            } else {
-//                beans.clear();
-//                beans.addAll(beansYes);
-//            }
-//            adapter.notifyDataSetChanged();
+
 
             pageNumYes = 0;
             taskListHttpYes(pageNumYes, true);
         } else if (view.getId() == R.id.filter) {
-            Intent intent = new Intent(getContext(), InspFilterActivity.class);
+
+
+            Intent intent = new Intent(getContext(), SelectStationActivity.class);
+            intent.putExtra("fromActivity",getClass().getSimpleName());
             intent.putExtra("nodate", true);
             startActivityForResult(intent, 1);
+
         } else if (view.getId() == R.id.batch_btn) {
             if (!isBatch) {
                 //显示底部处理按钮
@@ -182,18 +190,23 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
             adapter.notifyDataSetChanged();
         } else if (view.getId() == R.id.confirmBtn) {
             ArrayList<BeanAdvert> objs = adapter.getObjects();
-            ArrayList<String> ids = new ArrayList<String>();
+            ArrayList<BeanAdvert> selectAds=new ArrayList<>();
             for (int i = 0; i < objs.size(); i++) {
                 if (objs.get(i).isChecked()) {
-                    ids.add(objs.get(i).getId());
+                    selectAds.add(objs.get(i));
                 }
             }
-            if (ids.size() == 0) {
+
+            if (selectAds.size() == 0) {
                 MyToast.showMessage(getContext(), "请选择项目后提交！");
                 return;
             }
-//            MyToast.showMessage(getContext(), "提交个数："+ids.size());
-            submitData(ids);
+
+            Intent intent=new Intent(getActivity(),InspSubmitMoreActivity.class);
+            intent.putExtra("beans",selectAds);
+            startActivity(intent);
+
+//            submitData(ids);
         }
     }
 
@@ -208,32 +221,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
         }
     }
 
-    /*
-     *
-     * 批量提交数据
-     * */
 
-    private void submitData(final ArrayList<String> ids) {
-        String data = new Gson().toJson(ids);
-        dialog.setMessage("提交数据中...");
-        dialog.show();
-        API.inspFeedbackBatch(MySp.getUser(getContext()).getAccountId(), data, new MyHttp.ResultCallback<BaseRes>() {
-            @Override
-            public void onSuccess(BaseRes res) {
-                dialog.dismiss();
-                hideSetBatch();
-                updateCheckListForBatch(ids);
-                getBaseData();
-            }
-
-            @Override
-            public void onError(String message) {
-                dialog.dismiss();
-                MyToast.showMessage(getContext(), "系统异常");
-            }
-        });
-
-    }
 
     /*
      *
@@ -251,11 +239,14 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
      *
      * 批量处理后更新巡检列表
      * */
-    private void updateCheckListForBatch(ArrayList<String> ids) {
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateCheckListForBatch(EventInspSubmitMore event) {
+        batch_btn.performClick();
         ArrayList<BeanAdvert> objs = adapter.getObjects();
-        for (int i = 0; i < ids.size(); i++) {
+        for (int i = 0; i < event.ids.size(); i++) {
             for (int j = 0; j < objs.size(); j++) {
-                if (ids.get(i).equals(objs.get(j).getId())) {
+                if (event.ids.get(i).equals(objs.get(j).getId())) {
                     objs.remove(j);
                     beansYes.add(objs.get(j));
                 }
@@ -289,9 +280,6 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
                     break;
                 }
             }
-//            pageNumNo = 0;
-//            //刷新已巡检列表
-//            taskListHttpNo(pageNumNo, "0");
 
             pageNumYes = 0;
             //刷新已巡检列表
@@ -303,7 +291,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
 
     private void taskListHttpNo(int num, final String type) {
         API.getMyInspList(MySp.getUser(getContext()).getAccountId(), type, num + "",
-                pageSize, stationId, typeId, locationId, carnoId, marshallingId, new MyHttp.ResultCallback<ResGetInspList>() {
+                pageSize, stationId, locationId, carnoId, marshallingId, new MyHttp.ResultCallback<ResGetInspList>() {
                     @Override
                     public void onSuccess(ResGetInspList res) {
                         listview.stop();
@@ -357,7 +345,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
 
     private void taskListHttpYes(int num, final boolean refreshList) {
         API.getMyInspList(MySp.getUser(getContext()).getAccountId(), "1", num + "",
-                pageSize, stationId, typeId, locationId, carnoId, marshallingId, new MyHttp.ResultCallback<ResGetInspList>() {
+                pageSize, stationId, locationId, carnoId, marshallingId, new MyHttp.ResultCallback<ResGetInspList>() {
                     @Override
                     public void onSuccess(ResGetInspList res) {
                         listview.stop();
@@ -410,6 +398,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == 0) {
             //处理扫描结果（在界面上显示）
             if (null != data) {
@@ -426,32 +415,31 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
             }
         }
 
-        if (requestCode == 1 && resultCode == 0) {
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            Log.i("chenliang","onActivityResult。。。。。。RESULT_OK");
             stationId = "";
-            typeId = "";
             locationId = "";
+            carnoId="";
+            marshallingId="";
             //条件过滤
             try {
-                if (data.getStringExtra("selectStation") != null) {
-                    stationId = data.getStringExtra("selectStation");
+                if (data.getStringExtra("stationId") != null) {
+                    stationId = data.getStringExtra("stationId");
                 }
 
-                if (data.getStringExtra("selectType") != null) {
-                    typeId = data.getStringExtra("selectType");
-                }
-                if (data.getStringExtra("selectLocation") != null) {
-                    locationId = data.getStringExtra("selectLocation");
+                if (data.getStringExtra("locationId") != null) {
+                    locationId = data.getStringExtra("locationId");
                 }
 
-                if (data.getStringExtra("selectCarno") != null) {
-                    carnoId = data.getStringExtra("selectCarno");
+                if (data.getStringExtra("carnoId") != null) {
+                    carnoId = data.getStringExtra("carnoId");
                 }
-                if (data.getStringExtra("selectMarshalling") != null) {
-                    marshallingId = data.getStringExtra("selectMarshalling");
+                if (data.getStringExtra("marshallingId") != null) {
+                    marshallingId = data.getStringExtra("marshallingId");
                 }
-                if (data.getStringExtra("selectStationName") != null) {
-                    stationName.setText(data.getStringExtra("selectStationName"));
-                }else {
+                if (data.getStringExtra("stationName") != null) {
+                    stationName.setText(data.getStringExtra("stationName"));
+                } else {
                     stationName.setText("");
                 }
 
