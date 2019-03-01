@@ -34,9 +34,37 @@ public class BeanRepair implements Serializable {
     private String properystation;
     private String remark;
     private String repairId;
-    private String taskImage;
+    private String taskImage="";
     private String whSize;
     private String repairImage;
+    private String inspTime;
+    private String marshalling;
+    private String dwImage;
+
+
+    public String getDwImage() {
+        return dwImage;
+    }
+
+    public void setDwImage(String dwImage) {
+        this.dwImage = dwImage;
+    }
+
+    public String getMarshalling() {
+        return marshalling;
+    }
+
+    public void setMarshalling(String marshalling) {
+        this.marshalling = marshalling;
+    }
+
+    public String getInspTime() {
+        return inspTime;
+    }
+
+    public void setInspTime(String inspTime) {
+        this.inspTime = inspTime;
+    }
 
     public String getRepairImage() {
         return repairImage;

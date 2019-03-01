@@ -83,8 +83,17 @@ public class ResAdsConstruction {
         private String remark = "";
         private String construcType = "";
         private String publType = "";
+        private String material="";
         private String image = "";
         private TructionBean truction = new TructionBean();
+
+        public String getMaterial() {
+            return material;
+        }
+
+        public void setMaterial(String material) {
+            this.material = material;
+        }
 
         public String getId() {
             return id;

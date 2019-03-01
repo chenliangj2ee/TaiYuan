@@ -58,8 +58,15 @@ public class ItemRepairListAdapter extends BaseAdapter {
         h.coding.setText("编码："+b.getCoding());
         h.stationName.setText(b.getProperystation());
         h.typeSize.setText(b.getWhSize());
-        h.location.setText(b.getLocationdescribe());
+        if(b.getMarshalling()!=null){
+            h.location.setText(b.getMarshalling());
+        }else{
+            h.location.setText(b.getLocation()+"  "+b.getLocationdescribe());
+        }
+
+        h.time.setText("巡检时间："+b.getInspTime());
         MyImage.load(context,b.getImage(),h.advertIcon);
+
     }
 
     protected class ViewHolder {

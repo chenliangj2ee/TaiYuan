@@ -6,6 +6,7 @@
     android:background="#eee"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
     <EditText
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -15,6 +16,7 @@
         android:padding="10dp"
         android:textColor="#888"
         android:textSize="14sp" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -281,23 +283,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#fff"
-                    android:gravity="top"
                     android:clickable="true"
-                    android:padding="10dp"
+                    android:gravity="top"
                     android:hint="请选择"
+                    android:padding="10dp"
                     android:textColor="#888"
                     android:textSize="14sp" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="巡检结果" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:minHeight="150dp">
+                android:background="#fff">
 
                 <ImageView
                     android:id="@+id/upload_icon"
@@ -306,9 +309,15 @@
                     android:layout_margin="10dp"
                     android:background="#fff" />
 
-
-
             </FrameLayout>
+
+            <com.ast365.library.listview.FullGridView
+                android:id="@+id/gridview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:numColumns="3" />
 
             <View
                 android:layout_width="match_parent"

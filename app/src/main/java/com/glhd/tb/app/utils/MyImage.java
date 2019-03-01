@@ -20,6 +20,8 @@ public class MyImage {
 
 
     public static void load(Context context, String url, ImageView image) {
+        if(url==null)
+            return ;
         if(url.contains("http")==false){
             url= API.HOST_IMAGE+url;
         }

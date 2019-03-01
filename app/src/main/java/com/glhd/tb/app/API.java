@@ -43,7 +43,7 @@ public class API {
     //47.104.81.230:8901外网
     // 内网
 
-    public static String MAIN_IP = "192.168.6.117:8080";
+    public static String MAIN_IP = "192.168.1.113:8080";
 
     public static String IP = "192.168.6.129:8080";
     public static String HOST_IMAGE = "http://" + IP + "/advertmanageapp";
@@ -68,7 +68,7 @@ public class API {
     private static String URL_CONSTRUCTION_SUBMIT = HOST + "/inspection/register";                   //施工登记
     private static String URL_GET_REPAIR = HOST + "/inspection/maintenance";                   //获取维修人员
     private static String URL_GET_REPAIR_LIST = HOST + "/administrators/press";                  //获取已维修，未维修
-
+    private static String URL_INSP_REPAIRBACKBATCH = HOST + "/inspection/repairFeedback";                       //维修反馈
     /**
      * 客户端接口
      */
@@ -126,9 +126,10 @@ public class API {
         API.URL_CONSTRUCTION_SUBMIT = HOST + "/inspection/register";                   //施工登记
         API.URL_GET_REPAIR = HOST + "/inspection/maintenance";                   //获取维修人员
         API.URL_GET_REPAIR_LIST = HOST + "/inspection/repairlist";                   //获取已维修、未维修
+        API.URL_INSP_REPAIRBACKBATCH=HOST+"/inspection/repairFeedback";                //维修反馈
 
         /**
-         * 客户端接口
+         * 客户端接口;
          */
         API.URL_GET_CONTRACT_LIST = HOST + "/client/InvestmentList";                  //客户合同列表
         API.URL_GET_MY_ADVERTS = HOST + "/client/medialist";                          //我的媒体
@@ -921,4 +922,24 @@ public class API {
             http.ResultCallback(callback[0]);
         http.post(API.URL_GET_REPAIR_LIST);
     }
+
+
+
+    /*
+     *
+     * 批量巡检
+     * */
+    public static void repairFeedbackBatch(String accountId, String taskId, String fileName, String remarks,MyHttp.ResultCallback<BaseRes>... callback) {
+        MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
+        http.put("accountId", accountId);
+        http.put("taskId", taskId);
+        http.put("remarks", remarks);
+        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
+        http.put("fileName", fileName);
+
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_INSP_REPAIRBACKBATCH);
+    }
+
 }

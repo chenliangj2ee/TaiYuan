@@ -12,6 +12,8 @@ import android.widget.ImageView;
 
 import com.glhd.tb.app.R;
 import com.glhd.tb.app.utils.MyImage;
+import com.glhd.tb.app.utils.MyLog;
+import com.glhd.tb.app.utils.MyToast;
 
 public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
 
@@ -19,11 +21,17 @@ public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
+    private boolean showDelete=true;
 
     public ItemInspSubmitMoreGridviewAdapter(Context context, ArrayList<String> objects) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.objects = objects;
+        MyToast.showMessage(context,objects.size()+"");
+    }
+
+    public void setShowDelete(boolean showDelete){
+        this.showDelete=showDelete;
     }
 
     @Override
@@ -60,6 +68,10 @@ public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
                 notifyDataSetChanged();
             }
         });
+
+        if(showDelete==false){
+            holder.delete.setVisibility(View.GONE);
+        }
     }
 
     protected class ViewHolder {
