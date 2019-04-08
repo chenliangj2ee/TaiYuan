@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.android.setting.a.BxCore;
 import com.glhd.tb.app.API;
 import com.glhd.tb.app.R;
 import com.glhd.tb.app.act.admin.AdminActivity;
@@ -42,18 +43,18 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_login);
-
+        BxCore.getInstance(this);
         initView();
 
 
         //自动登陆
         BeanUser user = MySp.getUser(this);
         if (user != null && user.isLogin()) {
-            classMap.put("U02", InspIndexActivity.class);//巡检端
+//            classMap.put("U02", InspIndexActivity.class);//巡检端
             String ip = MySp.getString(this, "ip");
             String port = MySp.getString(this, "port");
             String projectname = MySp.getString(this, "projectname");
-            API.init(ip, port,projectname);
+            API.init(ip, port, projectname);
             toMain(user);
         }
 
@@ -123,7 +124,10 @@ public class LoginActivity extends BaseActivity {
         classMap.put("U01", AdminActivity.class);//管理端
         classMap.put("U02", SelectStationActivity.class);//巡检端
         classMap.put("U03", MainCustomerActivity.class);//客户端
-        classMap.put("U04",RepairIndexActivity.class);
+        classMap.put("U04", RepairIndexActivity.class);
+        classMap.put("U05", InspIndexActivity.class);//巡检端
+        classMap.put("U06", SelectStationActivity.class);//巡检端
+
 
         accountE = (EditText) findViewById(R.id.account_e);
         passwordE = (EditText) findViewById(R.id.password_e);
@@ -174,8 +178,8 @@ public class LoginActivity extends BaseActivity {
             MyToast.showMessage(this, "登录异常：不存在该登录账号类型");
         } else {
 //            startActivity(classMap.get(user.getType()));
-            Intent intent=new Intent(this,classMap.get(user.getType()));
-            intent.putExtra("fromActivity",getClass().getSimpleName());
+            Intent intent = new Intent(this, classMap.get(user.getType()));
+            intent.putExtra("fromActivity", getClass().getSimpleName());
             intent.putExtra("nodate", true);
             startActivity(intent);
             user.setLogin(true);
@@ -186,24 +190,26 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void getIp(final String account, final String pass, String phone) {
+//        API.init("192.168.6.132", "8080","advertmanageapp/admin");
+////        loginHttp(account,pass);
         pd = new ProgressDialog(this);
         pd.setMessage("正在登录...");
         pd.show();
         API.getIp(account, MyMd5.md5(pass), phone, new MyHttp.ResultCallback<ResGetPi>() {
             @Override
             public void onSuccess(ResGetPi res) {
-                if (res != null && res.getResult().equals("success")) {
-                    String ip = res.getResponse().getService_ip();
-                    String port = res.getResponse().getService_port();
-                    String projectname=res.getResponse().getService_projectname();
+                if (res != null && res.getCode() == 0) {
+                    String ip = res.getData().getService_ip();
+                    String port = res.getData().getService_port();
+                    String projectname = res.getData().getService_projectname();
                     MySp.putString(getApplicationContext(), "ip", ip);
                     MySp.putString(getApplicationContext(), "port", port);
                     MySp.putString(getApplicationContext(), "projectname", projectname);
 
-                    API.init(ip, port,projectname);
+                    API.init(ip, port, projectname);
                     loginHttp(account, pass);
                 } else {
-                    MyToast.showMessage(getApplicationContext(), res.getResponse().getErrorText());
+                    MyToast.showMessage(getApplicationContext(), res.getMessage());
                     pd.dismiss();
                 }
             }

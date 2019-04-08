@@ -73,11 +73,11 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
 
     @Override
     public void initView() {
-        stationId=MySp.getString(getContext(), "stationId");
-        locationId=MySp.getString(getContext(), "locationId");
-        carnoId=MySp.getString(getContext(), "carnoId");
-        marshallingId=MySp.getString(getContext(), "marshallingId");
-        stationTitle= MySp.getString(getContext(), "stationName");
+        stationId = MySp.getString(getContext(), "stationId");
+        locationId = MySp.getString(getContext(), "locationId");
+        carnoId = MySp.getString(getContext(), "carnoId");
+        marshallingId = MySp.getString(getContext(), "marshallingId");
+        stationTitle = MySp.getString(getContext(), "stationName");
 
         checkLin = findViewById(R.id.checkLin);
 
@@ -114,7 +114,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchOne(search.getText().toString());
+                searchOne(search.getText().toString(), false);
             }
         });
 
@@ -123,7 +123,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-                    searchOne(search.getText().toString());
+                    searchOne(search.getText().toString(), false);
                 }
                 return false;
 
@@ -163,7 +163,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
 
 
             Intent intent = new Intent(getContext(), SelectStationActivity.class);
-            intent.putExtra("fromActivity",getClass().getSimpleName());
+            intent.putExtra("fromActivity", getClass().getSimpleName());
             intent.putExtra("nodate", true);
             startActivityForResult(intent, 1);
 
@@ -190,7 +190,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
             adapter.notifyDataSetChanged();
         } else if (view.getId() == R.id.confirmBtn) {
             ArrayList<BeanAdvert> objs = adapter.getObjects();
-            ArrayList<BeanAdvert> selectAds=new ArrayList<>();
+            ArrayList<BeanAdvert> selectAds = new ArrayList<>();
             for (int i = 0; i < objs.size(); i++) {
                 if (objs.get(i).isChecked()) {
                     selectAds.add(objs.get(i));
@@ -202,8 +202,8 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
                 return;
             }
 
-            Intent intent=new Intent(getActivity(),InspSubmitMoreActivity.class);
-            intent.putExtra("beans",selectAds);
+            Intent intent = new Intent(getActivity(), InspSubmitMoreActivity.class);
+            intent.putExtra("beans", selectAds);
             startActivity(intent);
 
 //            submitData(ids);
@@ -220,7 +220,6 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
             objs.get(i).setChecked(checked);
         }
     }
-
 
 
     /*
@@ -242,7 +241,10 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateCheckListForBatch(EventInspSubmitMore event) {
-        batch_btn.performClick();
+        if (isBatch) {
+            batch_btn.performClick();
+        }
+
         ArrayList<BeanAdvert> objs = adapter.getObjects();
         for (int i = 0; i < event.ids.size(); i++) {
             for (int j = 0; j < objs.size(); j++) {
@@ -408,7 +410,7 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    searchOne(result);
+                    searchOne(result, true);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(getContext(), "解析失败", Toast.LENGTH_LONG).show();
                 }
@@ -416,11 +418,11 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
         }
 
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            Log.i("chenliang","onActivityResult。。。。。。RESULT_OK");
+            Log.i("chenliang", "onActivityResult。。。。。。RESULT_OK");
             stationId = "";
             locationId = "";
-            carnoId="";
-            marshallingId="";
+            carnoId = "";
+            marshallingId = "";
             //条件过滤
             try {
                 if (data.getStringExtra("stationId") != null) {
@@ -456,15 +458,21 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
 
     }
 
-    private void searchOne(String coding) {
+    private void searchOne(String coding, boolean isCoding) {
         if (coding == null || "".equals(coding.trim())) {
             MyToast.showMessage(getContext(), "不能为空");
             return;
         }
 
+        String code = "", text = "";
+        if (isCoding)
+            code = coding;
+        else
+            text = coding;
+
         dialog.setMessage("正在查找...");
         dialog.show();
-        API.getSearchOne(MySp.getUser(getContext()).getAccountId(), coding, new MyHttp.ResultCallback<ResSearchOne>() {
+        API.getSearchOne(MySp.getUser(getContext()).getAccountId(), code, text, new MyHttp.ResultCallback<ResSearchOne>() {
             @Override
             public void onSuccess(ResSearchOne res) {
                 dialog.dismiss();
@@ -475,9 +483,17 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
                         intent.putExtra("bean", res.getData().get(0));
                         startActivity(intent);
                     } else {
-                        Intent intent = new Intent(getContext(), InspSubmitActivity.class);
-                        intent.putExtra("bean", res.getData().get(0));
+//                        Intent intent = new Intent(getContext(), InspSubmitActivity.class);
+//                        intent.putExtra("bean", res.getData().get(0));
+//                        startActivity(intent);
+
+                        ArrayList<BeanAdvert> selectAds = new ArrayList<>();
+                        selectAds.add(res.getData().get(0));
+                        Intent intent = new Intent(getActivity(), InspSubmitMoreActivity.class);
+                        intent.putExtra("beans", selectAds);
                         startActivity(intent);
+
+
                     }
 
                 } else {

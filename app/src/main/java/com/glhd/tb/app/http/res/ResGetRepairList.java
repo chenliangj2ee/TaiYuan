@@ -3,6 +3,7 @@ package com.glhd.tb.app.http.res;
 
 import com.glhd.tb.app.base.bean.BeanRepair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,8 +13,8 @@ public class ResGetRepairList {
 
 
     private int code;
-    private String message;
-    private List<BeanRepair> data;
+    private String message="";
+    private List<BeanRepair> data=new ArrayList<>();
 
     public int getCode() {
         return code;

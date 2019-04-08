@@ -168,6 +168,34 @@
                 android:layout_height="2px"
                 android:background="@drawable/selector_fkxq_line"
                 android:layerType="software" />
+            <LinearLayout
+                android:id="@+id/repair_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/repair_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_fu_kuan_bg"
+                    android:onClick="SelectRepairUserAction"
+                    android:padding="10dp"
+                    android:text="维修人：" />
+
+
+                <TextView
+                    android:id="@+id/noti_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/selector_fu_kuan_bg"
+                    android:onClick="SelectNotiUserAction"
+                    android:padding="10dp"
+                    android:text="通知人：" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

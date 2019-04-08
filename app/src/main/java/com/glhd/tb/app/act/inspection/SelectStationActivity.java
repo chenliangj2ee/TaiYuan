@@ -193,7 +193,14 @@ public class SelectStationActivity extends BaseActivity {
                             datasLeft.clear();
                             datasLeft.addAll(res.getData());
                             adapterLeft.notifyDataSetChanged();
-                            listviewLeft.performItemClick(listviewLeft, 0, 0);
+
+                            if(datasLeft.size()==0){
+                                startActivity(new Intent(SelectStationActivity.this,InspIndexActivity.class));
+                            }else{
+                                listviewLeft.performItemClick(listviewLeft, 0, 0);
+                            }
+
+
                         }
 
                     }

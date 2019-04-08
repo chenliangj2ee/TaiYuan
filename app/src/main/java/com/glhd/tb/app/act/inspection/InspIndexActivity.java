@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.glhd.tb.app.R;
 import com.glhd.tb.app.act.InspMyActivity;
 import com.glhd.tb.app.base.BaseActivity;
+import com.glhd.tb.app.base.bean.BeanUser;
 import com.glhd.tb.app.utils.MyLocation;
 import com.glhd.tb.app.utils.MyLog;
+import com.glhd.tb.app.utils.MySp;
 
 
 public class InspIndexActivity extends BaseActivity implements View.OnClickListener {
@@ -26,6 +30,8 @@ public class InspIndexActivity extends BaseActivity implements View.OnClickListe
 
     private TodayInspFragment todayInspFragment;//今日巡检
     private UpAdsConstructionFragment upAdsConstructionFragment;//上刊施工
+    private RadioGroup radioGroup;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +47,7 @@ public class InspIndexActivity extends BaseActivity implements View.OnClickListe
     /**
      * 启动定位
      */
-    private void startLocation(){
+    private void startLocation() {
         final MyLocation location = new MyLocation(getApplicationContext());
         location.start(new BDAbstractLocationListener() {
             @Override
@@ -63,6 +69,8 @@ public class InspIndexActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initView() {
+        title = findViewById(R.id.title);
+        radioGroup = findViewById(R.id.radiogroup);
         tab01 = (RadioButton) findViewById(R.id.tab01);
         tab01.setOnClickListener(InspIndexActivity.this);
         tab02 = (RadioButton) findViewById(R.id.tab02);
@@ -72,6 +80,20 @@ public class InspIndexActivity extends BaseActivity implements View.OnClickListe
         historyLayout = (LinearLayout) findViewById(R.id.history_layout);
         tab01.setChecked(true);
         onClick(tab01);
+
+        BeanUser user = MySp.getUser(this);
+        if ("U02".equals(user.getType())) {
+            radioGroup.setVisibility(View.GONE);
+            title.setText("巡检列表");
+        } else if ("U05".equals(user.getType())) {
+            radioGroup.setVisibility(View.GONE);
+            replace(R.id.content, upAdsConstructionFragment);
+            historyLayout.setVisibility(View.GONE);
+            title.setText("上刊列表");
+        } else {
+            title.setText("");
+        }
+
 
     }
 
@@ -102,7 +124,7 @@ public class InspIndexActivity extends BaseActivity implements View.OnClickListe
 
     public void historyAction(View view) {
         Intent intent = new Intent(this, SelectStationActivity.class);
-        intent.putExtra("fromActivity",getClass().getSimpleName());
+        intent.putExtra("fromActivity", getClass().getSimpleName());
         startActivity(intent);
     }
 

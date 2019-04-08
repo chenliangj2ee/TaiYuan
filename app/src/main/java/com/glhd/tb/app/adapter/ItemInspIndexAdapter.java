@@ -17,6 +17,7 @@ import com.glhd.tb.app.R;
 import com.glhd.tb.app.act.inspection.InspIndexActivity;
 import com.glhd.tb.app.act.inspection.InspInfoActivity;
 import com.glhd.tb.app.act.inspection.InspSubmitActivity;
+import com.glhd.tb.app.act.inspection.InspSubmitMoreActivity;
 import com.glhd.tb.app.base.bean.BeanAdvert;
 import com.glhd.tb.app.utils.MyImage;
 import com.glhd.tb.app.utils.MyToast;
@@ -119,9 +120,17 @@ public class ItemInspIndexAdapter extends BaseAdapter {
                         intent.putExtra("bean", b);
                         context.startActivity(intent);
                     } else {
-                        Intent intent = new Intent(context, InspSubmitActivity.class);
-                        intent.putExtra("bean", b);
+//                        Intent intent = new Intent(context, InspSubmitActivity.class);
+//                        intent.putExtra("bean", b);
+//                        context.startActivity(intent);
+
+                        ArrayList<BeanAdvert> selectAds=new ArrayList<>();
+                        selectAds.add(b);
+                        Intent intent=new Intent(context,InspSubmitMoreActivity.class);
+                        intent.putExtra("beans",selectAds);
                         context.startActivity(intent);
+
+
                     }
                 }else{
 

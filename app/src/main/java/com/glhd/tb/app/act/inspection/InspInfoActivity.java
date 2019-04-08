@@ -1,15 +1,23 @@
 package com.glhd.tb.app.act.inspection;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ast365.library.listview.FullGridView;
 import com.glhd.tb.app.R;
+import com.glhd.tb.app.act.ImageActivity;
+import com.glhd.tb.app.adapter.ItemInspSubmitMoreGridviewAdapter;
 import com.glhd.tb.app.base.BaseActivity;
 import com.glhd.tb.app.base.bean.BeanAdvert;
 import com.glhd.tb.app.utils.MyImage;
+
+import java.util.ArrayList;
 
 public class InspInfoActivity extends BaseActivity {
 
@@ -25,6 +33,7 @@ public class InspInfoActivity extends BaseActivity {
     private ImageView inspIcon;
     private TextView remarks;
     private BeanAdvert bean;
+    private FullGridView gridview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +43,8 @@ public class InspInfoActivity extends BaseActivity {
         initView();
     }
 
-
+    private ItemInspSubmitMoreGridviewAdapter adapter;
+    private ArrayList<String> icons = new ArrayList<>();
     private void initView() {
         advertIcon = (ImageView) findViewById(R.id.advert_icon);
         coding = (TextView) findViewById(R.id.coding);
@@ -47,6 +57,7 @@ public class InspInfoActivity extends BaseActivity {
         inspIcon = (ImageView) findViewById(R.id.insp_icon);
         remarks = (TextView) findViewById(R.id.remarks);
         container = (LinearLayout) findViewById(R.id.container);
+        gridview=findViewById(R.id.gridview);
 
 
         if (bean != null) {
@@ -82,7 +93,31 @@ public class InspInfoActivity extends BaseActivity {
                     inspStatusIcon.setImageResource(R.drawable.yichang);
                 }
             }
+            adapter = new ItemInspSubmitMoreGridviewAdapter(this, icons);
+            adapter.setDefaultIcon(bean.getImage());
+            gridview.setAdapter(adapter);
+            if (bean.getInsp()!=null) {
+                String[] images = bean.getInsp().getInspImageUrl().split(",");
+                if (images != null && images.length > 0) {
+                    for (int i = 0; i < images.length; i++) {
+                        icons.add(images[i]);
+                    }
+                    adapter.setShowDelete(false);
+                    adapter.notifyDataSetChanged();
+                }
 
+
+                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(InspInfoActivity.this, ImageActivity.class);
+                        intent.putExtra("bean", icons);
+                        intent.putExtra("posi", i);
+                        intent.putExtra("defaultUrl", bean.getImage());
+                        startActivity(intent);
+                    }
+                });
+            }
 
         }
     }

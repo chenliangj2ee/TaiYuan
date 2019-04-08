@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,8 +20,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.ast365.library.listview.FullGridView;
 import com.glhd.tb.app.API;
 import com.glhd.tb.app.R;
+import com.glhd.tb.app.act.ImageActivity;
+import com.glhd.tb.app.adapter.ItemInspSubmitMoreGridviewAdapter;
 import com.glhd.tb.app.base.BaseActivity;
 import com.glhd.tb.app.base.BaseRes;
 import com.glhd.tb.app.base.bean.BeanUser;
@@ -65,7 +69,9 @@ public class InspConstructionSubmitActivity extends BaseActivity implements View
     protected EditText remarks;
     protected LinearLayout container;
     ResAdsConstruction.DataBean bean;
-
+    private FullGridView gridview;
+    private ItemInspSubmitMoreGridviewAdapter adapter;
+    private ArrayList<String> icons = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +108,7 @@ public class InspConstructionSubmitActivity extends BaseActivity implements View
         addIcon.setOnClickListener(InspConstructionSubmitActivity.this);
         remarks = (EditText) findViewById(R.id.remarks);
         container = (LinearLayout) findViewById(R.id.container);
-
+        gridview = findViewById(R.id.gridview);
         dateName.setText(bean.getContractStartDate() + "/" + bean.getContractEndDate() + bean.getContractTtile());
         stationName.setText(bean.getProperystation());
         adsName.setText(bean.getContractCompany());
@@ -113,6 +119,35 @@ public class InspConstructionSubmitActivity extends BaseActivity implements View
         actionType.setText(bean.getPublType());
         upAdsContent.setText(bean.getRemark());
         MyImage.load(this, bean.getImage(), upAdsIcon);
+
+
+
+        adapter = new ItemInspSubmitMoreGridviewAdapter(this, icons);
+        adapter.setDefaultIcon(bean.getImage());
+        gridview.setAdapter(adapter);
+
+        if (bean.getMaterial() != null) {
+            String[] images = bean.getMaterial().split(",");
+            if (images != null && images.length > 0) {
+                for (int i = 0; i < images.length; i++) {
+                    icons.add(images[i]);
+                }
+                adapter.setShowDelete(false);
+                adapter.notifyDataSetChanged();
+            }
+
+
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Intent intent = new Intent(InspConstructionSubmitActivity.this, ImageActivity.class);
+                    intent.putExtra("bean", icons);
+                    intent.putExtra("posi", i);
+                    intent.putExtra("defaultUrl", bean.getImage());
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
 

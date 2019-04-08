@@ -1,8 +1,5 @@
 package com.glhd.tb.app.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +9,8 @@ import android.widget.ImageView;
 
 import com.glhd.tb.app.R;
 import com.glhd.tb.app.utils.MyImage;
-import com.glhd.tb.app.utils.MyLog;
-import com.glhd.tb.app.utils.MyToast;
+
+import java.util.ArrayList;
 
 public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
 
@@ -22,12 +19,20 @@ public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private boolean showDelete=true;
+    private String defaultIcon;
 
     public ItemInspSubmitMoreGridviewAdapter(Context context, ArrayList<String> objects) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.objects = objects;
-        MyToast.showMessage(context,objects.size()+"");
+    }
+
+    public String getDefaultIcon() {
+        return defaultIcon;
+    }
+
+    public void setDefaultIcon(String defaultIcon) {
+        this.defaultIcon = defaultIcon;
     }
 
     public void setShowDelete(boolean showDelete){
@@ -61,6 +66,13 @@ public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
 
     private void initializeViews(final String object, ViewHolder holder) {
         MyImage.loadFile(context, object, holder.icon);
+
+        if(object.endsWith(".mp4")){
+            MyImage.loadFile(context, defaultIcon+"", holder.icon);
+        }else{
+            MyImage.loadFile(context, object, holder.icon);
+        }
+
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -101,6 +101,7 @@ public class InspConstructionInfoActivity extends BaseActivity {
         MyImage.load(this, bean.getTruction().getPublImageUrl(), uploadIcon);
 
         adapter = new ItemInspSubmitMoreGridviewAdapter(this, icons);
+        adapter.setDefaultIcon(bean.getImage());
         gridview.setAdapter(adapter);
 
         if (bean.getMaterial() != null) {

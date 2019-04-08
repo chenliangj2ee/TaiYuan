@@ -9,8 +9,8 @@
 
     <EditText
         android:layout_width="0dp"
-        android:focusable="false"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:focusable="false" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -28,21 +28,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="巡检反馈"
+            android:text="媒体详情"
             android:textColor="#343434"
             android:textSize="20sp" />
 
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/selector_login_button"
-            android:gravity="center"
-            android:onClick="submitAction"
-            android:text="提交"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+
     </FrameLayout>
 
     <View
@@ -185,138 +175,6 @@
                 android:layerType="software" />
 
 
-            <RadioGroup
-                android:id="@+id/radiogroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="正常"
-                    android:textColor="#333"
-                    android:textSize="14sp" />
-
-                <RadioButton
-                    android:id="@+id/no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:text="故障"
-                    android:textColor="#333"
-                    android:textSize="14sp" />
-            </RadioGroup>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:minHeight="150dp">
-
-                <ImageView
-                    android:id="@+id/upload_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="#fff" />
-
-                <LinearLayout
-                    android:id="@+id/add_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:src="@drawable/camera" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="添加照片"
-                        android:textColor="#699bf9"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-
-            </FrameLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:background="@drawable/selector_fkxq_line"
-                android:layerType="software" />
-
-
-            <LinearLayout
-                android:id="@+id/repair_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/repair_user"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/selector_fu_kuan_bg"
-                    android:onClick="SelectRepairUserAction"
-                    android:padding="10dp"
-                    android:text="维修人：" />
-
-
-                <TextView
-                    android:id="@+id/noti_user"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/selector_fu_kuan_bg"
-                    android:onClick="SelectNotiUserAction"
-                    android:padding="10dp"
-                    android:text="通知人：" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-
-                <EditText
-                    android:id="@+id/remarks"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/selector_fu_kuan_bg"
-                    android:gravity="top"
-                    android:hint="备注"
-                    android:minLines="3"
-                    android:padding="10dp"
-                    android:textColor="#888"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_margin="20dp"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/selector_button"
-                android:onClick="submitAction"
-                android:text="提交"
-                android:textColor="#fff"
-                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

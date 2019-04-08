@@ -5,27 +5,41 @@ public class ResGetPi {
 
     /**
      * result : success
-     * response : {"service_ip":"","service_port":""}
+     * data : {"service_ip":"","service_port":""}
      */
 
-    private String result = "";
-    private ResponseBean response = new ResponseBean();
+    private int code;
+    private String message = "";
+    private ResponseBean data = new ResponseBean();
 
-    public String getResult() {
-        return result;
+    public ResponseBean getData() {
+        return data;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setData(ResponseBean data) {
+        this.data = data;
     }
 
-    public ResponseBean getResponse() {
-        return response;
+    public int getCode() {
+        return code;
     }
 
-    public void setResponse(ResponseBean response) {
-        this.response = response;
+    public void setCode(int code) {
+        this.code = code;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+
+
+
+
 
     public static class ResponseBean {
         /**

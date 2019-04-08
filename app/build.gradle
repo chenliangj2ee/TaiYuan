@@ -62,4 +62,5 @@ dependencies {
     compile 'com.github.philJay:MPAndroidChart:v3.0.0-beta1'
     implementation files('libs/BaiduLBS_Android.jar')
     implementation files('libs/IndoorscapeAlbumPlugin.jar')
+    implementation files('libs/bxSdk.jar')
 }

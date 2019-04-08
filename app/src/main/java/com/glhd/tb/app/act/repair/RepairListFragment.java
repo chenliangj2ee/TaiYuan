@@ -29,6 +29,7 @@ public class RepairListFragment extends MyBaseFragment {
     private ArrayList<BeanRepair> datas = new ArrayList<>();
     private ItemRepairListAdapter adapter;
     int type;
+    private String accountId;
 
     @Override
     public int initViewId() {
@@ -42,6 +43,7 @@ public class RepairListFragment extends MyBaseFragment {
 
     @Override
     public void initView() {
+        accountId=MySp.getUser(getActivity()).getAccountId();
         listview = (AstListView) findViewById(R.id.listview);
         adapter = new ItemRepairListAdapter(getContext(), datas);
         listview.setAdapter(adapter);
@@ -72,21 +74,21 @@ public class RepairListFragment extends MyBaseFragment {
                 }
             }
         });
-        getRepairList(page);
+//        getRepairList(page);
     }
 
     int page;
     int pageSize = 20;
 
-    private void getRepairList(int p) {
+    private void getRepairList(final int p) {
 
-        API.getRepariList(MySp.getUser(getContext()).getAccountId(), type + "", p + "", pageSize + "",
+        API.getRepariList(accountId, type + "", p + "", pageSize + "",
                 new MyHttp.ResultCallback<ResGetRepairList>() {
                     @Override
                     public void onSuccess(ResGetRepairList res) {
                         listview.stop();
                         if (res.getCode() == 0) {
-                            if (page == 0)
+                            if (p == 0)
                                 datas.clear();
                             datas.addAll(res.getData());
                             adapter.notifyDataSetChanged();

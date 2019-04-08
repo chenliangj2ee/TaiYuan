@@ -41,14 +41,13 @@ import java.io.File;
 public class API {
 
     //47.104.81.230:8901外网
-    // 内网
+    // 192.168.1.113:8080内网
 
-    public static String MAIN_IP = "192.168.1.113:8080";
+    public static String MAIN_IP = "47.104.81.230:8901";
 
-    public static String IP = "192.168.6.129:8080";
+    public static String IP = "192.168.6.135:8080";
     public static String HOST_IMAGE = "http://" + IP + "/advertmanageapp";
     public static String HOST = "http://" + IP + "/advertmanageapp/admin/app";
-
 
     /**
      * 巡检接口
@@ -307,7 +306,7 @@ public class API {
      *
      * 批量巡检
      * */
-    public static void inspFeedbackBatch(String accountId, String ids, String fileName, String remarks, String status,MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void inspFeedbackBatch(String accountId, String ids, String fileName, String remarks, String status,String repairPersonnel,String viewStaff,MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
         http.put("ids", ids);
@@ -315,7 +314,8 @@ public class API {
         http.put("status", status);
         http.put("fileName", fileName);
         http.put("location", MyLocation.latitude+","+MyLocation.longitude);
-
+        http.put("repairPersonnel", repairPersonnel);
+        http.put("viewStaff", viewStaff);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_FEEDBACKBATCH);
@@ -360,11 +360,12 @@ public class API {
      * @param callback
      */
     public static void getSearchOne(String accountId, String coding,
-                                    MyHttp.ResultCallback<ResSearchOne>... callback) {
+                                    String text,MyHttp.ResultCallback<ResSearchOne>... callback) {
 
         MyHttp<ResSearchOne> http = new MyHttp<>(ResSearchOne.class);
         http.put("accountId", accountId);
         http.put("coding", coding);
+        http.put("multiple", coding);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_SEARCH_ONE);
