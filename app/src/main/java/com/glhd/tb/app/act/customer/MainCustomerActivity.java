@@ -1,6 +1,7 @@
 package com.glhd.tb.app.act.customer;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,8 +14,9 @@ import com.glhd.tb.app.http.MyHttp;
 import com.glhd.tb.app.http.res.ResGetNoticeList;
 import com.glhd.tb.app.utils.MySp;
 
-public class MainCustomerActivity extends BaseActivity implements View.OnClickListener {
-
+public class MainCustomerActivity extends BaseActivity implements View.OnClickListener,
+        SwipeRefreshLayout.OnRefreshListener {
+    protected SwipeRefreshLayout refresh;
     protected TextView noticeTitle;
     protected TextView noticeDate;
     protected LinearLayout adsAction;
@@ -72,6 +74,12 @@ public class MainCustomerActivity extends BaseActivity implements View.OnClickLi
         noticeLayout = (LinearLayout) findViewById(R.id.notice_layout);
         fukuan = (LinearLayout) findViewById(R.id.fukuan);
         fukuan.setOnClickListener(MainCustomerActivity.this);
+        refresh = (SwipeRefreshLayout) findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(this);
+    }
+    @Override
+    public void onRefresh() {
+        getNotice();
     }
 
     public void fankuiAction(View view) {
@@ -96,6 +104,7 @@ public class MainCustomerActivity extends BaseActivity implements View.OnClickLi
         API.getNoticeList(MySp.getUser(this).getAccountId(), "0", "5", new MyHttp.ResultCallback<ResGetNoticeList>() {
             @Override
             public void onSuccess(ResGetNoticeList res) {
+                refresh.setRefreshing(false);
                 if (res.getCode() == 0) {
                     if (res.getData().size() > 0) {
                         noticeLayout.setVisibility(View.VISIBLE);
@@ -116,6 +125,7 @@ public class MainCustomerActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onError(String message) {
+                refresh.setRefreshing(false);
             }
         });
 
