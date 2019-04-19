@@ -43,7 +43,7 @@ public class API {
     //47.104.81.230:8901外网
     // 192.168.1.113:8080内网
 
-    public static String MAIN_IP = "47.104.81.230:8901";
+    public static String MAIN_IP = "192.168.1.113:8080";
 
     public static String IP = "192.168.6.135:8080";
     public static String HOST_IMAGE = "http://" + IP + "/advertmanageapp";
