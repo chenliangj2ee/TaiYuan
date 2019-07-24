@@ -17,6 +17,7 @@ import com.glhd.tb.app.base.bean.BeanUser;
 import com.glhd.tb.app.utils.MyLocation;
 import com.glhd.tb.app.utils.MyLog;
 import com.glhd.tb.app.utils.MySp;
+import com.google.gson.Gson;
 
 
 public class InspIndexActivity extends BaseActivity implements View.OnClickListener {
@@ -57,12 +58,14 @@ public class InspIndexActivity extends BaseActivity implements View.OnClickListe
                 MyLocation.latitude = bdLocation.getLatitude() + "";
                 MyLocation.longitude = bdLocation.getLongitude() + "";
 
-                MyLog.i("", "latitude:" + MyLocation.latitude);
-                MyLog.i("", "longitude:" + MyLocation.longitude);
+                MyLog.i("InspIndexActivity", "latitude:" + MyLocation.latitude);
+                MyLog.i("InspIndexActivity", "longitude:" + MyLocation.longitude);
+                MyLog.i("InspIndexActivity", "longitude:" + new Gson().toJson(bdLocation));
 
                 location.stop();
 
             }
+
 
 
         });

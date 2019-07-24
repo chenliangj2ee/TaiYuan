@@ -11,6 +11,7 @@ import com.glhd.tb.app.base.BaseActivity;
 import com.glhd.tb.app.http.MyHttp;
 import com.glhd.tb.app.http.res.ResGetRepair;
 import com.glhd.tb.app.utils.MyLog;
+import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
 import com.glhd.tb.app.view.TreeViewLayout;
 
@@ -38,7 +39,7 @@ public class NotiUserActivity extends BaseActivity {
     private void initView() {
         tree = (TreeViewLayout) findViewById(R.id.tree);
 
-        API.getRepair(new MyHttp.ResultCallback<ResGetRepair>() {
+        API.getRepair(MySp.getUser(this).getAccountId(),new MyHttp.ResultCallback<ResGetRepair>() {
             @Override
             public void onSuccess(ResGetRepair res) {
                 if (res.getCode() == 0) {

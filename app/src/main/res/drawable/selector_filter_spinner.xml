@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item android:state_enabled="true">
+        <shape>
+            <solid android:color="#eee" />
+            <stroke android:width="1px" android:color="#fff" android:dashGap="0px" android:dashWidth="0px" />
+            <corners android:bottomLeftRadius="90dp" android:bottomRightRadius="90dp" android:topLeftRadius="90dp" android:topRightRadius="90dp" />
+        </shape>
+    </item>
     <item android:state_enabled="false">
         <shape>
-            <solid android:color="#8eee" />
+            <solid android:color="@color/titleColor" />
             <stroke android:width="2px" android:color="#433eec" android:dashGap="0px" android:dashWidth="0px" />
-            <corners android:bottomLeftRadius="5px" android:bottomRightRadius="5px" android:topLeftRadius="5px" android:topRightRadius="5px" />
+            <corners android:bottomLeftRadius="90dp" android:bottomRightRadius="90dp" android:topLeftRadius="90dp" android:topRightRadius="90dp" />
         </shape>
     </item>
     <item>
         <shape>
-            <solid android:color="#8eee" />
-            <stroke android:width="1px" android:color="#ddd" android:dashGap="0px" android:dashWidth="0px" />
-            <corners android:bottomLeftRadius="5px" android:bottomRightRadius="5px" android:topLeftRadius="5px" android:topRightRadius="5px" />
+            <solid android:color="#eee" />
+            <stroke android:width="1px" android:color="#fff" android:dashGap="0px" android:dashWidth="0px" />
+            <corners android:bottomLeftRadius="90dp" android:bottomRightRadius="90dp" android:topLeftRadius="90dp" android:topRightRadius="90dp" />
         </shape>
     </item>
 

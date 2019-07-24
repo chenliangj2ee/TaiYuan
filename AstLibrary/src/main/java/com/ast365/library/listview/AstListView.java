@@ -234,20 +234,22 @@ public class AstListView extends ListView implements OnScrollListener {
      * stop refresh, reset header view.
      */
     public void stopRefresh() {
-        if (mPullRefreshing == true) {
-            mPullRefreshing = false;
-            resetHeaderHeight();
-        }
+//        if (mPullRefreshing == true) {
+//            mPullRefreshing = false;
+//            resetHeaderHeight();
+//        }
+        resetHeaderHeight();
     }
 
     /**
      * stop load more, reset footer view.
      */
     public void stopLoadMore() {
-        if (mPullLoading == true) {
-            mPullLoading = false;
-            mFooterView.setState(AstFooter.STATE_NORMAL);
-        }
+//        if (mPullLoading == true) {
+//            mPullLoading = false;
+//            mFooterView.setState(AstFooter.STATE_NORMAL);
+//        }
+        mFooterView.setState(AstFooter.STATE_NORMAL);
     }
 
     /**
@@ -354,6 +356,7 @@ public class AstListView extends ListView implements OnScrollListener {
                 SCROLL_DURATION);
         // trigger computeScroll
         invalidate();
+        postInvalidate();
     }
 
     private void updateFooterHeight(float delta) {

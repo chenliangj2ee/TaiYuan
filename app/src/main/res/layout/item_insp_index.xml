@@ -101,6 +101,7 @@
                     android:background="#fff"
                     android:gravity="center_vertical"
                     android:singleLine="true"
+                    android:layout_marginRight="60dp"
                     android:text="西安北站-宝鸡南站-东侧墙面"
                     android:textColor="#000"
                     android:textSize="12sp" />

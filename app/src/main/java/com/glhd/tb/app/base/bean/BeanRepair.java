@@ -34,13 +34,67 @@ public class BeanRepair implements Serializable {
     private String properystation;
     private String remark;
     private String repairId;
-    private String taskImage="";
+    private String taskImage = "";
     private String whSize;
     private String repairImage;
     private String inspTime;
     private String marshalling;
     private String dwImage;
+    private String repairType;
 
+    public String getRepairType() {
+        return repairType;
+    }
+
+    public void setRepairType(String repairType) {
+        this.repairType = repairType;
+    }
+
+    private String mediatype = "";//--媒体类型
+    private String mediaNumber = "";//--故障数量
+    private String taskTime = "";//--巡检时间
+    private String medialocation = "";//--媒体位置/车底
+    private String medialocationdescribe = "";//--媒体位置/车底
+
+    public String getMediatype() {
+        return mediatype;
+    }
+
+    public void setMediatype(String mediatype) {
+        this.mediatype = mediatype;
+    }
+
+    public String getMediaNumber() {
+        return mediaNumber;
+    }
+
+    public void setMediaNumber(String mediaNumber) {
+        this.mediaNumber = mediaNumber;
+    }
+
+    public String getTaskTime() {
+        return taskTime;
+    }
+
+    public void setTaskTime(String taskTime) {
+        this.taskTime = taskTime;
+    }
+
+    public String getMedialocation() {
+        return medialocation;
+    }
+
+    public void setMedialocation(String medialocation) {
+        this.medialocation = medialocation;
+    }
+
+    public String getMedialocationdescribe() {
+        return medialocationdescribe;
+    }
+
+    public void setMedialocationdescribe(String medialocationdescribe) {
+        this.medialocationdescribe = medialocationdescribe;
+    }
 
     public String getDwImage() {
         return dwImage;

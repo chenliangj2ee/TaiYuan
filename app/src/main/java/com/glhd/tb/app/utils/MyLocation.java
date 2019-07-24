@@ -24,6 +24,8 @@ public class MyLocation {
         option.setLocationNotify(true);
         option.setIgnoreKillProcess(false);
         option.SetIgnoreCacheException(false);
+        option.setIsNeedAddress(true);
+        option.setIsNeedAltitude(true);
         option.setWifiCacheTimeOut(5 * 60 * 1000);
         option.setEnableSimulateGps(false);
         mLocationClient.setLocOption(option);

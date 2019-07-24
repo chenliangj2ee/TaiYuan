@@ -2,10 +2,20 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:background="@drawable/selector_filter_spinner"
-    android:padding="3dp"
+    android:textSize="12sp"
     android:text="Helloworld"
-    android:textColor="#888">
+    android:id="@+id/box"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:focusable="false"
+    android:clickable="false"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:textColor="#333">
 
 </TextView>

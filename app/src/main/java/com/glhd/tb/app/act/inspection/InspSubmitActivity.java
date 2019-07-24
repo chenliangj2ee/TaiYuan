@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -15,9 +16,11 @@ import android.widget.TextView;
 
 import com.glhd.tb.app.API;
 import com.glhd.tb.app.R;
+import com.glhd.tb.app.adapter.ItemInspSubmitMoreGridviewAdapter;
 import com.glhd.tb.app.base.BaseActivity;
 import com.glhd.tb.app.base.BaseRes;
 import com.glhd.tb.app.base.bean.BeanAdvert;
+import com.glhd.tb.app.event.EventRefreshInspList;
 import com.glhd.tb.app.http.MyHttp;
 import com.glhd.tb.app.http.MyHttpManager;
 import com.glhd.tb.app.http.res.ResGetRepair;
@@ -26,6 +29,7 @@ import com.glhd.tb.app.utils.MyImage;
 import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -57,8 +61,10 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
     private TextView time;
     private RadioGroup radiogroup;
     private ImageView uploadIcon;
-
+    private GridView gridView;
     private ArrayList<String> iconStrs = new ArrayList<>();
+    private ItemInspSubmitMoreGridviewAdapter iconsAdapter;
+
     private BeanAdvert bean;
     private ProgressDialog dialog;
     public static boolean success = false;
@@ -96,18 +102,15 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
         if (requestCode == 0) {
 
             if (resultCode == Activity.RESULT_OK) {
-                iconStrs.clear();
-                iconStrs.add(Multi.cameraResult());
-                if (iconStrs != null && iconStrs.size() > 0) {
+                String path = Multi.cameraResult();
+                if (path != null) {
 
                     String file = Environment.getExternalStorageDirectory().getPath() + "/" + System.currentTimeMillis() + ".jpg";// 获取跟目录
-                    file = MyImage.compressImage(iconStrs.get(0), file, 70);
+                    file = MyImage.compressImage(path, file, 70);
                     log(file);
-                    MyImage.loadFile(this, file, uploadIcon);
-                    addIcon.setVisibility(View.GONE);
 
-                    iconStrs.clear();
                     iconStrs.add(file);
+                    iconsAdapter.notifyDataSetChanged();
 
                 }
             }
@@ -115,41 +118,74 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
 
         }
     }
-
+    int uploadCount;
+    ArrayList<String> uploadUrls = new ArrayList<>();
     public void uploadIcon() {
         dialog = new ProgressDialog(this);
         if (iconStrs.isEmpty()) {
-            inspFeedback("");
+//            inspFeedback(uploadUrls);
+            MyToast.showMessage(this, "请添加图片");
             return;
         }
 
         dialog.setMessage("正在上传图片....");
         dialog.show();
-        API.upload(new File(iconStrs.get(0)), new MyHttp.ResultCallback<ResUpload>() {
-            @Override
-            public void onSuccess(ResUpload res) {
-                if (res.getCode() == 0) {
-                    uploadUrl = res.getData();
-                    File file=new File(iconStrs.get(0));
-                    file.deleteOnExit();
-                    inspFeedback(uploadUrl);
-                } else {
-                    dialog.dismiss();
-                }
-            }
 
-            @Override
-            public void onError(String message) {
-                dialog.dismiss();
-            }
-        }, new MyHttpManager.Param("type", "inspection"));
+        for (int i = 0; i < iconStrs.size(); i++) {
+            final String url = iconStrs.get(i);
+            API.upload(new File(url), new MyHttp.ResultCallback<ResUpload>() {
+                @Override
+                public void onSuccess(ResUpload res) {
+                    uploadCount++;
+                    if (res.getCode() == 0) {
+                        File file = new File(url);
+                        file.deleteOnExit();
+                        uploadUrls.add(res.getData());
+                    } else {
+
+                    }
+                    uploadFinish(uploadCount);
+                }
+
+                @Override
+                public void onError(String message) {
+                    uploadCount++;
+
+                    uploadFinish(uploadCount);
+                }
+            }, new MyHttpManager.Param("type", "inspection"));
+        }
+
     }
 
-    private void inspFeedback(String url) {
+
+
+    private void uploadFinish(int uploadCount) {
+        if (uploadCount == iconStrs.size()) {
+            dialog.dismiss();
+            inspFeedback(uploadUrls);
+        } else {
+
+        }
+    }
+
+    private void inspFeedback(ArrayList<String> uploadUrls) {
+        if(dialog==null)
+            dialog=new ProgressDialog(this);
         dialog.setMessage("正在提交反馈....");
+
+        String fileName = "";
+        for (int i = 0; i < uploadUrls.size(); i++) {
+            if (i == uploadUrls.size() - 1) {
+                fileName = fileName + uploadUrls.get(i);
+            } else {
+                fileName = fileName + uploadUrls.get(i) + ",";
+            }
+        }
+
         API.inspFeedback(MySp.getUser(this).getAccountId(),
                 bean.getId(),
-                url,
+                fileName,
                 remarks.getText().toString().trim(),
                 yes.isChecked() ? "0" : "1",
                 repairPersonnel,
@@ -160,6 +196,7 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
                         if (res.getCode() == 0) {
                             MyToast.showMessage(InspSubmitActivity.this, "反馈成功");
                             InspSubmitActivity.success = true;
+                            EventBus.getDefault().post(new EventRefreshInspList());
                             finish();
                         } else {
                             MyToast.showMessage(InspSubmitActivity.this, res.getMessage());
@@ -176,6 +213,7 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
+        gridView = findViewById(R.id.gridview);
         advertIcon1 = (ImageView) findViewById(R.id.advert_icon1);
         advertIcon2 = (ImageView) findViewById(R.id.advert_icon2);
         coding = (TextView) findViewById(R.id.coding);
@@ -216,6 +254,8 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
             }
         });
 
+        iconsAdapter = new ItemInspSubmitMoreGridviewAdapter(this, iconStrs);
+        gridView.setAdapter(iconsAdapter);
     }
 
     public void submitAction(View view) {
@@ -230,6 +270,15 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
         }
         if (iconStrs.isEmpty() && no.isChecked() == true) {
             MyToast.showMessage(this, "请添加照片");
+            return;
+        }
+
+        if ("".equals(repairPersonnel)&&no.isChecked()) {
+            MyToast.showMessage(this, "请选择维修人");
+            return;
+        }
+        if ("".equals(viewStaff)&&no.isChecked()) {
+            MyToast.showMessage(this, "请选择通知人");
             return;
         }
 
@@ -252,14 +301,23 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
      *
      * 设置维修人员
      * */
-    ResGetRepair.DataBean.RepairPersonnelBean repairPersonnelBean;
-    String repairPersonnel;
-
+    String repairPersonnel=null;
+    String names=null;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setRepairUser(ResGetRepair.DataBean.RepairPersonnelBean event) {
-        repairPersonnelBean = event;
-        repairPersonnel = event.getId();
-        repairUser.setText("维修人：" + event.getName());
+         repairPersonnel=null;
+         names=null;
+        for(int i=0;i<event.users.size();i++){
+            if(repairPersonnel==null){
+                repairPersonnel=event.users.get(i).getId();
+                names=event.users.get(i).getName();
+            }else{
+                repairPersonnel=repairPersonnel+","+event.users.get(i).getId();
+                names=names+","+event.users.get(i).getName();
+            }
+        }
+
+        repairUser.setText("维修人：" + names);
     }
 
     /*
@@ -267,7 +325,7 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
      * 设置通知人员
      * */
     ArrayList<ResGetRepair.DataBean.ViewStaffBean> viewStaffBeans;
-    String viewStaff;
+    String viewStaff="";
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setNotiUser(ArrayList<ResGetRepair.DataBean.ViewStaffBean> event) {

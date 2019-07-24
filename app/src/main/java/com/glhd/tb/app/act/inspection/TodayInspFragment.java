@@ -123,7 +123,8 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-                    searchOne(search.getText().toString(), false);
+                    onRefresh();
+//                    searchOne(search.getText().toString(), false);
                 }
                 return false;
 
@@ -181,8 +182,8 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
             adapter.notifyDataSetChanged();
         } else if (view.getId() == R.id.allCheckBtn) {
             if (allCheckBtn.getText().equals("全选")) {
-                setCheckBox(true);
-                allCheckBtn.setText("全部取消");
+                int num=setCheckBox(true);
+                allCheckBtn.setText("全部取消"+"("+num+")");
             } else {
                 setCheckBox(false);
                 allCheckBtn.setText("全选");
@@ -214,11 +215,12 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
      *
      * 批量设置列表复选框选择状态
      * */
-    private void setCheckBox(boolean checked) {
+    private int setCheckBox(boolean checked) {
         ArrayList<BeanAdvert> objs = adapter.getObjects();
         for (int i = 0; i < objs.size(); i++) {
             objs.get(i).setChecked(checked);
         }
+        return objs.size();
     }
 
 
@@ -292,109 +294,108 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
     }
 
     private void taskListHttpNo(int num, final String type) {
-        API.getMyInspList(MySp.getUser(getContext()).getAccountId(), type, num + "",
-                pageSize, stationId, locationId, carnoId, marshallingId, new MyHttp.ResultCallback<ResGetInspList>() {
-                    @Override
-                    public void onSuccess(ResGetInspList res) {
-                        listview.stop();
-
-                        if (res.getCode() == 0 || res.getCode() == 1) {
-
-                            if (res.getCode() == 1) {
-                                MyToast.showMessage(getContext(), res.getMessage());
-                            }
-                            beans.clear();
-                            if (noInsp.isChecked()) {
-                                if (pageNumNo == 0)
-                                    beansNo.clear();
-                                beansNo.addAll(res.getData());
-
-                                beans.addAll(beansNo);
-                                if (res.getData().size() > 0)
-                                    pageNumNo++;
-                                for (int i = 0; i < beans.size(); i++) {
-                                    beans.get(i).setInsp(null);
-
-                                }
-                            }
-
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onError(String message) {
-                        listview.stop();
-                        beans.clear();
-                        if (noInsp.isChecked()) {
-                            beans.addAll(beansNo);
-                            for (int i = 0; i < beans.size(); i++) {
-                                beans.get(i).setInsp(null);
-
-                            }
-                        } else {
-                            beans.addAll(beansYes);
-
-                        }
-
-
-                        adapter.notifyDataSetChanged();
-                        MyToast.showMessage(getContext(), "系统异常");
-                    }
-                });
+//        API.getMyInspList(MySp.getUser(getContext()).getAccountId(), type, search.getText().toString(),num + "",
+//                pageSize, stationId, locationId, carnoId, marshallingId, new MyHttp.ResultCallback<ResGetInspList>() {
+//                    @Override
+//                    public void onSuccess(ResGetInspList res) {
+//                        listview.stop();
+//                        if (res.getCode() == 0 || res.getCode() == 1) {
+//
+//                            if (res.getCode() == 1) {
+//                                MyToast.showMessage(getContext(), res.getMessage());
+//                            }
+//                            beans.clear();
+//                            if (noInsp.isChecked()) {
+//                                if (pageNumNo == 0)
+//                                    beansNo.clear();
+//                                beansNo.addAll(res.getData());
+//
+//                                beans.addAll(beansNo);
+//                                if (res.getData().size() > 0)
+//                                    pageNumNo++;
+//                                for (int i = 0; i < beans.size(); i++) {
+//                                    beans.get(i).setInsp(null);
+//
+//                                }
+//                            }
+//
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onError(String message) {
+//                        listview.stop();
+//                        beans.clear();
+//                        if (noInsp.isChecked()) {
+//                            beans.addAll(beansNo);
+//                            for (int i = 0; i < beans.size(); i++) {
+//                                beans.get(i).setInsp(null);
+//
+//                            }
+//                        } else {
+//                            beans.addAll(beansYes);
+//
+//                        }
+//
+//
+//                        adapter.notifyDataSetChanged();
+//                        MyToast.showMessage(getContext(), "系统异常");
+//                    }
+//                });
 
     }
 
     private void taskListHttpYes(int num, final boolean refreshList) {
-        API.getMyInspList(MySp.getUser(getContext()).getAccountId(), "1", num + "",
-                pageSize, stationId, locationId, carnoId, marshallingId, new MyHttp.ResultCallback<ResGetInspList>() {
-                    @Override
-                    public void onSuccess(ResGetInspList res) {
-                        listview.stop();
-
-                        if (res.getCode() == 0 || res.getCode() == 1) {
-
-                            if (res.getCode() == 1) {
-                                MyToast.showMessage(getContext(), res.getMessage());
-                            }
-
-
-                            if (!noInsp.isChecked()) {
-                                if (pageNumYes == 0)
-                                    beansYes.clear();
-                                beansYes.addAll(res.getData());
-                                if (res.getData().size() > 0)
-                                    pageNumYes++;
-                                if (refreshList) {
-                                    beans.clear();
-                                    beans.addAll(beansYes);
-                                }
-                            }
-
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onError(String message) {
-                        listview.stop();
-                        beans.clear();
-                        if (noInsp.isChecked()) {
-                            beans.addAll(beansNo);
-                            for (int i = 0; i < beans.size(); i++) {
-                                beans.get(i).setInsp(null);
-
-                            }
-                        } else {
-                            beans.addAll(beansYes);
-
-                        }
-
-
-                        adapter.notifyDataSetChanged();
-                        MyToast.showMessage(getContext(), "系统异常");
-                    }
-                });
+//        API.getMyInspList(MySp.getUser(getContext()).getAccountId(), "1", search.getText().toString(),num + "",
+//                pageSize, stationId, locationId, carnoId, marshallingId, new MyHttp.ResultCallback<ResGetInspList>() {
+//                    @Override
+//                    public void onSuccess(ResGetInspList res) {
+//                        listview.stop();
+//
+//                        if (res.getCode() == 0 || res.getCode() == 1) {
+//
+//                            if (res.getCode() == 1) {
+//                                MyToast.showMessage(getContext(), res.getMessage());
+//                            }
+//
+//
+//                            if (!noInsp.isChecked()) {
+//                                if (pageNumYes == 0)
+//                                    beansYes.clear();
+//                                beansYes.addAll(res.getData());
+//                                if (res.getData().size() > 0)
+//                                    pageNumYes++;
+//                                if (refreshList) {
+//                                    beans.clear();
+//                                    beans.addAll(beansYes);
+//                                }
+//                            }
+//
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    }
+//
+//                    @Override
+//                    public void onError(String message) {
+//                        listview.stop();
+//                        beans.clear();
+//                        if (noInsp.isChecked()) {
+//                            beans.addAll(beansNo);
+//                            for (int i = 0; i < beans.size(); i++) {
+//                                beans.get(i).setInsp(null);
+//
+//                            }
+//                        } else {
+//                            beans.addAll(beansYes);
+//
+//                        }
+//
+//
+//                        adapter.notifyDataSetChanged();
+//                        MyToast.showMessage(getContext(), "系统异常");
+//                    }
+//                });
 
     }
 
@@ -510,22 +511,22 @@ public class TodayInspFragment extends MyBaseFragment implements View.OnClickLis
     }
 
     private void getBaseData() {
-        API.getInspBaseData(MySp.getUser(getContext()).getAccountId(), new MyHttp.ResultCallback<ResGetInspBaseData>() {
-            @Override
-            public void onSuccess(ResGetInspBaseData res) {
-                if (res.getCode() == 0) {
-                    noInsp.setText("待巡(" + res.getData().getTodayInspNum() + "/" + res.getData().getTotalInspNum() + ")");
-                    yesInsp.setText("已巡(" + res.getData().getAlreadyInspNum() + ")");
-                } else {
-
-
-                }
-            }
-
-            @Override
-            public void onError(String message) {
-            }
-        });
+//        API.getInspBaseData(MySp.getUser(getContext()).getAccountId(), new MyHttp.ResultCallback<ResGetInspBaseData>() {
+//            @Override
+//            public void onSuccess(ResGetInspBaseData res) {
+//                if (res.getCode() == 0) {
+//                    noInsp.setText("待巡(" + res.getData().getTodayInspNum() + "/" + res.getData().getTotalInspNum() + ")");
+//                    yesInsp.setText("已巡(" + res.getData().getAlreadyInspNum() + ")");
+//                } else {
+//
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onError(String message) {
+//            }
+//        });
     }
 
     @Override

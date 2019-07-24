@@ -15,9 +15,9 @@ public class BeanBaseData implements Serializable {
      * alreadyInspNum : 12
      */
 
-    private String todayInspNum;
-    private String totalInspNum;
-    private String alreadyInspNum;
+    private String todayInspNum = "0";
+    private String totalInspNum = "0";
+    private String alreadyInspNum = "0";
 
     public String getTodayInspNum() {
         return todayInspNum;

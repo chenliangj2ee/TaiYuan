@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">广告移动办公</string>
-    <string name="title_home">首页</string>
-    <string name="title_dashboard">巡检任务</string>
-    <string name="title_notifications">巡检统计</string>
+    <string name="title_home">巡检</string>
+    <string name="title_dashboard">历史</string>
     <string name="title_my">我的</string>
     <string name="title_activity_main_inspection">MainInspectionActivity</string>
 

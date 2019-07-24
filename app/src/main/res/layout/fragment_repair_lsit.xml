@@ -5,15 +5,19 @@
     android:background="@color/colorTitleBg"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
-
-
-    <com.ast365.library.listview.AstListView
-        android:id="@+id/listview"
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/checkLin"
-        android:divider="#0000"
-        android:dividerHeight="0px"
-        android:layerType="software" />
+        android:background="#fff">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#0000"
+            android:dividerHeight="0px"
+            android:layerType="software" />
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
 </LinearLayout> 

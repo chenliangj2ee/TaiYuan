@@ -22,6 +22,7 @@ import com.glhd.tb.app.adapter.ItemInspSubmitMoreAdapter;
 import com.glhd.tb.app.adapter.ItemInspSubmitMoreGridviewAdapter;
 import com.glhd.tb.app.base.BaseActivity;
 import com.glhd.tb.app.base.BaseRes;
+import com.glhd.tb.app.base.bean.BeanAdapterType;
 import com.glhd.tb.app.base.bean.BeanAdvert;
 import com.glhd.tb.app.event.EventInspSubmitMore;
 import com.glhd.tb.app.http.MyHttp;
@@ -29,8 +30,10 @@ import com.glhd.tb.app.http.MyHttpManager;
 import com.glhd.tb.app.http.res.ResGetRepair;
 import com.glhd.tb.app.http.res.ResUpload;
 import com.glhd.tb.app.utils.MyImage;
+import com.glhd.tb.app.utils.MyLog;
 import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,19 +49,16 @@ import me.nereo.multi_image_selector.Multi;
  * 巡检反馈
  */
 public class InspSubmitMoreActivity extends BaseActivity implements View.OnClickListener {
-
+    protected TextView addressTextview;
 
     private TextView adsSize;
-    private ListView listView;
+    private GridView typeGridView;
     private GridView gridView;
     protected LinearLayout addIcon;
     protected EditText remarks;
-    protected RadioButton yes;
-    protected RadioButton no;
     private ImageView uploadIcon;
     protected TextView repairUser;
     protected TextView notiUser;
-    private RadioGroup radiogroup;
     private ItemInspSubmitMoreAdapter adsAdapter;
     private ItemInspSubmitMoreGridviewAdapter iconsAdapter;
 
@@ -68,11 +68,13 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
     public static boolean success = false;
     public static String id;
     protected LinearLayout repairLayout;
+    private String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_insp_submit_more);
+        address = getIntent().getStringExtra("address");
         beans = (ArrayList<BeanAdvert>) getIntent().getSerializableExtra("beans");
         InspSubmitMoreActivity.success = false;
         initView();
@@ -103,7 +105,8 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
                     String file = Environment.getExternalStorageDirectory().getPath() + "/" + System.currentTimeMillis() + ".jpg";// 获取跟目录
                     file = MyImage.compressImage(path, file, 70);
                     log(file);
-
+                    File f = new File(file);
+                    f.deleteOnExit();
                     iconStrs.add(file);
                     iconsAdapter.notifyDataSetChanged();
 
@@ -159,6 +162,7 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
     private void uploadFinish(int uploadCount) {
         if (uploadCount == iconStrs.size()) {
             dialog.dismiss();
+            dialog = null;
             inspFeedback(uploadUrls);
         } else {
 
@@ -169,14 +173,25 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
      *
      * 设置维修人员
      * */
-    ResGetRepair.DataBean.RepairPersonnelBean repairPersonnelBean;
-    String repairPersonnel;
+    String repairPersonnel = null;
+    String names = null;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setRepairUser(ResGetRepair.DataBean.RepairPersonnelBean event) {
-        repairPersonnelBean = event;
-        repairPersonnel = event.getId();
-        repairUser.setText("维修人：" + event.getName());
+
+        repairPersonnel = null;
+        names = null;
+        for (int i = 0; i < event.users.size(); i++) {
+            if (repairPersonnel == null) {
+                repairPersonnel = event.users.get(i).getId();
+                names = event.users.get(i).getName();
+            } else {
+                repairPersonnel = repairPersonnel + "," + event.users.get(i).getId();
+                names = names + "," + event.users.get(i).getName();
+            }
+        }
+        if (names != null)
+            repairUser.setText("维修人：" + names);
     }
 
     /*
@@ -206,8 +221,10 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
     }
 
     private void inspFeedback(ArrayList<String> uploadUrls) {
+        if (dialog == null)
+            dialog = new ProgressDialog(this);
         dialog.setMessage("正在提交反馈....");
-
+        dialog.show();
         String ids = "";
         for (int i = 0; i < beans.size(); i++) {
             if (i == beans.size() - 1) {
@@ -229,7 +246,7 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
                 ids,
                 fileName,
                 remarks.getText().toString().trim(),
-                yes.isChecked() ? "0" : "1",
+                "0",
                 repairPersonnel,
                 viewStaff,
                 new MyHttp.ResultCallback<BaseRes>() {
@@ -260,81 +277,38 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
     }
 
     private void initView() {
-        radiogroup = (RadioGroup) findViewById(R.id.radiogroup);
         repairUser = (TextView) findViewById(R.id.repair_user);
         notiUser = (TextView) findViewById(R.id.noti_user);
         adsSize = findViewById(R.id.ads_size);
-        listView = findViewById(R.id.listview);
         gridView = findViewById(R.id.gridview);
         uploadIcon = (ImageView) findViewById(R.id.upload_icon);
         addIcon = (LinearLayout) findViewById(R.id.add_icon);
         addIcon.setOnClickListener(this);
         uploadIcon.setOnClickListener(this);
         remarks = (EditText) findViewById(R.id.remarks);
-        yes = (RadioButton) findViewById(R.id.yes);
-        no = (RadioButton) findViewById(R.id.no);
-        yes.setChecked(true);
         repairLayout = (LinearLayout) findViewById(R.id.repair_layout);
-        no.setEnabled(beans.size() > 1 ? false : true);
-
+        typeGridView = findViewById(R.id.type_gridview);
         if (beans != null) {
-            adsAdapter = new ItemInspSubmitMoreAdapter(this, beans, listView);
-            listView.setAdapter(adsAdapter);
+            adsAdapter = new ItemInspSubmitMoreAdapter(this, initData(), typeGridView);
+            typeGridView.setAdapter(adsAdapter);
             adsSize.setText("共计" + beans.size() + "个媒体");
 
-
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent = new Intent(InspSubmitMoreActivity.this, InspSubmitInfoActivity.class);
-                    intent.putExtra("bean", beans.get(i));
-                    startActivity(intent);
-                }
-            });
-
-            int height;
-            if (beans.size() > 3) {
-                height = 230 * 3;
-            } else {
-                height = 230 * beans.size();
-            }
-
-            listView.setMinimumHeight(height);
-            LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) listView.getLayoutParams();
-            p.height = height;
-            listView.setLayoutParams(p);
-            listView.postInvalidate();
         }
-        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                repairLayout.setVisibility(no.isChecked() ? View.VISIBLE : View.GONE);
-            }
-        });
 
         iconsAdapter = new ItemInspSubmitMoreGridviewAdapter(this, iconStrs);
         gridView.setAdapter(iconsAdapter);
+        addressTextview = (TextView) findViewById(R.id.address_textview);
+        addressTextview.setText(address);
     }
 
     public void submitAction(View view) {
-        if (yes.isChecked() == false && no.isChecked() == false) {
-            MyToast.showMessage(this, "请选择巡检状态");
+        if (iconStrs.isEmpty()) {
+//            MyToast.showMessage(this, "请添加照片");
+            inspFeedback(uploadUrls);
             return;
+        } else {
+            uploadIcon();
         }
-
-        if (yes.isChecked() == false && no.isChecked() == false) {
-            MyToast.showMessage(this, "请选择巡检状态");
-            return;
-        }
-        if (iconStrs.isEmpty() && no.isChecked() == true) {
-            MyToast.showMessage(this, "请添加照片");
-            return;
-        }
-//        if ("".equals(remarks.getText().toString().trim())) {
-//            MyToast.showMessage(this, "请输入巡检备注");
-//            return;
-//        }
-        uploadIcon();
 
 
     }
@@ -346,5 +320,29 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
     public void SelectRepairUserAction(View view) {
         startActivity(new Intent(this, RepairUserActivity.class));
     }
+
+
+    public ArrayList<BeanAdapterType> initData() {
+
+        ArrayList<BeanAdapterType> data = new ArrayList<>();
+
+        for (int i = 0; i < beans.size(); i++) {
+            boolean has = false;
+            for (int j = 0; j < data.size(); j++) {
+                if (beans.get(i).getTypeTitle().equals(data.get(j).getType())) {
+                    has = true;
+                    data.get(j).setNum(data.get(j).getNum() + 1);
+                    continue;
+                }
+            }
+            if (has == false) {
+                BeanAdapterType bat = new BeanAdapterType();
+                bat.setType(beans.get(i).getTypeTitle());
+                data.add(bat);
+            }
+        }
+        return data;
+    }
+
 
 }

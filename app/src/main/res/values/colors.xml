@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3a8acc</color>
-    <color name="colorPrimaryDark">#3a8acc</color>
-    <color name="colorAccent">#3a8acc</color>
+    <color name="titleColor">#31a3e6</color>
+    <color name="colorPrimary">#31a3e6</color>
+    <color name="colorPrimaryDark">#31a3e6</color>
+    <color name="colorAccent">#31a3e6</color>
     <color name="colorTitleBg">#f9f9f9</color>
+    <color name="menuitem_default">#1b191b</color>
+    <color name="menuitem_selected">#ec3636</color>
+
+    <color name="tv_select">#f2c449</color>
+    <color name="tv_unselect">#000000</color>
 </resources>

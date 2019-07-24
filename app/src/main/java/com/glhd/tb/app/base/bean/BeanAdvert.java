@@ -46,6 +46,15 @@ public class BeanAdvert implements Serializable {
     private String locationdescribe = "";
     private String properystation = "";
     private BeanInsp insp;
+    private String waitDate;
+
+    public String getWaitDate() {
+        return waitDate;
+    }
+
+    public void setWaitDate(String waitDate) {
+        this.waitDate = waitDate;
+    }
 
     public String getProperystation() {
         return properystation;

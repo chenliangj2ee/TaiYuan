@@ -93,7 +93,7 @@ public class ItemInspIndexAdapter extends BaseAdapter {
                 h.inspStatusIcon.setVisibility(View.VISIBLE);
             }
         } else {
-            h.time.setText("待巡检时间 " + b.getNextTimeLatestDate());
+            h.time.setText("待巡检时间 " + b.getWaitDate());
             h.inspStatusIcon.setVisibility(View.GONE);
         }
         /*
@@ -120,15 +120,15 @@ public class ItemInspIndexAdapter extends BaseAdapter {
                         intent.putExtra("bean", b);
                         context.startActivity(intent);
                     } else {
-//                        Intent intent = new Intent(context, InspSubmitActivity.class);
-//                        intent.putExtra("bean", b);
-//                        context.startActivity(intent);
-
-                        ArrayList<BeanAdvert> selectAds=new ArrayList<>();
-                        selectAds.add(b);
-                        Intent intent=new Intent(context,InspSubmitMoreActivity.class);
-                        intent.putExtra("beans",selectAds);
+                        Intent intent = new Intent(context, InspSubmitActivity.class);
+                        intent.putExtra("bean", b);
                         context.startActivity(intent);
+
+//                        ArrayList<BeanAdvert> selectAds=new ArrayList<>();
+//                        selectAds.add(b);
+//                        Intent intent=new Intent(context,InspSubmitMoreActivity.class);
+//                        intent.putExtra("beans",selectAds);
+//                        context.startActivity(intent);
 
 
                     }
@@ -198,6 +198,7 @@ public class ItemInspIndexAdapter extends BaseAdapter {
 
     public void setCheckBoxIsShow(boolean checkBoxIsShow) {
         this.checkBoxIsShow = checkBoxIsShow;
+        notifyDataSetChanged();
     }
 
     public boolean isCheckBoxIsShow() {

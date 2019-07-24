@@ -6,6 +6,7 @@ import com.glhd.tb.app.base.BaseRes;
 import com.glhd.tb.app.base.bean.BeanUser;
 import com.glhd.tb.app.http.MyHttp;
 import com.glhd.tb.app.http.MyHttpManager;
+import com.glhd.tb.app.http.res.GetInspRange;
 import com.glhd.tb.app.http.res.ResAdsConstruction;
 import com.glhd.tb.app.http.res.ResConstructionNoti;
 import com.glhd.tb.app.http.res.ResFuKuanList;
@@ -25,6 +26,8 @@ import com.glhd.tb.app.http.res.ResGetNoticeList;
 import com.glhd.tb.app.http.res.ResGetPi;
 import com.glhd.tb.app.http.res.ResGetRepair;
 import com.glhd.tb.app.http.res.ResGetRepairList;
+import com.glhd.tb.app.http.res.ResGetTrajectory;
+import com.glhd.tb.app.http.res.ResInspAdsType;
 import com.glhd.tb.app.http.res.ResLogin;
 import com.glhd.tb.app.http.res.ResSearchOne;
 import com.glhd.tb.app.http.res.ResUpgrade;
@@ -41,14 +44,28 @@ import java.io.File;
 public class API {
 
     //47.104.81.230:8901外网
-    // 192.168.1.113:8080内网
+    //192.168.1.114:8080内网
 
-    public static String MAIN_IP = "192.168.1.113:8080";
+//    public static String MAIN_IP = "192.168.1.114:8080";
 
-    public static String IP = "192.168.6.135:8080";
-    public static String HOST_IMAGE = "http://" + IP + "/advertmanageapp";
-    public static String HOST = "http://" + IP + "/advertmanageapp/admin/app";
+    /**
+     * 内网
+     */
+    public static String IP = "192.168.1.180:8080";
+    public static String HOST_IMAGE = "http://" + IP + "/advertpublication";
+    public static String HOST = "http://" + IP + "/advertpublication/admin/app";
 
+
+//    public static String IP = "ad.12306.cn";
+//    public static String HOST_IMAGE = "";
+//    public static String HOST = "http://ad.12306.cn/app/advertpublication/admin/app";
+
+//    /**
+//     * 外网
+//     */
+//    public static String IP = "192.168.1.192:8080";
+//    public static String HOST_IMAGE = "";
+//    public static String HOST = "http://192.168.1.192:8080/app/advertpublication/admin/app";
     /**
      * 巡检接口
      */
@@ -66,8 +83,14 @@ public class API {
     private static String URL_GET_CONSTRUCTION = HOST + "/inspection/publish";                      //获取施工/未完成，已完成
     private static String URL_CONSTRUCTION_SUBMIT = HOST + "/inspection/register";                   //施工登记
     private static String URL_GET_REPAIR = HOST + "/inspection/maintenance";                   //获取维修人员
-    private static String URL_GET_REPAIR_LIST = HOST + "/administrators/press";                  //获取已维修，未维修
-    private static String URL_INSP_REPAIRBACKBATCH = HOST + "/inspection/repairFeedback";                       //维修反馈
+    private static String URL_GET_REPAIR_LIST = HOST + "/repair/list";                  //获取已维修，未维修
+    private static String URL_INSP_REPAIRBACKBATCH = HOST + "/repair/feedback";                       //维修反馈
+    private static String URL_INSP_GET_INSP_TYPE = HOST + "/inspection/mediaType";                       //媒体类型
+    private static String URL_GET_MY_INSP_info = HOST + "/inspection/info";
+    private static String URL_GET_MY_INSP_fault = HOST + "/inspection/fault";
+    private static String URL_INSP_repair = HOST + "/inspection/repair";                       //巡检报修
+    private static String URL_INSP_addTrajectory = HOST + "/inspection/addTrajectory";
+    private static String URL_INSP_trajectoryList = HOST + "/inspection/trajectoryList";                       //巡检报修
     /**
      * 客户端接口
      */
@@ -124,9 +147,14 @@ public class API {
         API.URL_GET_CONSTRUCTION = HOST + "/inspection/publish";                   //获取施工/未完成，已完成
         API.URL_CONSTRUCTION_SUBMIT = HOST + "/inspection/register";                   //施工登记
         API.URL_GET_REPAIR = HOST + "/inspection/maintenance";                   //获取维修人员
-        API.URL_GET_REPAIR_LIST = HOST + "/inspection/repairlist";                   //获取已维修、未维修
-        API.URL_INSP_REPAIRBACKBATCH=HOST+"/inspection/repairFeedback";                //维修反馈
-
+        API.URL_GET_REPAIR_LIST = HOST + "/repair/list";                   //获取已维修、未维修
+        API.URL_INSP_REPAIRBACKBATCH = HOST + "/repair/feedback";                //维修反馈
+        API.URL_INSP_GET_INSP_TYPE = HOST + "/inspection/mediaType";                //媒体类型
+        API.URL_GET_MY_INSP_info = HOST + "/inspection/info";                //媒体类型
+        API.URL_GET_MY_INSP_fault = HOST + "/inspection/fault";
+        API.URL_INSP_repair = HOST + "/inspection/repair";
+        API.URL_INSP_addTrajectory = HOST + "/inspection/addTrajectory";
+        API.URL_INSP_trajectoryList = HOST + "/inspection/trajectoryList";
         /**
          * 客户端接口;
          */
@@ -170,7 +198,7 @@ public class API {
         http.put("phone", phone);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
-        http.post("http://" + MAIN_IP + "/advertservice/admin/datasync/getServiceInfo");
+//        http.post("http://" + MAIN_IP + "/advertservice/admin/datasync/getServiceInfo");
     }
 
     /**
@@ -179,11 +207,12 @@ public class API {
      * @param account账号
      * @param password
      */
-    public static void login(String account, String password,
+    public static void login(String account, String password, String phone,
                              MyHttp.ResultCallback<ResLogin>... callback) {
         MyHttp<ResLogin> http = new MyHttp<>(ResLogin.class);
         http.put("account", account);
         http.put("password", password);
+        http.put("phone", phone);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_LOGIN);
@@ -254,24 +283,71 @@ public class API {
      * @param pageSize：每页数
      * @param callback
      */
-    public static void getMyInspList(String accountId, String inspStatus, String pageNum, String pageSize,
-                                     String stationId,  String locationId, String carnoId, String marshallingId,
+    public static void getMyInspList(String accountId,
+                                     String inspStatus,
+                                     String pageNum,
+                                     String pageSize,
+                                     String stationId,
+                                     String locationId,
+                                     String floorId,
+                                     String regionId,
+                                     String mediatypeId,
+                                     String marshallingId,
+                                     String trainType,
                                      MyHttp.ResultCallback<ResGetInspList>... callback) {
+
 
         MyHttp<ResGetInspList> http = new MyHttp<>(ResGetInspList.class);
         http.put("accountId", accountId);
         http.put("inspStatus", inspStatus);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-
         http.put("stationId", stationId);
         http.put("locationId", locationId);
-        http.put("carnoId", carnoId);
+        http.put("floorId", floorId);
+        http.put("regionId", regionId);
+        http.put("mediatypeId", mediatypeId);
         http.put("marshallingId", marshallingId);
-
+        http.put("trainType", trainType);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_GET_MY_INSP_LIST);
+    }
+
+    /**
+     * @param accountId:账号
+     * @param inspStatus：0：未巡检，1巡检
+     * @param pageNum：页数
+     * @param pageSize：每页数
+     * @param callback
+     */
+    public static void getMyInspRange(String accountId,
+                                      String taskState,
+                                      String taskType,
+                                      String stationId,
+                                      String locationId,
+                                      String floorId,
+                                      String regionId,
+                                      String train,
+                                      String selType,
+                                      MyHttp.ResultCallback<GetInspRange>... callback) {
+
+
+        MyHttp<GetInspRange> http = new MyHttp<>(GetInspRange.class);
+        http.put("accountId", accountId);
+        http.put("taskState", taskState);
+        http.put("taskType", taskType);
+        http.put("stationId", stationId);
+        http.put("locationId", locationId);
+        http.put("floorId", floorId);
+        http.put("regionId", regionId);
+        http.put("train", train);
+        http.put("selType", selType);
+
+
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_GET_MY_INSP_info);
     }
 
 
@@ -283,7 +359,7 @@ public class API {
      * @param status
      * @param callback
      */
-    public static void inspFeedback(String accountId, String id, String fileName, String remarks, String status,String repairPersonnel,String viewStaff,
+    public static void inspFeedback(String accountId, String id, String fileName, String remarks, String status, String repairPersonnel, String viewStaff,
                                     MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("id", id);
@@ -295,7 +371,7 @@ public class API {
 
         http.put("repairPersonnel", repairPersonnel);
         http.put("viewStaff", viewStaff);
-        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
+        http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
 
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
@@ -306,14 +382,14 @@ public class API {
      *
      * 批量巡检
      * */
-    public static void inspFeedbackBatch(String accountId, String ids, String fileName, String remarks, String status,String repairPersonnel,String viewStaff,MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void inspFeedbackBatch(String accountId, String ids, String fileName, String remarks, String status, String repairPersonnel, String viewStaff, MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
         http.put("ids", ids);
         http.put("remarks", remarks);
         http.put("status", status);
         http.put("fileName", fileName);
-        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
+        http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
         http.put("repairPersonnel", repairPersonnel);
         http.put("viewStaff", viewStaff);
         if (callback.length > 0)
@@ -325,9 +401,9 @@ public class API {
      *
      * 获取维修人员，通知人员
      * */
-    public static void getRepair(MyHttp.ResultCallback<ResGetRepair>... callback) {
+    public static void getRepair(String accountId,MyHttp.ResultCallback<ResGetRepair>... callback) {
         MyHttp<ResGetRepair> http = new MyHttp<>(ResGetRepair.class);
-        http.put("fileName", "ddd");
+        http.put("accountId", accountId);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_GET_REPAIR);
@@ -360,7 +436,7 @@ public class API {
      * @param callback
      */
     public static void getSearchOne(String accountId, String coding,
-                                    String text,MyHttp.ResultCallback<ResSearchOne>... callback) {
+                                    String text, MyHttp.ResultCallback<ResSearchOne>... callback) {
 
         MyHttp<ResSearchOne> http = new MyHttp<>(ResSearchOne.class);
         http.put("accountId", accountId);
@@ -395,10 +471,26 @@ public class API {
      * @param accountId
      * @param callback
      */
-    public static void getInspBaseData(String accountId, MyHttp.ResultCallback<ResGetInspBaseData>... callback) {
-
+    public static void getInspBaseData(String accountId,
+                                       String inspStatus,
+                                       String stationId,
+                                       String locationId,
+                                       String floorId,
+                                       String regionId,
+                                       String mediatypeId,
+                                       String marshallingId,
+                                       String trainType,
+                                       MyHttp.ResultCallback<ResGetInspBaseData>... callback) {
         MyHttp<ResGetInspBaseData> http = new MyHttp<>(ResGetInspBaseData.class);
         http.put("accountId", accountId);
+        http.put("inspStatus", inspStatus);
+        http.put("stationId", stationId);
+        http.put("locationId", locationId);
+        http.put("floorId", floorId);
+        http.put("regionId", regionId);
+        http.put("mediatypeId", mediatypeId);
+        http.put("marshallingId", marshallingId);
+        http.put("trainType", trainType);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_GET_INSP_BASE_DATA_);
@@ -416,29 +508,31 @@ public class API {
      * @param callback
      */
     public static void getMyInspHistory(String accountId,
-                                        String pageNum,
-                                        String pageSize,
                                         String stationId,
-                                        String typeId,
                                         String locationId,
+                                        String floorId,
+                                        String regionId,
+                                        String marshallingId,
                                         String startDate,
                                         String endDate,
-                                        String carnoId,
-                                        String marshallingId,
+                                        String pageNo,
+                                        String pageSize,
                                         MyHttp.ResultCallback<ResGetInspHistory>... callback) {
 
         MyHttp<ResGetInspHistory> http = new MyHttp<>(ResGetInspHistory.class);
+
+
         http.put("accountId", accountId);
-        http.put("pageNo", pageNum);
-        http.put("pageSize", pageSize);
-        http.put("typeId", typeId);
         http.put("stationId", stationId);
         http.put("locationId", locationId);
-        http.put("carnoId", carnoId);
+        http.put("floorId", floorId);
+        http.put("regionId", regionId);
         http.put("marshallingId", marshallingId);
-
         http.put("startDate", startDate);
         http.put("endDate", endDate);
+        http.put("pageNo", pageNo);
+        http.put("pageSize", pageSize);
+
 
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
@@ -790,7 +884,7 @@ public class API {
         http.put("type", type);
         http.put("pageNo", pageNo + "");
         http.put("pageSize", pageSize + "");
-        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
+        http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CONSTRUCTION);
@@ -819,7 +913,7 @@ public class API {
         http.put("remarks", remarks);
         http.put("imageUrl", imageUrl);
         http.put("date", date);
-        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
+        http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
 
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
@@ -901,6 +995,7 @@ public class API {
      */
     public static void getRepariList(
             String accountId,
+            String userType,
             String repairState,
             String pageNo,
             String pageSize,
@@ -909,6 +1004,7 @@ public class API {
         MyHttp<ResGetRepairList> http = new MyHttp<>(ResGetRepairList.class);
         http.put("accountId", accountId);
         http.put("repairState", repairState);
+        http.put("userType", userType);
         http.put("stationId", "");
         http.put("locationId", "");
         http.put("carnoId", "");
@@ -918,29 +1014,143 @@ public class API {
         http.put("pageSize", pageSize);
 
 
-
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_GET_REPAIR_LIST);
     }
 
 
-
     /*
      *
      * 批量巡检
      * */
-    public static void repairFeedbackBatch(String accountId, String taskId, String fileName, String remarks,MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void repairFeedbackBatch(String accountId,
+                                           String repairId,
+                                           String fileName,
+                                           String remarks,
+                                           String repairType,
+                                           MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
-        http.put("taskId", taskId);
+        http.put("repairId", repairId);
         http.put("remarks", remarks);
-        http.put("location", MyLocation.latitude+","+MyLocation.longitude);
+        http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
         http.put("fileName", fileName);
+        http.put("repairType", repairType);
 
         if (callback.length > 0)
             http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_REPAIRBACKBATCH);
     }
 
+    public static void GetInspAdsType(String accountId,
+                                      String taskState,
+                                      String stationId,
+                                      String locationId,
+                                      String florid,
+                                      String regionId,
+                                      String marshallingId,
+                                      String trainType,
+                                      MyHttp.ResultCallback<ResInspAdsType>... callback) {
+        MyHttp<ResInspAdsType> http = new MyHttp<>(ResInspAdsType.class);
+
+
+        http.put("accountId", accountId);
+        http.put("taskState", taskState);
+        http.put("stationId", stationId);
+        http.put("locationId", locationId);
+        http.put("floorId", florid);
+        http.put("regionId", regionId);
+        http.put("marshallingId", marshallingId);
+        http.put("trainType", trainType);
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_INSP_GET_INSP_TYPE);
+    }
+
+    public static void GetInspFault(String mediatype,
+                                    MyHttp.ResultCallback<GetInspRange>... callback) {
+        MyHttp<GetInspRange> http = new MyHttp<>(GetInspRange.class);
+        http.put("mediatype", mediatype);
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_GET_MY_INSP_fault);
+    }
+
+    /*
+     *
+     * 批量巡检
+     * */
+    public static void inspRepair(String accountId,
+                                  String ids,
+                                  String fileName,
+                                  String remarks,
+                                  String repairPersonnel,
+                                  String viewStaff,
+                                  String faultType,
+                                  String mediaNumber,
+                                  MyHttp.ResultCallback<BaseRes>... callback) {
+        MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
+
+
+        http.put("accountId", accountId);
+        http.put("ids", ids);
+        http.put("remarks", remarks);
+        http.put("status", "1");
+        http.put("fileName", fileName);
+        http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
+        http.put("repairPersonnel", repairPersonnel);
+        http.put("viewStaff", viewStaff);
+        http.put("faultType", faultType);
+        http.put("mediaNumber", mediaNumber);
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_INSP_repair);
+    }
+
+    /*
+     *
+     * 添加巡检轨迹
+     * */
+    public static void addTrajectory(String accountId,
+                                     String name,
+                                     String stationId,
+                                     String florid,
+                                     String locationId,
+                                     String regionId,
+                                     String marshallingId,
+                                     String trainType,
+                                     MyHttp.ResultCallback<BaseRes>... callback) {
+        MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
+
+        http.put("accountId", accountId);
+        http.put("name", name);
+        http.put("stationId", stationId);
+        http.put("floorId", florid);
+        http.put("locationId", locationId);
+        http.put("regionId", regionId);
+        http.put("marshallingId", marshallingId);
+        http.put("trainType", trainType);
+
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_INSP_addTrajectory);
+    }
+
+
+    /*
+     *
+     * 添加巡检轨迹
+     * */
+    public static void getTrajectoryList(String accountId,
+                                         String stationId,
+                                     MyHttp.ResultCallback<ResGetTrajectory>... callback) {
+        MyHttp<ResGetTrajectory> http = new MyHttp<>(ResGetTrajectory.class);
+
+        http.put("accountId", accountId);
+        http.put("stationId", stationId);
+        if (callback.length > 0)
+            http.ResultCallback(callback[0]);
+        http.post(API.URL_INSP_trajectoryList);
+    }
 }

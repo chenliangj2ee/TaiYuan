@@ -55,14 +55,18 @@ public class ItemRepairListAdapter extends BaseAdapter {
     }
 
     private void initializeViews(BeanRepair b, ViewHolder h) {
-        h.coding.setText("编码："+b.getCoding());
-        h.stationName.setText(b.getProperystation());
-        h.typeSize.setText(b.getWhSize());
-        if(b.getMarshalling()!=null){
-            h.location.setText(b.getMarshalling());
+
+        if(b.getWhSize()==null||"".equals(b.getWhSize())){
+            h.coding.setText(""+b.getCoding());
         }else{
-            h.location.setText(b.getLocation()+"  "+b.getLocationdescribe());
+
+            h.coding.setText("编码："+b.getCoding());
         }
+
+
+        h.stationName.setText(b.getProperystation());
+        h.typeSize.setText(b.getMediatype()+"  数量:"+b.getMediaNumber());
+        h.location.setText(b.getMedialocation()+"  "+b.getMedialocationdescribe());
 
         h.time.setText("巡检时间："+b.getInspTime());
         MyImage.load(context,b.getImage(),h.advertIcon);
@@ -88,4 +92,6 @@ public class ItemRepairListAdapter extends BaseAdapter {
             time = (TextView) view.findViewById(R.id.time);
         }
     }
+
+
 }

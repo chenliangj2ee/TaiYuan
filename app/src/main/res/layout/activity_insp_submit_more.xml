@@ -62,6 +62,13 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/address_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="共计0个媒体" />
+            <TextView
                 android:id="@+id/ads_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,15 +76,16 @@
                 android:padding="10dp"
                 android:text="共计0个媒体" />
 
-            <ListView
-                android:id="@+id/listview"
+            <GridView
+                android:id="@+id/type_gridview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="20dp"
                 android:divider="#0000"
                 android:dividerHeight="0dp"
-                android:layerType="software" />
+                android:layerType="software"
+                android:numColumns="2" />
 
             <View
                 android:layout_width="match_parent"
@@ -86,34 +94,7 @@
                 android:layerType="software" />
 
 
-            <RadioGroup
-                android:id="@+id/radiogroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:gravity="center"
-                android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/yes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:checked="true"
-                    android:text="正常"
-                    android:textColor="#333"
-                    android:textSize="14sp" />
-
-                <RadioButton
-                    android:id="@+id/no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:enabled="false"
-                    android:text="故障"
-                    android:textColor="#333"
-                    android:textSize="14sp" />
-            </RadioGroup>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -168,13 +149,14 @@
                 android:layout_height="2px"
                 android:background="@drawable/selector_fkxq_line"
                 android:layerType="software" />
+
             <LinearLayout
                 android:id="@+id/repair_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/repair_user"

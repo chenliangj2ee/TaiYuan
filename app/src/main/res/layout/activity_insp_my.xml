@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-  >
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="match_parent"
@@ -12,8 +11,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp">
 
         <ImageView
             android:layout_width="50dp"
@@ -52,10 +51,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:layout_marginTop="130dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="25dp"
             android:background="@drawable/selector_login_bg"
             android:orientation="vertical">
 
@@ -63,8 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp">
 
                 <TextView
                     android:id="@+id/name"
@@ -105,9 +104,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25sp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp">
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="25sp">
 
                 <TextView
                     android:id="@+id/conpany"
@@ -119,36 +118,57 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/insp_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@drawable/selector_login_button"
+                    android:onClick="inspHistoryAction"
+                    android:text="巡检历史"
+                    android:visibility="gone"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:id="@+id/repair_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/selector_login_button"
+                    android:onClick="repairHistoryAction"
+                    android:text="维修历史"
+                    android:visibility="gone"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/selector_login_button"
+                    android:onClick="userInfoAction"
+                    android:text="基础信息"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/selector_login_button"
+                    android:onClick="resetPasswordAction"
+                    android:text="密码设置"
+                    android:textColor="#fff" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:gravity="center"
-            android:orientation="horizontal">
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/selector_login_button"
-                android:onClick="userInfoAction"
-                android:text="基础信息"
-                android:textColor="#fff" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/selector_resetpassword_button"
-                android:onClick="resetPasswordAction"
-                android:text="密码设置"
-                android:textColor="#fff" />
-        </LinearLayout>
     </FrameLayout>
 </FrameLayout>

@@ -1,5 +1,8 @@
 package com.glhd.tb.app.base;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,10 +14,12 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -38,12 +43,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class BaseActivity extends AppCompatActivity {
     public String TAG;
-
+    public int width, height;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
 //        StatusBarUtil.setTransparent(this);
+        width = getWindowManager().getDefaultDisplay().getWidth();
+        height = getWindowManager().getDefaultDisplay().getHeight();
         hideSoftInput();
         TAG = this.getClass().getSimpleName();
         log(TAG + " onCreate------------------------------------------------------------------");
@@ -226,4 +233,57 @@ public class BaseActivity extends AppCompatActivity {
         return MySp.getUserId(this);
     }
 
+    public int myY;
+
+
+    public void setMyY(int myY) {
+        this.myY = myY;
+    }
+
+    public int getMyY() {
+        return myY;
+    }
+
+    public void refresh(final View view) {
+        myY=0;
+        MotionEvent e = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, width / 2, 0, 0);
+        view.dispatchTouchEvent(e);
+
+        ObjectAnimator animator = ObjectAnimator.ofInt(this, "myY", 0, 800);
+        animator.setDuration(500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                MotionEvent e = MotionEvent.obtain(SystemClock.uptimeMillis(),
+                        SystemClock.uptimeMillis(), MotionEvent.ACTION_MOVE,
+                        width / 2, myY, 0);
+                view.dispatchTouchEvent(e);
+            }
+        });
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                MotionEvent e = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, width / 2, 800, 0);
+                view.dispatchTouchEvent(e);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.start();
+
+
+    }
 }

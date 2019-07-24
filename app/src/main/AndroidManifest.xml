@@ -11,8 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 
-
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -51,7 +49,10 @@
         <activity android:name=".act.UserInfoActivity" />
 
         <!--巡检端-->
-        <activity android:name=".act.inspection.MainInspectionActivity" />
+        <activity
+            android:name=".act.inspection.MainInspectionActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".act.inspection.InspSubmitActivity" />
         <activity android:name=".act.inspection.InspIndexActivity" />
         <activity android:name=".act.inspection.InspInfoActivity" />
@@ -62,6 +63,9 @@
         <activity android:name=".act.inspection.InspConstructionInfoActivity" />
         <activity android:name=".act.inspection.SelectStationActivity" />
         <activity android:name=".act.inspection.InspSubmitMoreActivity" />
+        <activity android:name=".act.inspection.InspRangeActivity" />
+        <activity android:name=".act.inspection.InspRepairActivity" />
+        <activity android:name=".act.inspection.InspRepairIListActivity" />
         <activity
             android:name=".act.inspection.NotiUserActivity"
             android:theme="@style/transparent" />
@@ -85,6 +89,7 @@
         <activity android:name=".act.customer.CusNoticeListActivity" />
         <activity android:name=".act.customer.NoticeInfoActivity" />
         <activity android:name=".act.customer.CusFuKuanListActivity" />
+
 
         <!--管理端-->
         <activity android:name=".act.admin.AdminActivity" />

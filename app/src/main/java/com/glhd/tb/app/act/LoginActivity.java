@@ -14,6 +14,7 @@ import com.glhd.tb.app.R;
 import com.glhd.tb.app.act.admin.AdminActivity;
 import com.glhd.tb.app.act.customer.MainCustomerActivity;
 import com.glhd.tb.app.act.inspection.InspIndexActivity;
+import com.glhd.tb.app.act.inspection.MainInspectionActivity;
 import com.glhd.tb.app.act.inspection.SelectStationActivity;
 import com.glhd.tb.app.act.repair.RepairIndexActivity;
 import com.glhd.tb.app.base.BaseActivity;
@@ -54,7 +55,7 @@ public class LoginActivity extends BaseActivity {
             String ip = MySp.getString(this, "ip");
             String port = MySp.getString(this, "port");
             String projectname = MySp.getString(this, "projectname");
-            API.init(ip, port, projectname);
+//            API.init(ip, port, projectname);
             toMain(user);
         }
 
@@ -85,7 +86,8 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        getIp(accountStr, passwordStr, phoneStr);
+//        getIp(accountStr, passwordStr, phoneStr);
+        loginHttp(accountStr, passwordStr,phoneStr);
     }
 
     /**
@@ -94,9 +96,12 @@ public class LoginActivity extends BaseActivity {
      * @param account
      * @param password
      */
-    private void loginHttp(final String account, String password) {
+    private void loginHttp(final String account, String password,String phoneStr) {
+        pd = new ProgressDialog(this);
+        pd.setMessage("正在登录...");
 
-        API.login(account, MyMd5.md5(password), new MyHttp.ResultCallback<ResLogin>() {
+        pd.show();
+        API.login(account, MyMd5.md5(password),phoneStr, new MyHttp.ResultCallback<ResLogin>() {
             @Override
             public void onSuccess(ResLogin res) {
                 pd.dismiss();
@@ -122,7 +127,7 @@ public class LoginActivity extends BaseActivity {
 
     private void initView() {
         classMap.put("U01", AdminActivity.class);//管理端
-        classMap.put("U02", SelectStationActivity.class);//巡检端
+        classMap.put("U02", MainInspectionActivity.class);//巡检端
         classMap.put("U03", MainCustomerActivity.class);//客户端
         classMap.put("U04", RepairIndexActivity.class);
         classMap.put("U05", InspIndexActivity.class);//巡检端
@@ -189,7 +194,7 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private void getIp(final String account, final String pass, String phone) {
+    private void getIp(final String account, final String pass, final String phone) {
 //        API.init("192.168.6.132", "8080","advertmanageapp/admin");
 ////        loginHttp(account,pass);
         pd = new ProgressDialog(this);
@@ -207,7 +212,7 @@ public class LoginActivity extends BaseActivity {
                     MySp.putString(getApplicationContext(), "projectname", projectname);
 
                     API.init(ip, port, projectname);
-                    loginHttp(account, pass);
+                    loginHttp(account, pass,phone);
                 } else {
                     MyToast.showMessage(getApplicationContext(), res.getMessage());
                     pd.dismiss();
@@ -223,3 +228,4 @@ public class LoginActivity extends BaseActivity {
     }
 
 }
+

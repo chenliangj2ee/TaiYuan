@@ -109,7 +109,7 @@ public class RepariInfoActivity extends BaseActivity implements View.OnClickList
 
                     iconStrs.add(file);
                     iconsAdapter.notifyDataSetChanged();
-
+                    loadAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -170,15 +170,17 @@ public class RepariInfoActivity extends BaseActivity implements View.OnClickList
 
     private void initializeViews() {
 
-        coding.setText("编码：" + bean.getCoding());
+
+
+        if(bean.getWhSize()==null||"".equals(bean.getWhSize())){
+            coding.setText("编码："+bean.getCoding());
+        }else{
+            coding.setText(""+bean.getCoding());
+        }
         stationName.setText(bean.getProperystation());
         typeSize.setText(bean.getWhSize());
-        if (bean.getMarshalling() != null) {
-            location.setText(bean.getMarshalling());
-        } else {
-            location.setText(bean.getLocation() + "  " + bean.getLocationdescribe());
-        }
 
+        location.setText(bean.getMedialocation()+"  "+bean.getMedialocationdescribe());
         time.setText("巡检时间：" + bean.getInspTime());
         MyImage.load(this, bean.getImage(), advertIcon);
         MyImage.load(this, bean.getMediaImage(), advertIcon1);
@@ -198,7 +200,12 @@ public class RepariInfoActivity extends BaseActivity implements View.OnClickList
             }
         }
 
-        API.repairFeedbackBatch(MySp.getUser(this).getAccountId(), bean.getId(), fileName, remarks.getText().toString().trim(), new MyHttp.ResultCallback<BaseRes>() {
+        API.repairFeedbackBatch(MySp.getUser(this).getAccountId(),
+                bean.getId(),
+                fileName,
+                remarks.getText().toString().trim(),
+                bean.getRepairType(),
+                new MyHttp.ResultCallback<BaseRes>() {
             @Override
             public void onSuccess(BaseRes res) {
                 if (res.getCode() == 0) {

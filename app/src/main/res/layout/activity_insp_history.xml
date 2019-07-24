@@ -11,23 +11,31 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#fff">
+        android:background="@color/titleColor">
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:onClick="back"
             android:padding="15dp"
-            android:src="@drawable/back" />
+            android:src="@drawable/back_w" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="已巡检任务"
-            android:textColor="#343434"
+            android:text="巡检历史"
+            android:textColor="#ffff"
             android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/filterImage"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:src="@drawable/insp_filter" />
 
     </FrameLayout>
 
@@ -36,12 +44,19 @@
         android:layout_height="1px"
         android:background="#bbb" />
 
-    <com.ast365.library.listview.AstListView
-        android:id="@+id/listview"
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#0000"
-        android:dividerHeight="0px"
-        android:layerType="software" />
+        android:background="#fff">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#0000"
+            android:dividerHeight="0px"
+            android:layerType="software" />
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
 </LinearLayout> 

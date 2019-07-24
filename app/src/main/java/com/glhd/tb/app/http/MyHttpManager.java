@@ -457,6 +457,8 @@ public class MyHttpManager {
 
     private void deliveryResult(final ResultCallback callback, final Class<?> responseClass, Request request) {
         requestHeaders(request);
+        mOkHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
+        mOkHttpClient.setReadTimeout(60, TimeUnit.SECONDS);
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(final Request request, final IOException e) {

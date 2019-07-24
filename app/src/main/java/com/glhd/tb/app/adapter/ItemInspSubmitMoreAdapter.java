@@ -1,34 +1,32 @@
 package com.glhd.tb.app.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ImageView;
 
 import com.glhd.tb.app.R;
-import com.glhd.tb.app.base.bean.BeanAdvert;
-import com.glhd.tb.app.utils.MyToast;
+import com.glhd.tb.app.base.bean.BeanAdapterType;
+
+import java.util.ArrayList;
 
 public class ItemInspSubmitMoreAdapter extends BaseAdapter {
 
-    private ArrayList<BeanAdvert> objects = new ArrayList<BeanAdvert>();
+    private ArrayList<BeanAdapterType> objects = new ArrayList<BeanAdapterType>();
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private ListView listView;
-    public ItemInspSubmitMoreAdapter(Context context, ArrayList<BeanAdvert> objects,ListView listView) {
+    private GridView typeGridView;
+
+    public ItemInspSubmitMoreAdapter(Context context, ArrayList<BeanAdapterType> objects, GridView typeGridView) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.objects = objects;
-        this.listView=listView;
+        this.typeGridView = typeGridView;
     }
 
     @Override
@@ -37,7 +35,7 @@ public class ItemInspSubmitMoreAdapter extends BaseAdapter {
     }
 
     @Override
-    public BeanAdvert getItem(int position) {
+    public BeanAdapterType getItem(int position) {
         return objects.get(position);
     }
 
@@ -52,29 +50,20 @@ public class ItemInspSubmitMoreAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.item_insp_submit_more, null);
             convertView.setTag(new ViewHolder(convertView));
         }
-        initializeViews((BeanAdvert) getItem(position), (ViewHolder) convertView.getTag());
+        initializeViews((BeanAdapterType) getItem(position), (ViewHolder) convertView.getTag());
 
         return convertView;
     }
 
-    private void initializeViews(BeanAdvert b, ViewHolder h) {
-        h.coding.setText("编码:" + b.getCoding());
-        h.location.setText(b.getLocationdescribe());
-        h.typeSize.setText(b.getTypeTitle()+"  "+b.getWhSize());
-        h.stationName.setText(b.getProperystation());
+    private void initializeViews(BeanAdapterType b, ViewHolder h) {
+        h.text.setText(b.getType()+" "+ b.getNum()+"(个)");
     }
 
     protected class ViewHolder {
-        private TextView coding;
-        private TextView stationName;
-        private TextView typeSize;
-        private TextView location;
+        private TextView text;
 
         public ViewHolder(View view) {
-            coding = (TextView) view.findViewById(R.id.coding);
-            stationName = (TextView) view.findViewById(R.id.station_name);
-            typeSize = (TextView) view.findViewById(R.id.type_size);
-            location = (TextView) view.findViewById(R.id.location);
+            text = (TextView) view.findViewById(R.id.text);
         }
     }
 }

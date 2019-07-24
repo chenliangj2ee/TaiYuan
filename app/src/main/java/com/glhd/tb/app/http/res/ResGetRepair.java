@@ -60,6 +60,10 @@ public class ResGetRepair {
         }
 
         public static class RepairPersonnelBean {
+
+
+            public ArrayList<RepairPersonnelBean> users=new ArrayList<>();
+
             /**
              * id : 1
              * name : 张三（业务部）

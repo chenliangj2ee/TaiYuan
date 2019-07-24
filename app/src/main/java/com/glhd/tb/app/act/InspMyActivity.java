@@ -2,11 +2,12 @@ package com.glhd.tb.app.act;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.glhd.tb.app.R;
+import com.glhd.tb.app.act.inspection.InspHistoryActivity;
+import com.glhd.tb.app.act.inspection.InspRepairIListActivity;
 import com.glhd.tb.app.base.BaseActivity;
 import com.glhd.tb.app.base.bean.BeanUser;
 import com.glhd.tb.app.event.EventExit;
@@ -29,6 +30,11 @@ public class InspMyActivity extends BaseActivity {
         if (MySp.getUser(this) != null) {
             name.setText(MySp.getUser(this).getName());
             conpany.setText(MySp.getUser(this).getCompany());
+
+            if("U02".equals(MySp.getUser(this).getType())){
+                findViewById(R.id.insp_history).setVisibility(View.VISIBLE);
+                findViewById(R.id.repair_history).setVisibility(View.VISIBLE);
+            }
         }
 
     }
@@ -50,4 +56,11 @@ public class InspMyActivity extends BaseActivity {
         EventBus.getDefault().post(new EventExit());
     }
 
+
+    public void inspHistoryAction(View view){
+        startActivity(InspHistoryActivity.class);
+    }
+    public void repairHistoryAction(View view){
+        startActivity(InspRepairIListActivity.class);
+    }
 }
