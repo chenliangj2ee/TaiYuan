@@ -41,6 +41,7 @@ public abstract class MyBaseFragment  extends Fragment {
 		height =  getActivity().getWindowManager().getDefaultDisplay().getHeight();
 		TAG = this.getClass().getSimpleName();
 		EventBus.getDefault().register(this);
+		Log.i("MyActManager",TAG);
 	}
 
 	@Override

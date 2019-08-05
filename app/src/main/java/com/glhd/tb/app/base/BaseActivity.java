@@ -19,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -54,13 +55,12 @@ public class BaseActivity extends AppCompatActivity {
         height = getWindowManager().getDefaultDisplay().getHeight();
         hideSoftInput();
         TAG = this.getClass().getSimpleName();
-        log(TAG + " onCreate------------------------------------------------------------------");
+        Log.i("MyActManager",TAG);
     }
 
 
     @Override
     public void onDestroy() {
-        log(TAG + " onDestroy------------------------------------------------------------------");
         EventBus.getDefault().unregister(this);
         super.onDestroy();
 
@@ -77,20 +77,17 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
 
-        log(TAG + " onStart-------------------------------------------------------------------");
         super.onStart();
     }
 
     @Override
     protected void onResume() {
         MobclickAgent.onResume(this);
-        log(TAG + " onResume-------------------------------------------------------------------");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        log(TAG + " onPause-------------------------------------------------------------------");
         super.onPause();
         MobclickAgent.onPause(this);
     }
@@ -135,13 +132,11 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        log(TAG + " onStop-------------------------------------------------------------------");
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        log(TAG + " onNewIntent--------------------------------------------------------------");
     }
 
     private Fragment currentFragment;//当前显示的fragment

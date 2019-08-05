@@ -54,11 +54,6 @@ public class LoginActivity extends BaseActivity {
         //自动登陆
         BeanUser user = MySp.getUser(this);
         if (user != null && user.isLogin()) {
-//            classMap.put("U02", InspIndexActivity.class);//巡检端
-            String ip = MySp.getString(this, "ip");
-            String port = MySp.getString(this, "port");
-            String projectname = MySp.getString(this, "projectname");
-//            API.init(ip, port, projectname);
             toMain(user);
         }
 
@@ -212,38 +207,6 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private void getIp(final String account, final String pass, final String phone) {
-//        API.init("192.168.6.132", "8080","advertmanageapp/admin");
-////        loginHttp(account,pass);
-        pd = new ProgressDialog(this);
-        pd.setMessage("正在登录...");
-        pd.show();
-        API.getIp(account, MyMd5.md5(pass), phone, new MyHttp.ResultCallback<ResGetPi>() {
-            @Override
-            public void onSuccess(ResGetPi res) {
-                if (res != null && res.getCode() == 0) {
-                    String ip = res.getData().getService_ip();
-                    String port = res.getData().getService_port();
-                    String projectname = res.getData().getService_projectname();
-                    MySp.putString(getApplicationContext(), "ip", ip);
-                    MySp.putString(getApplicationContext(), "port", port);
-                    MySp.putString(getApplicationContext(), "projectname", projectname);
-
-                    API.init(ip, port, projectname);
-                    loginHttp(account, pass, phone);
-                } else {
-                    MyToast.showMessage(getApplicationContext(), res.getMessage());
-                    pd.dismiss();
-                }
-            }
-
-            @Override
-            public void onError(String message) {
-                pd.dismiss();
-                MyToast.showMessage(getApplicationContext(), "登录异常");
-            }
-        });
-    }
 
 
     public void dialogChoice(final BeanUser user) {
