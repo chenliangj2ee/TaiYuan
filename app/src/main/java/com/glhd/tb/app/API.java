@@ -48,17 +48,17 @@ public class API {
 
 //    public static String MAIN_IP = "192.168.1.114:8080";
 
-    /**
-     * 内网
-     */
-    public static String IP = "192.168.1.180:8080";
-    public static String HOST_IMAGE = "http://" + IP + "/advertpublication";
-    public static String HOST = "http://" + IP + "/advertpublication/admin/app";
+//    /**
+//     * 内网
+//     */
+//    public static String IP = "192.168.1.189:8080";
+//    public static String HOST_IMAGE = "http://" + IP + "/advertpublication";
+//    public static String HOST = "http://" + IP + "/advertpublication/admin/app";
 
-
-//    public static String IP = "ad.12306.cn";
-//    public static String HOST_IMAGE = "";
-//    public static String HOST = "http://ad.12306.cn/app/advertpublication/admin/app";
+//
+    public static String IP = "ad.12306.cn";
+    public static String HOST_IMAGE = "";
+    public static String HOST = "http://ad.12306.cn/app/advertpublication/admin/app";
 
 //    /**
 //     * 外网
@@ -91,6 +91,8 @@ public class API {
     private static String URL_INSP_repair = HOST + "/inspection/repair";                       //巡检报修
     private static String URL_INSP_addTrajectory = HOST + "/inspection/addTrajectory";
     private static String URL_INSP_trajectoryList = HOST + "/inspection/trajectoryList";                       //巡检报修
+    private static String URL_INSP_num = HOST + "/inspection/num";
+
     /**
      * 客户端接口
      */
@@ -155,6 +157,7 @@ public class API {
         API.URL_INSP_repair = HOST + "/inspection/repair";
         API.URL_INSP_addTrajectory = HOST + "/inspection/addTrajectory";
         API.URL_INSP_trajectoryList = HOST + "/inspection/trajectoryList";
+        API.URL_INSP_num = HOST + "/inspection/num";
         /**
          * 客户端接口;
          */
@@ -196,8 +199,7 @@ public class API {
         http.put("loginname", loginname);
         http.put("password", password);
         http.put("phone", phone);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
 //        http.post("http://" + MAIN_IP + "/advertservice/admin/datasync/getServiceInfo");
     }
 
@@ -207,14 +209,12 @@ public class API {
      * @param account账号
      * @param password
      */
-    public static void login(String account, String password, String phone,
-                             MyHttp.ResultCallback<ResLogin>... callback) {
+    public static void login(String account, String password, String phone, MyHttp.ResultCallback<ResLogin>... callback) {
         MyHttp<ResLogin> http = new MyHttp<>(ResLogin.class);
         http.put("account", account);
         http.put("password", password);
         http.put("phone", phone);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_LOGIN);
         Log.i("API", API.URL_LOGIN);
     }
@@ -227,14 +227,12 @@ public class API {
      * @param newPassword：新密码
      * @param callback
      */
-    public static void resetPassword(String accountId, String oldPassword, String newPassword,
-                                     MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void resetPassword(String accountId, String oldPassword, String newPassword, MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
         http.put("oldPassword", oldPassword);
         http.put("newPassword", newPassword);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_RESET_PASSWORD);
     }
 
@@ -244,14 +242,12 @@ public class API {
      * @param accountId 账号
      * @param password
      */
-    public static void getContractList(String accountId, String pageNum, String pageSize,
-                                       MyHttp.ResultCallback<ResGetCustommerContract>... callback) {
+    public static void getContractList(String accountId, String pageNum, String pageSize, MyHttp.ResultCallback<ResGetCustommerContract>... callback) {
         MyHttp<ResGetCustommerContract> http = new MyHttp<>(ResGetCustommerContract.class);
         http.put("accountId", accountId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CONTRACT_LIST);
 
 
@@ -263,14 +259,12 @@ public class API {
      * @param account账号
      * @param password
      */
-    public static void getAdminContractList(String accountId, String pageNum, String pageSize,
-                                            MyHttp.ResultCallback<ResGetCustommerContract>... callback) {
+    public static void getAdminContractList(String accountId, String pageNum, String pageSize, MyHttp.ResultCallback<ResGetCustommerContract>... callback) {
         MyHttp<ResGetCustommerContract> http = new MyHttp<>(ResGetCustommerContract.class);
         http.put("accountId", accountId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_ADMIN_CONTRACT_LIST);
 
 
@@ -283,18 +277,7 @@ public class API {
      * @param pageSize：每页数
      * @param callback
      */
-    public static void getMyInspList(String accountId,
-                                     String inspStatus,
-                                     String pageNum,
-                                     String pageSize,
-                                     String stationId,
-                                     String locationId,
-                                     String floorId,
-                                     String regionId,
-                                     String mediatypeId,
-                                     String marshallingId,
-                                     String trainType,
-                                     MyHttp.ResultCallback<ResGetInspList>... callback) {
+    public static void getMyInspList(String accountId, String inspStatus, String pageNum, String pageSize, String stationId, String locationId, String floorId, String regionId, String mediatypeId, String marshallingId, String trainType, MyHttp.ResultCallback<ResGetInspList>... callback) {
 
 
         MyHttp<ResGetInspList> http = new MyHttp<>(ResGetInspList.class);
@@ -309,8 +292,7 @@ public class API {
         http.put("mediatypeId", mediatypeId);
         http.put("marshallingId", marshallingId);
         http.put("trainType", trainType);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_MY_INSP_LIST);
     }
 
@@ -321,16 +303,7 @@ public class API {
      * @param pageSize：每页数
      * @param callback
      */
-    public static void getMyInspRange(String accountId,
-                                      String taskState,
-                                      String taskType,
-                                      String stationId,
-                                      String locationId,
-                                      String floorId,
-                                      String regionId,
-                                      String train,
-                                      String selType,
-                                      MyHttp.ResultCallback<GetInspRange>... callback) {
+    public static void getMyInspRange(String accountId, String taskState, String taskType, String stationId, String locationId, String floorId, String regionId, String train, String selType, MyHttp.ResultCallback<GetInspRange>... callback) {
 
 
         MyHttp<GetInspRange> http = new MyHttp<>(GetInspRange.class);
@@ -345,8 +318,7 @@ public class API {
         http.put("selType", selType);
 
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_MY_INSP_info);
     }
 
@@ -359,8 +331,7 @@ public class API {
      * @param status
      * @param callback
      */
-    public static void inspFeedback(String accountId, String id, String fileName, String remarks, String status, String repairPersonnel, String viewStaff,
-                                    MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void inspFeedback(String accountId, String id, String fileName, String remarks, String status, String repairPersonnel, String viewStaff, MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("id", id);
         http.put("accountId", accountId);
@@ -373,8 +344,7 @@ public class API {
         http.put("viewStaff", viewStaff);
         http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_FEEDBACK);
     }
 
@@ -392,8 +362,7 @@ public class API {
         http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
         http.put("repairPersonnel", repairPersonnel);
         http.put("viewStaff", viewStaff);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_FEEDBACKBATCH);
     }
 
@@ -401,11 +370,10 @@ public class API {
      *
      * 获取维修人员，通知人员
      * */
-    public static void getRepair(String accountId,MyHttp.ResultCallback<ResGetRepair>... callback) {
+    public static void getRepair(String accountId, MyHttp.ResultCallback<ResGetRepair>... callback) {
         MyHttp<ResGetRepair> http = new MyHttp<>(ResGetRepair.class);
         http.put("accountId", accountId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_REPAIR);
     }
 
@@ -418,11 +386,9 @@ public class API {
      * @param status
      * @param callback
      */
-    public static void upload(File file,
-                              MyHttp.ResultCallback<ResUpload> callback, MyHttpManager.Param... params) {
+    public static void upload(File file, MyHttp.ResultCallback<ResUpload> callback, MyHttpManager.Param... params) {
         MyHttp<ResUpload> http = new MyHttp<>(ResUpload.class);
-        if (callback != null)
-            http.ResultCallback(callback);
+        if (callback != null) http.ResultCallback(callback);
         http.upload(API.URL_INSP_UPLOAD, ResUpload.class, file, "fileKey", params);
 
     }
@@ -435,15 +401,13 @@ public class API {
      * @param coding
      * @param callback
      */
-    public static void getSearchOne(String accountId, String coding,
-                                    String text, MyHttp.ResultCallback<ResSearchOne>... callback) {
+    public static void getSearchOne(String accountId, String coding, String text, MyHttp.ResultCallback<ResSearchOne>... callback) {
 
         MyHttp<ResSearchOne> http = new MyHttp<>(ResSearchOne.class);
         http.put("accountId", accountId);
         http.put("coding", coding);
         http.put("multiple", coding);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_SEARCH_ONE);
     }
 
@@ -454,14 +418,12 @@ public class API {
      * @param coding
      * @param callback
      */
-    public static void getAdminSearchOne(String accountId, String coding,
-                                         MyHttp.ResultCallback<ResSearchOne>... callback) {
+    public static void getAdminSearchOne(String accountId, String coding, MyHttp.ResultCallback<ResSearchOne>... callback) {
 
         MyHttp<ResSearchOne> http = new MyHttp<>(ResSearchOne.class);
         http.put("accountId", accountId);
         http.put("coding", coding);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_ADMIN_SEARCH_ONE);
     }
 
@@ -471,16 +433,7 @@ public class API {
      * @param accountId
      * @param callback
      */
-    public static void getInspBaseData(String accountId,
-                                       String inspStatus,
-                                       String stationId,
-                                       String locationId,
-                                       String floorId,
-                                       String regionId,
-                                       String mediatypeId,
-                                       String marshallingId,
-                                       String trainType,
-                                       MyHttp.ResultCallback<ResGetInspBaseData>... callback) {
+    public static void getInspBaseData(String accountId, String inspStatus, String stationId, String locationId, String floorId, String regionId, String mediatypeId, String marshallingId, String trainType, MyHttp.ResultCallback<ResGetInspBaseData>... callback) {
         MyHttp<ResGetInspBaseData> http = new MyHttp<>(ResGetInspBaseData.class);
         http.put("accountId", accountId);
         http.put("inspStatus", inspStatus);
@@ -491,8 +444,7 @@ public class API {
         http.put("mediatypeId", mediatypeId);
         http.put("marshallingId", marshallingId);
         http.put("trainType", trainType);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_INSP_BASE_DATA_);
     }
 
@@ -507,17 +459,7 @@ public class API {
      * @param endDate
      * @param callback
      */
-    public static void getMyInspHistory(String accountId,
-                                        String stationId,
-                                        String locationId,
-                                        String floorId,
-                                        String regionId,
-                                        String marshallingId,
-                                        String startDate,
-                                        String endDate,
-                                        String pageNo,
-                                        String pageSize,
-                                        MyHttp.ResultCallback<ResGetInspHistory>... callback) {
+    public static void getMyInspHistory(String accountId, String stationId, String locationId, String floorId, String regionId, String marshallingId, String startDate, String endDate, String pageNo, String pageSize, MyHttp.ResultCallback<ResGetInspHistory>... callback) {
 
         MyHttp<ResGetInspHistory> http = new MyHttp<>(ResGetInspHistory.class);
 
@@ -534,20 +476,17 @@ public class API {
         http.put("pageSize", pageSize);
 
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_INSP_HISTORY);
     }
 
 
-    public static void getInspSearchBaseData(String accountId, String dataType,
-                                             MyHttp.ResultCallback<ResGetInspSearchBaseData>... callback) {
+    public static void getInspSearchBaseData(String accountId, String dataType, MyHttp.ResultCallback<ResGetInspSearchBaseData>... callback) {
 
         MyHttp<ResGetInspSearchBaseData> http = new MyHttp<>(ResGetInspSearchBaseData.class);
         http.put("accountId", accountId);
         http.put("dataType", dataType);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_SEARCH_BASE_DATA);
     }
 
@@ -557,8 +496,7 @@ public class API {
         http.put("accountId", user.getAccountId());
         http.put("phone", user.getPhone());
         http.put("remarks", user.getRemarks());
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_UPDATE_USER_INFO);
     }
 
@@ -571,15 +509,13 @@ public class API {
      * @param content
      * @param callback
      */
-    public static void feedback(String accountId, String title, String content,
-                                MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void feedback(String accountId, String title, String content, MyHttp.ResultCallback<BaseRes>... callback) {
 
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
         http.put("title", title);
         http.put("content", content);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_FEEDBACK);
     }
 
@@ -592,10 +528,7 @@ public class API {
      * @param content
      * @param callback
      */
-    public static void myAdverts(String accountId, String stationId,
-                                 String typeId, String locationId,
-                                 String directionId, String pageNum,
-                                 String pageSize, MyHttp.ResultCallback<ResGetMyAdverts>... callback) {
+    public static void myAdverts(String accountId, String stationId, String typeId, String locationId, String directionId, String pageNum, String pageSize, MyHttp.ResultCallback<ResGetMyAdverts>... callback) {
 
 
         MyHttp<ResGetMyAdverts> http = new MyHttp<>(ResGetMyAdverts.class);
@@ -606,8 +539,7 @@ public class API {
         http.put("directionId", directionId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_MY_ADVERTS);
     }
 
@@ -624,8 +556,7 @@ public class API {
 
         MyHttp<ResGetCusSearchBaseData> http = new MyHttp<>(ResGetCusSearchBaseData.class);
         http.put("accountId", accountId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CUS_SEARCH_DATA);
     }
 
@@ -644,8 +575,7 @@ public class API {
         http.put("accountId", accountId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CUS_INSP_HISTORY);
     }
 
@@ -662,8 +592,7 @@ public class API {
 
         MyHttp<ResGetCusSearchBaseData> http = new MyHttp<>(ResGetCusSearchBaseData.class);
         http.put("accountId", accountId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_ADMIN_ALL_STATIONS);
     }
 
@@ -675,16 +604,14 @@ public class API {
      * @param content
      * @param callback
      */
-    public static void getCusUpAdvertList(String accountId, String pageNum, String pageSize,
-                                          MyHttp.ResultCallback<ResGetCusUpAdvertList>... callback) {
+    public static void getCusUpAdvertList(String accountId, String pageNum, String pageSize, MyHttp.ResultCallback<ResGetCusUpAdvertList>... callback) {
 
 
         MyHttp<ResGetCusUpAdvertList> http = new MyHttp<>(ResGetCusUpAdvertList.class);
         http.put("accountId", accountId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CUS_UP_ADVERT);
     }
 
@@ -701,8 +628,7 @@ public class API {
 
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CUS_UP_ADVERTS_TONGJI);
     }
 
@@ -719,8 +645,7 @@ public class API {
 
         MyHttp<ResGetContractInfo> http = new MyHttp<>(ResGetContractInfo.class);
         http.put("id", contractId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CONTRACT_INFO);
     }
 
@@ -737,8 +662,7 @@ public class API {
 
         MyHttp<ResGetContractInfo> http = new MyHttp<>(ResGetContractInfo.class);
         http.put("id", contractId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_ADMIN_CONTRACT_INFO);
     }
 
@@ -750,16 +674,14 @@ public class API {
      * @param content
      * @param callback
      */
-    public static void getNoticeList(String contractId, String pageNum, String pageSize,
-                                     MyHttp.ResultCallback<ResGetNoticeList>... callback) {
+    public static void getNoticeList(String contractId, String pageNum, String pageSize, MyHttp.ResultCallback<ResGetNoticeList>... callback) {
 
 
         MyHttp<ResGetNoticeList> http = new MyHttp<>(ResGetNoticeList.class);
         http.put("id", contractId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_NOTICE_LIST);
     }
 
@@ -771,10 +693,7 @@ public class API {
      * @param content
      * @param callback
      */
-    public static void adminAdverts(String accountId, String stationId,
-                                    String typeId, String locationId,
-                                    String directionId, String pageNum,
-                                    String pageSize, MyHttp.ResultCallback<ResGetMyAdverts>... callback) {
+    public static void adminAdverts(String accountId, String stationId, String typeId, String locationId, String directionId, String pageNum, String pageSize, MyHttp.ResultCallback<ResGetMyAdverts>... callback) {
 
 
         MyHttp<ResGetMyAdverts> http = new MyHttp<>(ResGetMyAdverts.class);
@@ -785,8 +704,7 @@ public class API {
         http.put("directionId", directionId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_ADMIN_ADVERTS);
     }
 
@@ -799,16 +717,14 @@ public class API {
      * @param content
      * @param callback
      */
-    public static void getAdminUpAdvertList(String accountId, String pageNum, String pageSize,
-                                            MyHttp.ResultCallback<ResConstructionNoti>... callback) {
+    public static void getAdminUpAdvertList(String accountId, String pageNum, String pageSize, MyHttp.ResultCallback<ResConstructionNoti>... callback) {
 
 
         MyHttp<ResConstructionNoti> http = new MyHttp<>(ResConstructionNoti.class);
         http.put("accountId", accountId);
         http.put("pageNo", pageNum);
         http.put("pageSize", pageSize);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_ADMIN_INSP_HISTORY);
     }
 
@@ -820,14 +736,12 @@ public class API {
      * @param content
      * @param callback
      */
-    public static MyHttp<ResGetAdminIndexData> getAdminIndexData(String accountId,
-                                                                 MyHttp.ResultCallback<ResGetAdminIndexData>... callback) {
+    public static MyHttp<ResGetAdminIndexData> getAdminIndexData(String accountId, MyHttp.ResultCallback<ResGetAdminIndexData>... callback) {
 
 
         MyHttp<ResGetAdminIndexData> http = new MyHttp<>(ResGetAdminIndexData.class);
         http.put("accountId", accountId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_ADMIN_INDEX_DATA);
         return http;
     }
@@ -840,16 +754,14 @@ public class API {
      * @param content
      * @param callback
      */
-    public static void getAdminInspInfo(String accountId, String date, String stationId,
-                                        MyHttp.ResultCallback<ResGetAdminInspInfo>... callback) {
+    public static void getAdminInspInfo(String accountId, String date, String stationId, MyHttp.ResultCallback<ResGetAdminInspInfo>... callback) {
 
 
         MyHttp<ResGetAdminInspInfo> http = new MyHttp<>(ResGetAdminInspInfo.class);
         http.put("accountId", accountId);
         http.put("date", date);
         http.put("stationId", stationId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_ADMIN_INSP_INFO);
     }
 
@@ -865,8 +777,7 @@ public class API {
         MyHttp<ResUpgrade> http = new MyHttp<>(ResUpgrade.class);
         http.put("device", "android");
         http.put("versionCode", versionCode);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_UPGRADE);
     }
 
@@ -885,8 +796,7 @@ public class API {
         http.put("pageNo", pageNo + "");
         http.put("pageSize", pageSize + "");
         http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_CONSTRUCTION);
     }
 
@@ -896,14 +806,7 @@ public class API {
      * @param versionCode:版本号
      * @param callback
      */
-    public static void cunstructionSubmit(String id,
-                                          String accountId,
-                                          String resourceid,
-                                          String status,
-                                          String remarks,
-                                          String imageUrl,
-                                          String date,
-                                          MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void cunstructionSubmit(String id, String accountId, String resourceid, String status, String remarks, String imageUrl, String date, MyHttp.ResultCallback<BaseRes>... callback) {
 
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("id", id);
@@ -915,8 +818,7 @@ public class API {
         http.put("date", date);
         http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_CONSTRUCTION_SUBMIT);
     }
 
@@ -926,11 +828,7 @@ public class API {
      * @param versionCode:版本号
      * @param callback
      */
-    public static void getFuKuanList(
-            String accountId,
-            String pageNo,
-            String pageSize,
-            MyHttp.ResultCallback<ResFuKuanList>... callback) {
+    public static void getFuKuanList(String accountId, String pageNo, String pageSize, MyHttp.ResultCallback<ResFuKuanList>... callback) {
 
         MyHttp<ResFuKuanList> http = new MyHttp<>(ResFuKuanList.class);
         http.put("accountId", accountId);
@@ -938,8 +836,7 @@ public class API {
         http.put("pageSize", pageSize);
 
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_FUKUAN_LIST);
     }
 
@@ -949,11 +846,7 @@ public class API {
      * @param versionCode:版本号
      * @param callback
      */
-    public static void getAdminFuKuanList(
-            String accountId,
-            String pageNo,
-            String pageSize,
-            MyHttp.ResultCallback<ResFuKuanList>... callback) {
+    public static void getAdminFuKuanList(String accountId, String pageNo, String pageSize, MyHttp.ResultCallback<ResFuKuanList>... callback) {
 
         MyHttp<ResFuKuanList> http = new MyHttp<>(ResFuKuanList.class);
         http.put("accountId", accountId);
@@ -961,8 +854,7 @@ public class API {
         http.put("pageSize", pageSize);
 
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_ADMIN_FUKUAN_LIST);
     }
 
@@ -972,18 +864,14 @@ public class API {
      * @param versionCode:版本号
      * @param callback
      */
-    public static void getAdminCuikuan(
-            String accountId,
-            String planIds,
-            MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void getAdminCuikuan(String accountId, String planIds, MyHttp.ResultCallback<BaseRes>... callback) {
 
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
         http.put("planIds", planIds);
 
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_ADMIN_CUI_KUAN);
     }
 
@@ -993,13 +881,7 @@ public class API {
      * @param versionCode:版本号
      * @param callback
      */
-    public static void getRepariList(
-            String accountId,
-            String userType,
-            String repairState,
-            String pageNo,
-            String pageSize,
-            MyHttp.ResultCallback<ResGetRepairList>... callback) {
+    public static void getRepariList(String accountId, String userType, String repairState, String pageNo, String pageSize, MyHttp.ResultCallback<ResGetRepairList>... callback) {
 
         MyHttp<ResGetRepairList> http = new MyHttp<>(ResGetRepairList.class);
         http.put("accountId", accountId);
@@ -1014,8 +896,7 @@ public class API {
         http.put("pageSize", pageSize);
 
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_REPAIR_LIST);
     }
 
@@ -1024,12 +905,7 @@ public class API {
      *
      * 批量巡检
      * */
-    public static void repairFeedbackBatch(String accountId,
-                                           String repairId,
-                                           String fileName,
-                                           String remarks,
-                                           String repairType,
-                                           MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void repairFeedbackBatch(String accountId, String repairId, String fileName, String remarks, String repairType, MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
         http.put("accountId", accountId);
         http.put("repairId", repairId);
@@ -1038,20 +914,11 @@ public class API {
         http.put("fileName", fileName);
         http.put("repairType", repairType);
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_REPAIRBACKBATCH);
     }
 
-    public static void GetInspAdsType(String accountId,
-                                      String taskState,
-                                      String stationId,
-                                      String locationId,
-                                      String florid,
-                                      String regionId,
-                                      String marshallingId,
-                                      String trainType,
-                                      MyHttp.ResultCallback<ResInspAdsType>... callback) {
+    public static void GetInspAdsType(String accountId, String taskState, String stationId, String locationId, String florid, String regionId, String marshallingId, String trainType, MyHttp.ResultCallback<ResInspAdsType>... callback) {
         MyHttp<ResInspAdsType> http = new MyHttp<>(ResInspAdsType.class);
 
 
@@ -1063,17 +930,14 @@ public class API {
         http.put("regionId", regionId);
         http.put("marshallingId", marshallingId);
         http.put("trainType", trainType);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_GET_INSP_TYPE);
     }
 
-    public static void GetInspFault(String mediatype,
-                                    MyHttp.ResultCallback<GetInspRange>... callback) {
+    public static void GetInspFault(String mediatype, MyHttp.ResultCallback<GetInspRange>... callback) {
         MyHttp<GetInspRange> http = new MyHttp<>(GetInspRange.class);
         http.put("mediatype", mediatype);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_GET_MY_INSP_fault);
     }
 
@@ -1081,15 +945,7 @@ public class API {
      *
      * 批量巡检
      * */
-    public static void inspRepair(String accountId,
-                                  String ids,
-                                  String fileName,
-                                  String remarks,
-                                  String repairPersonnel,
-                                  String viewStaff,
-                                  String faultType,
-                                  String mediaNumber,
-                                  MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void inspRepair(String accountId, String ids, String fileName, String remarks, String repairPersonnel, String viewStaff, String faultType, String mediaNumber, MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
 
 
@@ -1103,8 +959,7 @@ public class API {
         http.put("viewStaff", viewStaff);
         http.put("faultType", faultType);
         http.put("mediaNumber", mediaNumber);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_repair);
     }
 
@@ -1112,15 +967,7 @@ public class API {
      *
      * 添加巡检轨迹
      * */
-    public static void addTrajectory(String accountId,
-                                     String name,
-                                     String stationId,
-                                     String florid,
-                                     String locationId,
-                                     String regionId,
-                                     String marshallingId,
-                                     String trainType,
-                                     MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void addTrajectory(String accountId, String name, String stationId, String florid, String locationId, String regionId, String marshallingId, String trainType, MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
 
         http.put("accountId", accountId);
@@ -1132,8 +979,7 @@ public class API {
         http.put("marshallingId", marshallingId);
         http.put("trainType", trainType);
 
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_addTrajectory);
     }
 
@@ -1142,15 +988,23 @@ public class API {
      *
      * 添加巡检轨迹
      * */
-    public static void getTrajectoryList(String accountId,
-                                         String stationId,
-                                     MyHttp.ResultCallback<ResGetTrajectory>... callback) {
+    public static void getTrajectoryList(String accountId, String stationId, MyHttp.ResultCallback<ResGetTrajectory>... callback) {
         MyHttp<ResGetTrajectory> http = new MyHttp<>(ResGetTrajectory.class);
 
         http.put("accountId", accountId);
         http.put("stationId", stationId);
-        if (callback.length > 0)
-            http.ResultCallback(callback[0]);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_trajectoryList);
+    }
+
+    /*
+     *
+     * 添加巡检轨迹
+     * */
+    public static void getInspNum(String accountId, MyHttp.ResultCallback<BaseRes>... callback) {
+        MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
+        http.put("accountId", accountId);
+        if (callback.length > 0) http.ResultCallback(callback[0]);
+        http.post(API.URL_INSP_num);
     }
 }

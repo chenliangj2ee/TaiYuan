@@ -79,8 +79,10 @@ public class InspTaskListFragment extends MyBaseFragment implements View.OnClick
     public int initViewId() {
         return R.layout.insp_index_task_list;
     }
-    int downY=0;
+
+    int downY = 0;
     int upY;
+
     @Override
     public void initView() {
         listview = (ListView) rootView.findViewById(R.id.listview);
@@ -94,6 +96,16 @@ public class InspTaskListFragment extends MyBaseFragment implements View.OnClick
         container = (FrameLayout) rootView.findViewById(R.id.container);
         refresh = (PtrClassicFrameLayout) rootView.findViewById(R.id.refresh);
         refresh.disableWhenHorizontalMove(true);
+
+        if (EventInspFilter.event != null) {
+
+            stationId = EventInspFilter.event.getStationId();
+            locationId = EventInspFilter.event.getLocationId();
+            floorId = EventInspFilter.event.getFloorId();
+            regionId = EventInspFilter.event.getRegionId();
+            marshallingId = EventInspFilter.event.getTrainNo();
+            trainType = EventInspFilter.event.getTrain();
+        }
         refresh.setPtrHandler(new PtrDefaultHandler2() {
 
             @Override
@@ -137,59 +149,45 @@ public class InspTaskListFragment extends MyBaseFragment implements View.OnClick
 
 
         listview.setSelection(0);
-        if(stationId==null||"".equals(stationId))
-            return ;
+        if (stationId == null || "".equals(stationId)) return;
         refresh(refresh);
     }
 
 
     private void taskListHttpYes(int num) {
 
-        if((stationId==null||"".equals(stationId))&&(trainType==null||"".equals(trainType)))
-            return ;
-
-        if (MySp.getUser(getContext()) == null)
+        if ((stationId == null || "".equals(stationId)) && (trainType == null || "".equals(trainType)))
             return;
-        API.getMyInspList(MySp.getUser(getContext()).getAccountId(),
-                inspState,
-                num + "",
-                pageSize,
-                stationId,
-                locationId,
-                floorId,
-                regionId,
-                mediatypeId,
-                marshallingId,
-                trainType,
-                new MyHttp.ResultCallback<ResGetInspList>() {
-                    @Override
-                    public void onSuccess(ResGetInspList res) {
-                        refresh.refreshComplete();
 
-                        if (res.getCode() == 0 || res.getCode() == 1) {
+        if (MySp.getUser(getContext()) == null) return;
+        API.getMyInspList(MySp.getUser(getContext()).getAccountId(), inspState, num + "", pageSize, stationId, locationId, floorId, regionId, mediatypeId, marshallingId, trainType, new MyHttp.ResultCallback<ResGetInspList>() {
+            @Override
+            public void onSuccess(ResGetInspList res) {
+                refresh.refreshComplete();
 
-                            if (res.getCode() == 1) {
-                                MyToast.showMessage(getContext(), res.getMessage());
-                            }
-                            if (pageNum == 0)
-                                beans.clear();
-                            pageNum++;
-                            beans.addAll(res.getData());
+                if (res.getCode() == 0 || res.getCode() == 1) {
 
-                        }
+                    if (res.getCode() == 1) {
+                        MyToast.showMessage(getContext(), res.getMessage());
+                    }
+                    if (pageNum == 0) beans.clear();
+                    pageNum++;
+                    beans.addAll(res.getData());
+
+                }
 
 //                        if(beans.size()==0)
 //                            MyToast.showMessage(getContext(),"无数据");
 
-                        adapter.notifyDataSetChanged();
-                    }
+                adapter.notifyDataSetChanged();
+            }
 
-                    @Override
-                    public void onError(String message) {
-                        refresh.refreshComplete();
-                        MyToast.showMessage(getContext(), "系统异常");
-                    }
-                });
+            @Override
+            public void onError(String message) {
+                refresh.refreshComplete();
+                MyToast.showMessage(getContext(), "系统异常");
+            }
+        });
 
     }
 
@@ -269,9 +267,8 @@ public class InspTaskListFragment extends MyBaseFragment implements View.OnClick
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void EventInspFilter(EventInspFilter event) {
 
-        if(event.isHistory)
-            return ;
-
+        if (event.isHistory) return;
+        EventInspFilter.event = event;
         stationId = event.getStationId();
         locationId = event.getLocationId();
         floorId = event.getFloorId();
@@ -285,13 +282,15 @@ public class InspTaskListFragment extends MyBaseFragment implements View.OnClick
         refresh(refresh);
 
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void EventRefreshInspList(EventRefreshInspList event) {
         pageNum = 0;
         taskListHttpYes(pageNum);
     }
-    public void refresh(String mediatypeId){
-        this.mediatypeId=mediatypeId;
+
+    public void refresh(String mediatypeId) {
+        this.mediatypeId = mediatypeId;
         pageNum = 0;
         taskListHttpYes(pageNum);
     }

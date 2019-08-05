@@ -15,6 +15,8 @@ public class EventInspFilter {
     public String locationName = "";
     public String regionName = "";
 
+    public static EventInspFilter event;
+
     public String getStationName() {
         return stationName;
     }

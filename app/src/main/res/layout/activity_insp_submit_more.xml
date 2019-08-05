@@ -33,6 +33,7 @@
             android:textSize="20sp" />
 
         <Button
+            android:id="@+id/submit_action"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_gravity="right|center"

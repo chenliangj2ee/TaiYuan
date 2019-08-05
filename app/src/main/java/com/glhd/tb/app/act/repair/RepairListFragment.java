@@ -15,6 +15,7 @@ import com.glhd.tb.app.adapter.ItemInspHistoryAdapter;
 import com.glhd.tb.app.adapter.ItemRepairListAdapter;
 import com.glhd.tb.app.base.MyBaseFragment;
 import com.glhd.tb.app.base.bean.BeanRepair;
+import com.glhd.tb.app.base.bean.BeanUser;
 import com.glhd.tb.app.event.EventRefreshRepairList;
 import com.glhd.tb.app.http.MyHttp;
 import com.glhd.tb.app.http.res.ResGetRepairList;
@@ -94,7 +95,16 @@ public class RepairListFragment extends MyBaseFragment {
 
     private void getRepairList(final int p) {
 
-        API.getRepariList(accountId, MySp.getUser(getContext()).getType(), type == -1 ? null : type + "", p + "", pageSize + "",
+
+        String userType="";
+        BeanUser user=MySp.getUser(getContext());
+        if(user.getType().contains(",")){
+            userType=user.getCurType();
+        }else{
+            userType=user.getType();
+        }
+
+        API.getRepariList(accountId, userType, type == -1 ? null : type + "", p + "", pageSize + "",
                 new MyHttp.ResultCallback<ResGetRepairList>() {
                     @Override
                     public void onSuccess(ResGetRepairList res) {

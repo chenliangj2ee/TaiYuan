@@ -2,11 +2,14 @@ package com.glhd.tb.app.act;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.setting.a.BxCore;
 import com.glhd.tb.app.API;
@@ -87,7 +90,7 @@ public class LoginActivity extends BaseActivity {
         }
 
 //        getIp(accountStr, passwordStr, phoneStr);
-        loginHttp(accountStr, passwordStr,phoneStr);
+        loginHttp(accountStr, passwordStr, phoneStr);
     }
 
     /**
@@ -96,12 +99,12 @@ public class LoginActivity extends BaseActivity {
      * @param account
      * @param password
      */
-    private void loginHttp(final String account, String password,String phoneStr) {
+    private void loginHttp(final String account, String password, String phoneStr) {
         pd = new ProgressDialog(this);
         pd.setMessage("正在登录...");
 
         pd.show();
-        API.login(account, MyMd5.md5(password),phoneStr, new MyHttp.ResultCallback<ResLogin>() {
+        API.login(account, MyMd5.md5(password), phoneStr, new MyHttp.ResultCallback<ResLogin>() {
             @Override
             public void onSuccess(ResLogin res) {
                 pd.dismiss();
@@ -129,7 +132,7 @@ public class LoginActivity extends BaseActivity {
         classMap.put("U01", AdminActivity.class);//管理端
         classMap.put("U02", MainInspectionActivity.class);//巡检端
         classMap.put("U03", MainCustomerActivity.class);//客户端
-        classMap.put("U04", RepairIndexActivity.class);
+        classMap.put("U04", RepairIndexActivity.class);//维修员
         classMap.put("U05", InspIndexActivity.class);//巡检端
         classMap.put("U06", SelectStationActivity.class);//巡检端
 
@@ -154,15 +157,7 @@ public class LoginActivity extends BaseActivity {
      * 检查权限
      */
     private void permission() {
-        RxPermissions.getInstance(this).request(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-        ).subscribe(new Action1<Boolean>() {
+        RxPermissions.getInstance(this).request(Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
             @Override
             public void call(Boolean granted) {
             }
@@ -180,16 +175,39 @@ public class LoginActivity extends BaseActivity {
 
     private void toMain(BeanUser user) {
         if (classMap.get(user.getType()) == null) {
-            MyToast.showMessage(this, "登录异常：不存在该登录账号类型");
+
+            if (user.getType().contains(",")) {
+                if (user.getCurType() == null) {
+                    dialogChoice(user);
+                } else {
+                    Intent intent = new Intent(this, classMap.get(user.getCurType()));
+                    intent.putExtra("fromActivity", getClass().getSimpleName());
+                    intent.putExtra("nodate", true);
+                    startActivity(intent);
+                    user.setLogin(true);
+                    MySp.setUser(LoginActivity.this, user);//缓存用户信息
+                    finish();
+                }
+
+            } else {
+                MyToast.showMessage(this, "登录异常：不存在该登录账号类型");
+            }
         } else {
 //            startActivity(classMap.get(user.getType()));
-            Intent intent = new Intent(this, classMap.get(user.getType()));
-            intent.putExtra("fromActivity", getClass().getSimpleName());
-            intent.putExtra("nodate", true);
-            startActivity(intent);
-            user.setLogin(true);
-            MySp.setUser(LoginActivity.this, user);//缓存用户信息
-            finish();
+
+            if (user.getType().contains(",")) {
+                dialogChoice(user);
+            } else {
+                Intent intent = new Intent(this, classMap.get(user.getType()));
+                intent.putExtra("fromActivity", getClass().getSimpleName());
+                intent.putExtra("nodate", true);
+                startActivity(intent);
+                user.setLogin(true);
+                MySp.setUser(LoginActivity.this, user);//缓存用户信息
+                finish();
+            }
+
+
         }
 
     }
@@ -212,7 +230,7 @@ public class LoginActivity extends BaseActivity {
                     MySp.putString(getApplicationContext(), "projectname", projectname);
 
                     API.init(ip, port, projectname);
-                    loginHttp(account, pass,phone);
+                    loginHttp(account, pass, phone);
                 } else {
                     MyToast.showMessage(getApplicationContext(), res.getMessage());
                     pd.dismiss();
@@ -227,5 +245,48 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+
+    public void dialogChoice(final BeanUser user) {
+        HashMap<String, String> maps = new HashMap<>();
+        maps.put("U01", "管理员");
+        maps.put("U02", "巡检员");
+        maps.put("U03", "客户");
+        maps.put("U04", "维修员");
+        maps.put("U05", "巡检员");
+        maps.put("U06", "巡检员");
+
+
+        final String[] ts = user.getType().split(",");
+
+
+        String[] titles = new String[ts.length];
+
+        for (int i = 0; i < ts.length; i++) {
+            titles[i] = maps.get(ts[i]);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
+        TextView title = new TextView(this);
+        title.setPadding(20,20,20,0);
+        title.setText("您当前有" + user.getInspNum() + "项巡检任务，" + user.getRepairNum() + "项维修任务，请选择要完成的任务。\n");
+        builder.setCustomTitle(title);
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setSingleChoiceItems(titles, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(LoginActivity.this, classMap.get(ts[which]));
+                intent.putExtra("fromActivity", getClass().getSimpleName());
+                intent.putExtra("nodate", true);
+                startActivity(intent);
+                user.setLogin(true);
+                user.setCurType(ts[which]);
+                MySp.setUser(LoginActivity.this, user);//缓存用户信息
+                finish();
+            }
+        });
+
+        builder.create().show();
+    }
 }
 

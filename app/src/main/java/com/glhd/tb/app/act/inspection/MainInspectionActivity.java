@@ -28,6 +28,7 @@ import java.util.HashMap;
 
 public class MainInspectionActivity extends BaseActivity {
 
+    private boolean isSelect;
     private HashMap<String, Fragment> fs = new HashMap<>();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,7 +46,7 @@ public class MainInspectionActivity extends BaseActivity {
      * 2、默认打开wifi Tab
      */
     private void initFragment() {
-        InspRangeActivity.isSelect = false;
+        InspRangeActivity.isSelect = isSelect;
         fs.put("巡检", new IndexFragment());
         fs.put("历史", new InspHistoryFragment());
         fs.put("我的", new MyFragment());
@@ -62,6 +63,7 @@ public class MainInspectionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_inspection);
 
+        isSelect=getIntent().getBooleanExtra("isSelect",false);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         disableShiftMode(navigation);

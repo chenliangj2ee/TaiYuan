@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.glhd.tb.app.API;
@@ -30,17 +27,14 @@ import com.glhd.tb.app.http.MyHttpManager;
 import com.glhd.tb.app.http.res.ResGetRepair;
 import com.glhd.tb.app.http.res.ResUpload;
 import com.glhd.tb.app.utils.MyImage;
-import com.glhd.tb.app.utils.MyLog;
 import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
-import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import me.nereo.multi_image_selector.Multi;
@@ -69,6 +63,7 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
     public static String id;
     protected LinearLayout repairLayout;
     private String address;
+    private Button submitAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,6 +247,7 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
                 new MyHttp.ResultCallback<BaseRes>() {
                     @Override
                     public void onSuccess(BaseRes res) {
+                        submitAction.setEnabled(true);
                         if (res.getCode() == 0) {
                             MyToast.showMessage(InspSubmitMoreActivity.this, "反馈成功");
                             InspSubmitMoreActivity.success = true;
@@ -270,6 +266,7 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
 
                     @Override
                     public void onError(String message) {
+                        submitAction.setEnabled(true);
                         dialog.dismiss();
                         MyToast.showMessage(InspSubmitMoreActivity.this, "反馈失败，请稍后再试");
                     }
@@ -277,6 +274,7 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
     }
 
     private void initView() {
+        submitAction=findViewById(R.id.submit_action);
         repairUser = (TextView) findViewById(R.id.repair_user);
         notiUser = (TextView) findViewById(R.id.noti_user);
         adsSize = findViewById(R.id.ads_size);
@@ -302,6 +300,7 @@ public class InspSubmitMoreActivity extends BaseActivity implements View.OnClick
     }
 
     public void submitAction(View view) {
+        submitAction.setEnabled(false);
         if (iconStrs.isEmpty()) {
 //            MyToast.showMessage(this, "请添加照片");
             inspFeedback(uploadUrls);

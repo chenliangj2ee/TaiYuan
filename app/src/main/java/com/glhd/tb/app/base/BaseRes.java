@@ -16,7 +16,26 @@ public class BaseRes implements Serializable {
     private String availableNum = "0";
     private String notUpAdsNum = "0";
     private String vacantPercent = "0";
+    private int inspNum = 0;
+    private int repairNum = 0;
 
+
+
+    public int getInspNum() {
+        return inspNum;
+    }
+
+    public void setInspNum(int inspNum) {
+        this.inspNum = inspNum;
+    }
+
+    public int getRepairNum() {
+        return repairNum;
+    }
+
+    public void setRepairNum(int repairNum) {
+        this.repairNum = repairNum;
+    }
 
     public int getCode() {
         if (dataDebug) {

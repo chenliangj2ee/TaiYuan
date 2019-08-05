@@ -32,6 +32,7 @@ import com.glhd.tb.app.http.res.ResUpgrade;
 import com.glhd.tb.app.utils.MyLog;
 import com.glhd.tb.app.utils.MySp;
 import com.jaeger.library.StatusBarUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,6 +83,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        MobclickAgent.onResume(this);
         log(TAG + " onResume-------------------------------------------------------------------");
         super.onResume();
     }
@@ -90,6 +92,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         log(TAG + " onPause-------------------------------------------------------------------");
         super.onPause();
+        MobclickAgent.onPause(this);
     }
 
 

@@ -105,8 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="25sp">
+                android:layout_marginRight="15dp" >
 
                 <TextView
                     android:id="@+id/conpany"
@@ -130,27 +129,27 @@
                 <Button
                     android:id="@+id/insp_history"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/selector_login_button"
                     android:onClick="inspHistoryAction"
                     android:text="巡检历史"
-                    android:visibility="gone"
-                    android:textColor="#fff" />
+                    android:textColor="#fff"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/repair_history"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/selector_login_button"
                     android:onClick="repairHistoryAction"
                     android:text="维修历史"
-                    android:visibility="gone"
-                    android:textColor="#fff" />
+                    android:textColor="#fff"
+                    android:visibility="gone" />
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/selector_login_button"
                     android:onClick="userInfoAction"
@@ -159,13 +158,48 @@
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/selector_login_button"
                     android:onClick="resetPasswordAction"
                     android:text="密码设置"
                     android:textColor="#fff" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#bbb" />
+
+                <LinearLayout
+                    android:id="@+id/more_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="转巡检"
+                        android:textColor="#c1b72d" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="1px"
+                        android:background="#c1b72d"
+                        android:text="转巡检"
+                        android:textColor="#00000000" />
+
+                    <TextView
+                        android:id="@+id/num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="dddd"
+                        android:textSize="10sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by chenliangj2ee on 2018/5/3.
  */
 
-public class BeanUser implements Serializable{
+public class BeanUser implements Serializable {
 
 
     /**
@@ -18,15 +18,42 @@ public class BeanUser implements Serializable{
      * remarks :
      */
 
-    private String accountId="";
-    private String account="";
-    private String type="";
-    private String name="";
-    private String phone="";
-    private String loginPhone="";
-    private String company="";
-    private String remarks="";
+    private String accountId = "";
+    private String account = "";
+    private String type = "";
+    private String name = "";
+    private String phone = "";
+    private String loginPhone = "";
+    private String company = "";
+    private String remarks = "";
     private boolean isLogin;
+    private String curType;
+    private int inspNum = 0;
+    private int repairNum = 0;
+
+    public String getCurType() {
+        return curType;
+    }
+
+    public int getInspNum() {
+        return inspNum;
+    }
+
+    public void setInspNum(int inspNum) {
+        this.inspNum = inspNum;
+    }
+
+    public int getRepairNum() {
+        return repairNum;
+    }
+
+    public void setRepairNum(int repairNum) {
+        this.repairNum = repairNum;
+    }
+
+    public void setCurType(String curType) {
+        this.curType = curType;
+    }
 
     public String getLoginPhone() {
         return loginPhone;
