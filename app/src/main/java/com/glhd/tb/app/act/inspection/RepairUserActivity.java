@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 /**
- * 巡检反馈
+ * 巡检反馈 通知人选项
  */
 public class RepairUserActivity extends BaseActivity {
 

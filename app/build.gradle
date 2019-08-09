@@ -5,7 +5,7 @@ android {
         config {
             keyAlias '111111'
             keyPassword '111111'
-            storeFile file('D:/workspace_company/as/TaiYuan/keystore.jks')
+            storeFile file('D:/workspace_company/TaiYuan/keystore.jks')
             storePassword '111111'
         }
     }
@@ -67,4 +67,12 @@ dependencies {
     implementation files('libs/bxSdk.jar')
     compile  'com.umeng.umsdk:analytics:7.5.4'
     compile  'com.umeng.umsdk:common:1.5.4'
+
+    implementation 'com.facebook.network.connectionclass:connectionclass:1.0.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+    implementation 'com.squareup.okio:okio:1.7.0'
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'com.danikula:videocache:2.7.0'
+    testImplementation 'junit:junit:4.12'
 }

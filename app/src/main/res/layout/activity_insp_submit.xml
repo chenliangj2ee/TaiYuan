@@ -9,8 +9,8 @@
 
     <EditText
         android:layout_width="0dp"
-        android:focusable="false"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:focusable="false" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -94,60 +94,78 @@
                     android:textColor="#343434"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/advert_icon2"
+                <!--<ImageView-->
+                    <!--android:id="@+id/advert_icon2"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="#eee" />-->
+
+                <com.glhd.tb.app.view.banner.Banner
+                    android:id="@+id/advert_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="#eee" />
+                    android:layout_height="300dp"
+                    android:visibility="gone"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/coding"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#fff"
-                        android:gravity="center_vertical"
-                        android:padding="3dp"
-                        android:text="媒体编码：xxxx-xxxx-x"
-                        android:textColor="#343434"
-                        android:textSize="16sp" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/propery_station"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#fff"
-                        android:gravity="center_vertical"
-                        android:padding="3dp"
-                        android:text="所属车站"
-                        android:textColor="#343434"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/coding"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#fff"
+                            android:padding="3dp"
+                            android:text="媒体编码：xxxx-xxxx-x"
+                            android:textColor="#343434"
+                            android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/size_num"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#fff"
-                        android:gravity="center_vertical"
-                        android:padding="3dp"
-                        android:text="灯箱大小300*300   8个"
-                        android:textColor="#343434"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/size_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:background="#fff"
+                            android:padding="3dp"
+                            android:text="灯箱大小300*300   8个"
+                            android:textColor="#343434"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/location"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#fff"
-                        android:gravity="center_vertical"
-                        android:padding="3dp"
-                        android:text="西安北站-宝鸡南站-东侧墙面"
-                        android:textColor="#343434"
-                        android:textSize="14sp" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/propery_station"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#fff"
+                            android:gravity="center_vertical"
+                            android:padding="3dp"
+                            android:text="所属车站"
+                            android:textColor="#343434"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:background="#fff"
+                            android:padding="3dp"
+                            android:text="西安北站-宝鸡南站-东侧墙面"
+                            android:textColor="#343434"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
 
                     <TextView
@@ -237,6 +255,7 @@
                         android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:onClick="startCapture"
                         android:src="@drawable/camera" />
 
                     <TextView
@@ -258,7 +277,6 @@
                 </LinearLayout>
 
 
-
             </FrameLayout>
 
             <View
@@ -273,28 +291,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/repair_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/selector_fu_kuan_bg"
                     android:onClick="SelectRepairUserAction"
                     android:padding="10dp"
                     android:text="维修人：" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#bbbbbb" />
 
                 <TextView
                     android:id="@+id/noti_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/selector_fu_kuan_bg"
                     android:onClick="SelectNotiUserAction"
                     android:padding="10dp"
                     android:text="通知人：" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#bbbbbb" />
             </LinearLayout>
 
 
@@ -309,6 +334,7 @@
                     android:id="@+id/remarks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/selector_fu_kuan_bg"
                     android:gravity="top"
                     android:hint="备注"

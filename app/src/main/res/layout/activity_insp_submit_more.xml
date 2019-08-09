@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="巡检反馈"
+            android:text="巡检登记"
             android:textColor="#343434"
             android:textSize="20sp" />
 
@@ -74,7 +74,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="10dp"
+                android:textSize="12dp"
+                android:paddingBottom="10dp"
                 android:text="共计0个媒体" />
 
             <GridView
@@ -122,6 +123,7 @@
                         android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:onClick="startCapture"
                         android:src="@drawable/camera" />
 
                     <TextView

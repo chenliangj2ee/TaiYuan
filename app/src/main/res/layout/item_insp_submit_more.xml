@@ -5,7 +5,8 @@
     android:background="#fff"
     android:orientation="vertical">
 
-    <TextView
+    <CheckBox
+        android:button="@null"
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

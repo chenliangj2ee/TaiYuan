@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.glhd.tb.app">
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- 支持多种屏幕 -->
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -29,6 +39,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
+
+    <!-- 录音 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:name=".MyApp"
@@ -69,6 +89,7 @@
         <activity android:name=".act.inspection.InspRangeActivity" />
         <activity android:name=".act.inspection.InspRepairActivity" />
         <activity android:name=".act.inspection.InspRepairIListActivity" />
+        <activity android:name=".camera.CameraActivity" />
         <activity
             android:name=".act.inspection.NotiUserActivity"
             android:theme="@style/transparent" />
@@ -79,6 +100,26 @@
         <activity android:name=".act.repair.RepariInfoActivity" />
         <activity android:name=".act.ImageActivity" />
         <activity android:name=".act.inspection.InspSubmitInfoActivity" />
+        <!--巡检端 拍照 录制视频-->
+        <!--5.0一下使用-->
+        <activity
+            android:name=".camera.activity.CaptureImageVideoActivity"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleBarForVideo"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!--5.0以上使用-->
+        <activity
+            android:name=".camera.activity.VideoCameraActivity"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleBarForVideo"
+            android:windowSoftInputMode="adjustPan" />
+
+
         <!--客户端-->
         <activity android:name=".act.customer.MainCustomerActivity" />
         <activity android:name=".act.customer.ContractListActivity" />
@@ -118,7 +159,16 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="07QSNGaHGVaoGGorOH5mPPdiEKk3ZGcG" />  <!-- http://lbsyun.baidu.com/apiconsole/key -->
 
-
+        <!-- 提供文件访问，android7.0之后访问文件目录需要 -->
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="com.glhd.tb.app.fileprovider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/provider_paths" />-->
+        <!--</provider>-->
     </application>
 
 </manifest>

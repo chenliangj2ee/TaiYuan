@@ -20,7 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 /**
- * 巡检反馈
+ * 巡检反馈  维修人选项
  */
 public class NotiUserActivity extends BaseActivity {
 

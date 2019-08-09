@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,9 +43,28 @@ public class TreeViewLayout extends LinearLayout {
         View currentView= View.inflate(getContext(),R.layout.layout_tree,null);
         TextView textView=currentView.findViewById(R.id.textview);
         final CheckBox checkBox=currentView.findViewById(R.id.checkbox);
+        if (checkBox.isChecked()){
+            checkBox.setChecked(true);
+        }
+//        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if (b){
+//                    checkBox.setChecked(b);
+//                }
+//                if(listener!=null){
+//                    data.setCheck(checkBox.isChecked());
+//                    listener.click(data);
+//                }
+//            }
+//        });
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                CheckBox checkBox1= (CheckBox) view;
+//                if (checkBox1.isChecked()){
+//                    checkBox.setChecked(true);
+//                }
                     if(listener!=null){
                         data.setCheck(checkBox.isChecked());
                         listener.click(data);

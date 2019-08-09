@@ -45,17 +45,19 @@ public class API {
 
     //47.104.81.230:8901外网
     //192.168.1.114:8080内网
+    //192.168.1.115:8080内网（测试常用）
 
 //    public static String MAIN_IP = "192.168.1.114:8080";
 
-//    /**
-//     * 内网
-//     */
+    /**
+     * 内网
+     */
 //    public static String IP = "192.168.1.189:8080";
+//    public static String IP = "192.168.1.115:8080";
 //    public static String HOST_IMAGE = "http://" + IP + "/advertpublication";
 //    public static String HOST = "http://" + IP + "/advertpublication/admin/app";
 
-//
+
     public static String IP = "ad.12306.cn";
     public static String HOST_IMAGE = "";
     public static String HOST = "http://ad.12306.cn/app/advertpublication/admin/app";

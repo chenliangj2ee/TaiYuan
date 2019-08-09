@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="巡检报修"
+            android:text="巡检报修登记"
             android:textColor="#343434"
             android:textSize="20sp" />
 
@@ -89,8 +89,8 @@
                 android:gravity="center"
                 android:onClick="faultAction"
                 android:padding="10dp"
-                android:visibility="gone"
-                android:text="请选择故障类型" />
+                android:text="请选择故障类型"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/fault_num"
@@ -136,6 +136,7 @@
                         android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:gravity="center"
+                        android:onClick="startCapture"
                         android:src="@drawable/camera" />
 
                     <TextView

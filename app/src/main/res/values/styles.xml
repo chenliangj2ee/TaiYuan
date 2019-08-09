@@ -40,5 +40,19 @@
         <item name="android:taskToBackEnterAnimation">@null</item>
         <item name="android:taskToBackExitAnimation">@null</item>
     </style>
-
+    <style name="NoTitleBarForVideo" parent="android:Theme.NoTitleBar">
+        <item name="android:windowAnimationStyle">@style/activity_push_fade</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="activity_push_fade">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_new</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_back</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_finish</item>
+        <item name="android:taskOpenEnterAnimation">@anim/activity_new</item>
+        <item name="android:taskOpenExitAnimation">@anim/activity_out</item>
+        <item name="android:taskCloseEnterAnimation">@anim/activity_back</item>
+        <item name="android:taskCloseExitAnimation">@anim/activity_finish</item>
+    </style>
 </resources>

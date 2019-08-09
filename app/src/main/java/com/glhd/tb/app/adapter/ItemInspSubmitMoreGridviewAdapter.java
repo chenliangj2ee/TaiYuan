@@ -1,15 +1,19 @@
 package com.glhd.tb.app.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.glhd.tb.app.R;
+import com.glhd.tb.app.camera.jcamera.util.FileUtil;
 import com.glhd.tb.app.utils.MyImage;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
@@ -18,7 +22,7 @@ public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private boolean showDelete=true;
+    private boolean showDelete = true;
     private String defaultIcon;
 
     public ItemInspSubmitMoreGridviewAdapter(Context context, ArrayList<String> objects) {
@@ -35,8 +39,8 @@ public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
         this.defaultIcon = defaultIcon;
     }
 
-    public void setShowDelete(boolean showDelete){
-        this.showDelete=showDelete;
+    public void setShowDelete(boolean showDelete) {
+        this.showDelete = showDelete;
     }
 
     @Override
@@ -67,9 +71,14 @@ public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
     private void initializeViews(final String object, ViewHolder holder) {
         MyImage.loadFile(context, object, holder.icon);
 
-        if(object.endsWith(".mp4")){
-            MyImage.loadFile(context, defaultIcon+"", holder.icon);
-        }else{
+        if (object.endsWith(".mp4")) {
+//            MyImage.loadFile(context, defaultIcon + "", holder.icon);
+            //视频缩略图
+            Glide.with(context)
+                    .load(Uri.fromFile(new File(object)))
+                    .into(holder.icon);
+
+        } else {
             MyImage.loadFile(context, object, holder.icon);
         }
 
@@ -81,7 +90,7 @@ public class ItemInspSubmitMoreGridviewAdapter extends BaseAdapter {
             }
         });
 
-        if(showDelete==false){
+        if (showDelete == false) {
             holder.delete.setVisibility(View.GONE);
         }
     }
