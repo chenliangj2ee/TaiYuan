@@ -29,8 +29,8 @@ android {
         }
     }
 
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDir 'libs'
             jni.srcDirs = []    //disable automatic ndk-build
         }
@@ -65,8 +65,8 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
     implementation files('libs/IndoorscapeAlbumPlugin.jar')
     implementation files('libs/bxSdk.jar')
-    compile  'com.umeng.umsdk:analytics:7.5.4'
-    compile  'com.umeng.umsdk:common:1.5.4'
+    compile 'com.umeng.umsdk:analytics:7.5.4'
+    compile 'com.umeng.umsdk:common:1.5.4'
 
     implementation 'com.facebook.network.connectionclass:connectionclass:1.0.1'
     implementation 'com.squareup.okhttp3:okhttp:3.2.0'

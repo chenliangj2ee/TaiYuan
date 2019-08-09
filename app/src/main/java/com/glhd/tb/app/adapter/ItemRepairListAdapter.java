@@ -56,40 +56,40 @@ public class ItemRepairListAdapter extends BaseAdapter {
 
     private void initializeViews(BeanRepair b, ViewHolder h) {
 
-        if(b.getWhSize()==null||"".equals(b.getWhSize())){
-            h.coding.setText(""+b.getCoding());
-        }else{
+//        if(b.getWhSize()==null||"".equals(b.getWhSize())){
+//            h.coding.setText(""+b.getCoding());
+//        }else{
+//
+//            h.coding.setText("编码："+b.getCoding());
+//        }
 
-            h.coding.setText("编码："+b.getCoding());
-        }
-
-
-        h.stationName.setText(b.getProperystation());
-        h.typeSize.setText(b.getMediatype()+"  数量:"+b.getMediaNumber());
-        h.location.setText(b.getMedialocation()+"  "+b.getMedialocationdescribe());
-
-        h.time.setText("巡检时间："+b.getInspTime());
-        MyImage.load(context,b.getImage(),h.advertIcon);
+//todo 保修历史 三种类型：车站单个保修 车站批量保修  列车巡检
+//        h.stationName.setText(b.getProperystation());
+////        h.typeSize.setText(b.getMediatype()+"  数量:"+b.getMediaNumber());
+//        h.location.setText(b.getMedialocation()+"  "+b.getMedialocationdescribe());
+//
+//        h.time.setText("巡检时间："+b.getInspTime());
 
     }
 
     protected class ViewHolder {
         private CheckBox avdentCheckbox;
-        private ImageView advertIcon;
-        private TextView coding;
+        private TextView stationPeople;
         private TextView stationName;
-        private TextView typeSize;
         private TextView location;
         private TextView time;
+        private TextView sum;
+        private TextView number;
 
         public ViewHolder(View view) {
             avdentCheckbox = (CheckBox) view.findViewById(R.id.avdent_checkbox);
-            advertIcon = (ImageView) view.findViewById(R.id.advert_icon);
-            coding = (TextView) view.findViewById(R.id.coding);
+
+            stationPeople = (TextView) view.findViewById(R.id.station_people);
             stationName = (TextView) view.findViewById(R.id.station_name);
-            typeSize = (TextView) view.findViewById(R.id.type_size);
             location = (TextView) view.findViewById(R.id.location);
             time = (TextView) view.findViewById(R.id.time);
+            sum = (TextView) view.findViewById(R.id.sum);
+            number = (TextView) view.findViewById(R.id.number);
         }
     }
 

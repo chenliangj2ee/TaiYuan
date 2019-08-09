@@ -111,7 +111,7 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    private String uploadUrl=null;
+    private String uploadUrl = null;
 
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -151,7 +151,7 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
         //未上传成功 不可操作
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        uploadCount=0;
+        uploadCount = 0;
         for (int i = 0; i < iconStrs.size(); i++) {
             final String url = iconStrs.get(i);
             API.upload(new File(url), new MyHttp.ResultCallback<ResUpload>() {
@@ -195,6 +195,7 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
      * */
     String repairPersonnel = null;
     String names = null;
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setRepairUser(ResGetRepair.DataBean.RepairPersonnelBean event) {
         repairPersonnel = null;
@@ -319,15 +320,15 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
 
     public void submitAction(View view) {
 
-        if (mediatypeId==null) {
+        if (mediatypeId == null) {
             MyToast.showMessage(this, "请选择媒体类型");
             return;
         }
-        if (faultId==null) {
+        if (faultId == null) {
             MyToast.showMessage(this, "请选择故障类型");
             return;
         }
-        if ("".equals(faultNum.getText().toString().trim()) ) {
+        if ("".equals(faultNum.getText().toString().trim())) {
             MyToast.showMessage(this, "请输入报修数量");
             return;
         }
@@ -335,16 +336,14 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
             MyToast.showMessage(this, "请添加照片");
             return;
         }
-        if ("".equals(repairPersonnel)||repairPersonnel==null ) {
+        if ("".equals(repairPersonnel) || repairPersonnel == null) {
             MyToast.showMessage(this, "请选择维修人");
             return;
         }
-        if ("".equals(viewStaff)||viewStaff==null) {
+        if ("".equals(viewStaff) || viewStaff == null) {
             MyToast.showMessage(this, "请选择通知人");
             return;
         }
-
-
 
 
         uploadIcon();
@@ -354,9 +353,13 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
     /**
      * 单选
      */
-    private int typeSelectPosi=-1;
+    private int typeSelectPosi = -1;
     private String mediatypeId;
 
+    /**
+     * 选择媒体类型
+     * @param v
+     */
     public void dialogChoice(View v) {
 
         for (int i = 0; i < spinners.size(); i++) {
@@ -383,6 +386,7 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
                         typeSelectPosi = which;
                         dialog.dismiss();
                         fault.setVisibility(View.VISIBLE);
+                        Log.i(TAG, "媒体类型 "+mediatypeId);
                         GetInspFault(mediatypeId);
                     }
                 });
@@ -411,13 +415,18 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
     /**
      * 单选
      */
-    private int faultSelectPosi=-1;
+    private int faultSelectPosi = -1;
     private String faultId;
-    boolean  itemsBoo[] ;
+    boolean itemsBoo[];
+
+    /**
+     * 选择故障类型
+     * @param v
+     */
     public void faultAction(View v) {
         final String items[] = new String[faultDatas.size()];
-        if(itemsBoo==null)
-            itemsBoo= new boolean[faultDatas.size()];
+        if (itemsBoo == null)
+            itemsBoo = new boolean[faultDatas.size()];
 
         for (int i = 0; i < faultDatas.size(); i++) {
             items[i] = faultDatas.get(i).getTitle();
@@ -428,27 +437,26 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
         builder.setMultiChoiceItems(items, itemsBoo, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                itemsBoo[i]=b;
-                faultId=null;
-                String title=null;
-                for(int in=0;in<itemsBoo.length;in++){
-                    if( itemsBoo[in]){
-                        if(faultId==null) {
+                itemsBoo[i] = b;
+                faultId = null;
+                String title = null;
+                for (int in = 0; in < itemsBoo.length; in++) {
+                    if (itemsBoo[in]) {
+                        if (faultId == null) {
                             faultId = faultDatas.get(in).getId();
-                            title=faultDatas.get(in).getTitle();
-                        }
-                        else{
-                            faultId=faultId+","+faultDatas.get(in).getId();
-                            title=title+","+faultDatas.get(in).getTitle();
+                            title = faultDatas.get(in).getTitle();
+                        } else {
+                            faultId = faultId + "," + faultDatas.get(in).getId();
+                            title = title + "," + faultDatas.get(in).getTitle();
                         }
 
 
                     }
                 }
 
-                if(title!=null){
+                if (title != null) {
                     fault.setText("故障类型：" + title);
-                }else{
+                } else {
                     fault.setText("请选择故障类型");
                 }
 
@@ -465,11 +473,16 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
 
         builder.create().show();
     }
-
+    /*
+      通知人
+       */
     public void SelectNotiUserAction(View view) {
         startActivity(new Intent(this, NotiUserActivity.class));
     }
 
+    /*
+    维修负责人
+     */
     public void SelectRepairUserAction(View view) {
         startActivity(new Intent(this, RepairUserActivity.class));
     }

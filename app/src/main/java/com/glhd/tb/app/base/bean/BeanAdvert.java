@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 
 public class BeanAdvert implements Serializable {
-
+//todo 后台缺少mediaId
     /**
      * id : 8728862
      * coding : BJNA-JANJA-KAL-KALL-LA005

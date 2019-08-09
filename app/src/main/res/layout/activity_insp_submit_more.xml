@@ -33,6 +33,7 @@
             android:textSize="20sp" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/submit_action"
             android:layout_width="60dp"
             android:layout_height="30dp"
@@ -68,15 +69,17 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="共计0个媒体" />
+                android:text="共计0个媒体"
+                android:textSize="16dp" />
+
             <TextView
                 android:id="@+id/ads_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="12dp"
                 android:paddingBottom="10dp"
-                android:text="共计0个媒体" />
+                android:text="共计0个媒体"
+                android:textSize="12dp" />
 
             <GridView
                 android:id="@+id/type_gridview"
@@ -94,8 +97,6 @@
                 android:layout_height="2px"
                 android:background="@drawable/selector_fkxq_line"
                 android:layerType="software" />
-
-
 
 
             <FrameLayout
@@ -197,13 +198,22 @@
                     android:id="@+id/remarks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/selector_fu_kuan_bg"
                     android:gravity="top"
                     android:minLines="3"
                     android:padding="10dp"
                     android:textColor="#888"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="批量巡检登记仅登记正常无问题媒体"
+                android:textSize="12dp" />
 
 
             <Button
@@ -215,7 +225,7 @@
                 android:onClick="submitAction"
                 android:text="提交"
                 android:textColor="#fff"
-                android:visibility="gone" />
+                />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

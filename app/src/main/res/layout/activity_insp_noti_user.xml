@@ -21,15 +21,14 @@
 
             <com.glhd.tb.app.view.TreeViewLayout
                 android:id="@+id/tree"
-
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#fff"
                 android:padding="20dp" />
 
             <LinearLayout
+                android:layout_marginBottom="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

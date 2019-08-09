@@ -11,6 +11,7 @@ import com.glhd.tb.app.API;
 import com.glhd.tb.app.R;
 import com.glhd.tb.app.act.inspection.InspHistoryActivity;
 import com.glhd.tb.app.act.inspection.InspRepairIListActivity;
+import com.glhd.tb.app.act.inspection.InspWayActivity;
 import com.glhd.tb.app.act.inspection.MainInspectionActivity;
 import com.glhd.tb.app.act.repair.RepairIndexActivity;
 import com.glhd.tb.app.base.BaseActivity;
@@ -29,6 +30,7 @@ public class InspMyActivity extends BaseActivity {
     protected TextView num;
     protected Button inspHistory;
     protected Button repairHistory;
+    protected Button waySearch;
     protected LinearLayout moreType;
     private TextView name;
     private TextView conpany;
@@ -45,6 +47,14 @@ public class InspMyActivity extends BaseActivity {
 
     public void userInfoAction(View view) {
         startActivity(UserInfoActivity.class);
+    }
+
+    /**
+     * 交路查询
+     * @param view
+     */
+    public void waySearchAction(View view) {
+        startActivity(InspWayActivity.class);
     }
 
     public void resetPasswordAction(View view) {
@@ -75,6 +85,7 @@ public class InspMyActivity extends BaseActivity {
         type = (TextView) findViewById(R.id.type);
         num = (TextView) findViewById(R.id.num);
         inspHistory = (Button) findViewById(R.id.insp_history);
+        waySearch = (Button) findViewById(R.id.way_search);//交路查询
         repairHistory = (Button) findViewById(R.id.repair_history);
         moreType = (LinearLayout) findViewById(R.id.more_type);
         final BeanUser user = MySp.getUser(this);
@@ -82,12 +93,12 @@ public class InspMyActivity extends BaseActivity {
         if (user != null) {
             name.setText(user.getName());
             conpany.setText(user.getCompany());
-            String curType="";
+            String curType = "";
 
             if (user.getType().contains(",")) {
-                curType=user.getCurType();
-            }else{
-                curType=user.getType();
+                curType = user.getCurType();
+            } else {
+                curType = user.getType();
             }
 
             if ("U02".equals(curType)) {
@@ -133,7 +144,7 @@ public class InspMyActivity extends BaseActivity {
                             Intent intent = new Intent(getApplicationContext(), MainInspectionActivity.class);
                             intent.putExtra("fromActivity", getClass().getSimpleName());
                             intent.putExtra("nodate", true);
-                            intent.putExtra("isSelect", EventInspFilter.event==null?false:true);
+                            intent.putExtra("isSelect", EventInspFilter.event == null ? false : true);
                             startActivity(intent);
                             user.setLogin(true);
                             user.setCurType("U02");

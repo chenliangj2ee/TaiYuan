@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp" >
+                android:layout_marginRight="15dp">
 
                 <TextView
                     android:id="@+id/conpany"
@@ -127,6 +127,16 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/way_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/selector_login_button"
+                    android:onClick="waySearchAction"
+                    android:text="交路查询"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:layout_marginTop="10dp"
                     android:id="@+id/insp_history"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
@@ -143,7 +153,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/selector_login_button"
                     android:onClick="repairHistoryAction"
-                    android:text="维修历史"
+                    android:text="报修历史"
                     android:textColor="#fff"
                     android:visibility="gone" />
 

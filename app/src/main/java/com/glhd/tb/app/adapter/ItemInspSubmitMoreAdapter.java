@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -56,14 +57,15 @@ public class ItemInspSubmitMoreAdapter extends BaseAdapter {
     }
 
     private void initializeViews(BeanAdapterType b, ViewHolder h) {
+        h.text.setChecked(true);
         h.text.setText(b.getType()+" "+ b.getNum()+"(个)");
     }
 
     protected class ViewHolder {
-        private TextView text;
+        private CheckBox text;
 
         public ViewHolder(View view) {
-            text = (TextView) view.findViewById(R.id.text);
+            text = (CheckBox) view.findViewById(R.id.text);
         }
     }
 }

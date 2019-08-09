@@ -22,6 +22,9 @@ import com.glhd.tb.app.base.bean.BeanAdvert;
 import com.glhd.tb.app.utils.MyImage;
 import com.glhd.tb.app.utils.MyToast;
 
+/*
+巡检首页 列表
+ */
 public class ItemInspIndexAdapter extends BaseAdapter {
 
     private ArrayList<BeanAdvert> objects = new ArrayList<BeanAdvert>();
@@ -29,7 +32,7 @@ public class ItemInspIndexAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
 
-    private boolean checkBoxIsShow=false;
+    private boolean checkBoxIsShow = false;
 
     public ItemInspIndexAdapter(Context context, ArrayList<BeanAdvert> objects) {
         this.context = context;
@@ -63,7 +66,7 @@ public class ItemInspIndexAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void initializeViews(final BeanAdvert b,final ViewHolder h, View convertView) {
+    private void initializeViews(final BeanAdvert b, final ViewHolder h, View convertView) {
         MyImage.load(context, b.getImage(), h.advertIcon);
         h.coding.setText("编码:" + b.getCoding());
         h.location.setText(b.getLocationdescribe());
@@ -97,24 +100,24 @@ public class ItemInspIndexAdapter extends BaseAdapter {
             h.inspStatusIcon.setVisibility(View.GONE);
         }
         /*
-        * 设置批量操作时复选框的值
-        * */
+         * 设置批量操作时复选框的值
+         * */
         if (checkBoxIsShow) {
             h.avdent_checkbox.setVisibility(View.VISIBLE);
         } else {
             h.avdent_checkbox.setVisibility(View.GONE);
         }
 
-        if(b.isChecked()){
+        if (b.isChecked()) {
             h.avdent_checkbox.setChecked(true);
-        }else{
+        } else {
             h.avdent_checkbox.setChecked(false);
         }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!checkBoxIsShow){
+                if (!checkBoxIsShow) {
                     if (b.getInsp() != null) {
                         Intent intent = new Intent(context, InspInfoActivity.class);
                         intent.putExtra("bean", b);
@@ -132,7 +135,7 @@ public class ItemInspIndexAdapter extends BaseAdapter {
 
 
                     }
-                }else{
+                } else {
 
                     if (b.isChecked()) {
                         b.setChecked(false);
@@ -146,9 +149,9 @@ public class ItemInspIndexAdapter extends BaseAdapter {
         });
 
         /*
-        *
-        * 点击复选框时 设置对应的对象 选中状态
-        * */
+         *
+         * 点击复选框时 设置对应的对象 选中状态
+         * */
 //        h.avdent_checkbox.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -180,7 +183,7 @@ public class ItemInspIndexAdapter extends BaseAdapter {
         }
 
         private void initView(View rootView) {
-            avdent_checkbox=(CheckBox)rootView.findViewById(R.id.avdent_checkbox);
+            avdent_checkbox = (CheckBox) rootView.findViewById(R.id.avdent_checkbox);
             advertIcon = (ImageView) rootView.findViewById(R.id.advert_icon);
             coding = (TextView) rootView.findViewById(R.id.coding);
             stationName = (TextView) rootView.findViewById(R.id.station_name);

@@ -80,6 +80,7 @@ public class API {
     private static String URL_SEARCH_ONE = HOST + "/inspection/lookup";                             //精准搜索
     private static String URL_GET_INSP_BASE_DATA_ = HOST + "/inspection/task";                      //获取基础数据
     private static String URL_GET_INSP_HISTORY = HOST + "/inspection/date";                         //获取巡检历史
+    private static String URL_GET_INSP_REPAIR = HOST + "/inspection/repairList";                        //TODO 获取维修历史
     private static String URL_GET_SEARCH_BASE_DATA = HOST + "/inspection/info";                     //获取搜索基础数据
     private static String URL_UPDATE_USER_INFO = HOST + "/inspection/modifyuser";                   //获取搜索基础数据
     private static String URL_GET_CONSTRUCTION = HOST + "/inspection/publish";                      //获取施工/未完成，已完成

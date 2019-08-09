@@ -58,6 +58,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
+/*
+巡检 列表页
+ */
 public class IndexFragment extends MyBaseFragment implements View.OnClickListener {
 
     private AstFlowLayout history;

@@ -5,6 +5,7 @@
     android:background="@color/colorTitleBg"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"

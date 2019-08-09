@@ -57,19 +57,19 @@ public class RepairListFragment extends MyBaseFragment {
         adapter = new ItemRepairListAdapter(getContext(), datas);
         listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                try {
-                    Intent intent = new Intent(getContext(), RepariInfoActivity.class);
-                    intent.putExtra("bean", datas.get(i));
-                    intent.putExtra("edit", type == 0 ? true : false);
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                try {
+//                    Intent intent = new Intent(getContext(), RepariInfoActivity.class);
+//                    intent.putExtra("bean", datas.get(i));
+//                    intent.putExtra("edit", type == 0 ? true : false);
+//                    startActivity(intent);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         refresh = (PtrClassicFrameLayout) rootView.findViewById(R.id.refresh);
         refresh.disableWhenHorizontalMove(true);
