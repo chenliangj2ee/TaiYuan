@@ -42,6 +42,7 @@ import com.glhd.tb.app.http.res.ResUpload;
 import com.glhd.tb.app.utils.MyImage;
 import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
+import com.glhd.tb.app.view.TreeViewLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -410,6 +411,15 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
 
             }
         });
+    }
+
+
+    @Override
+    public void onDestroy() {
+
+        RepairUserActivity.repairPersonnels = null;
+        TreeViewLayout.cache = null;
+        super.onDestroy();
     }
 
     /**
