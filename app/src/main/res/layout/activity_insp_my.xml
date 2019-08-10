@@ -153,7 +153,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/selector_login_button"
                     android:onClick="repairHistoryAction"
-                    android:text="报修历史"
+                    android:text="巡检报修历史"
                     android:textColor="#fff"
                     android:visibility="gone" />
 
