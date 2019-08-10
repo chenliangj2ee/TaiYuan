@@ -45,7 +45,7 @@ public class API {
 
     //47.104.81.230:8901外网
     //192.168.1.114:8080内网
-    //192.168.1.115:8080内网（测试常用）
+    //192.168.6.126:8080内网（测试常用）
 
 //    public static String MAIN_IP = "192.168.1.114:8080";
 
@@ -53,14 +53,14 @@ public class API {
      * 内网
      */
 //    public static String IP = "192.168.1.189:8080";
-//    public static String IP = "192.168.1.115:8080";
-//    public static String HOST_IMAGE = "http://" + IP + "/advertpublication";
-//    public static String HOST = "http://" + IP + "/advertpublication/admin/app";
+    public static String IP = "192.168.6.126:8080";
+    public static String HOST_IMAGE = "http://" + IP + "/advertpublication";
+    public static String HOST = "http://" + IP + "/advertpublication/admin/app";
 
 
-    public static String IP = "ad.12306.cn";
-    public static String HOST_IMAGE = "";
-    public static String HOST = "http://ad.12306.cn/app/advertpublication/admin/app";
+//    public static String IP = "ad.12306.cn";
+//    public static String HOST_IMAGE = "";
+//    public static String HOST = "http://ad.12306.cn/app/advertpublication/admin/app";
 
 //    /**
 //     * 外网
@@ -86,7 +86,7 @@ public class API {
     private static String URL_GET_CONSTRUCTION = HOST + "/inspection/publish";                      //获取施工/未完成，已完成
     private static String URL_CONSTRUCTION_SUBMIT = HOST + "/inspection/register";                   //施工登记
     private static String URL_GET_REPAIR = HOST + "/inspection/maintenance";                   //获取维修人员
-    private static String URL_GET_REPAIR_LIST = HOST + "/repair/list";                  //获取已维修，未维修
+    private static String URL_GET_REPAIR_LIST = HOST + "/inspection/reportingHistory";                  //报修历史
     private static String URL_INSP_REPAIRBACKBATCH = HOST + "/repair/feedback";                       //维修反馈
     private static String URL_INSP_GET_INSP_TYPE = HOST + "/inspection/mediaType";                       //媒体类型
     private static String URL_GET_MY_INSP_info = HOST + "/inspection/info";
@@ -815,17 +815,17 @@ public class API {
     }
 
     /**
-     * 管理端付款提醒
+     * 报修历史
      *
      * @param versionCode:版本号
      * @param callback
      */
-    public static void getRepariList(String accountId, String userType, String repairState, String pageNo, String pageSize, MyHttp.ResultCallback<ResGetRepairList>... callback) {
+    public static void getRepariList(String accountId, String first, String last, String pageNo, String pageSize, MyHttp.ResultCallback<ResGetRepairList>... callback) {
 
         MyHttp<ResGetRepairList> http = new MyHttp<>(ResGetRepairList.class);
         http.put("accountId", accountId);
-        http.put("repairState", repairState);
-        http.put("userType", userType);
+//        http.put("repairState", repairState);
+
         http.put("stationId", "");
         http.put("locationId", "");
         http.put("carnoId", "");

@@ -14,16 +14,17 @@ import android.widget.TextView;
 
 import com.glhd.tb.app.R;
 import com.glhd.tb.app.base.bean.BeanRepair;
+import com.glhd.tb.app.http.res.BeanBaoXiu;
 import com.glhd.tb.app.utils.MyImage;
 
 public class ItemRepairListAdapter extends BaseAdapter {
 
-    private ArrayList<BeanRepair> objects = new ArrayList<BeanRepair>();
+    private ArrayList<BeanBaoXiu> objects = new ArrayList<BeanBaoXiu>();
 
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public ItemRepairListAdapter(Context context, ArrayList<BeanRepair> objects) {
+    public ItemRepairListAdapter(Context context, ArrayList<BeanBaoXiu> objects) {
         this.context = context;
         this.objects = objects;
         this.layoutInflater = LayoutInflater.from(context);
@@ -35,7 +36,7 @@ public class ItemRepairListAdapter extends BaseAdapter {
     }
 
     @Override
-    public BeanRepair getItem(int position) {
+    public BeanBaoXiu getItem(int position) {
         return objects.get(position);
     }
 
@@ -50,11 +51,11 @@ public class ItemRepairListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.item_repair_list, null);
             convertView.setTag(new ViewHolder(convertView));
         }
-        initializeViews((BeanRepair) getItem(position), (ViewHolder) convertView.getTag());
+        initializeViews((BeanBaoXiu) getItem(position), (ViewHolder) convertView.getTag());
         return convertView;
     }
 
-    private void initializeViews(BeanRepair b, ViewHolder h) {
+    private void initializeViews(BeanBaoXiu b, ViewHolder h) {
 
 //        if(b.getWhSize()==null||"".equals(b.getWhSize())){
 //            h.coding.setText(""+b.getCoding());

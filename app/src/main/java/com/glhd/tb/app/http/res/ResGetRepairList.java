@@ -14,7 +14,7 @@ public class ResGetRepairList {
 
     private int code;
     private String message="";
-    private List<BeanRepair> data=new ArrayList<>();
+    private List<BeanBaoXiu> data=new ArrayList<>();
 
     public int getCode() {
         return code;
@@ -32,11 +32,11 @@ public class ResGetRepairList {
         this.message = message;
     }
 
-    public List<BeanRepair> getData() {
+    public List<BeanBaoXiu> getData() {
         return data;
     }
 
-    public void setData(List<BeanRepair> data) {
+    public void setData(List<BeanBaoXiu> data) {
         this.data = data;
     }
 }
