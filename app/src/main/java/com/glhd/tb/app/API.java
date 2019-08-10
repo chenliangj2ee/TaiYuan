@@ -32,6 +32,7 @@ import com.glhd.tb.app.http.res.ResLogin;
 import com.glhd.tb.app.http.res.ResSearchOne;
 import com.glhd.tb.app.http.res.ResUpgrade;
 import com.glhd.tb.app.http.res.ResUpload;
+import com.glhd.tb.app.http.res.WayList;
 import com.glhd.tb.app.utils.MyLocation;
 
 import java.io.File;
@@ -95,6 +96,11 @@ public class API {
     private static String URL_INSP_addTrajectory = HOST + "/inspection/addTrajectory";
     private static String URL_INSP_trajectoryList = HOST + "/inspection/trajectoryList";                       //巡检报修
     private static String URL_INSP_num = HOST + "/inspection/num";
+    /**
+     * 交路模块
+     */
+    private static String URL_WAY = HOST + "/inspection/routing";//交路查询
+
 
     /**
      * 客户端接口
@@ -820,17 +826,14 @@ public class API {
      * @param versionCode:版本号
      * @param callback
      */
-    public static void getRepariList(String accountId, String first, String last, String pageNo, String pageSize, MyHttp.ResultCallback<ResGetRepairList>... callback) {
+    public static void getRepariList(String accountId, String startDate, String endDate, String pageNo, String pageSize, MyHttp.ResultCallback<ResGetRepairList>... callback) {
 
         MyHttp<ResGetRepairList> http = new MyHttp<>(ResGetRepairList.class);
         http.put("accountId", accountId);
 //        http.put("repairState", repairState);
 
-        http.put("stationId", "");
-        http.put("locationId", "");
-        http.put("carnoId", "");
-        http.put("marshallingId", "");
-        http.put("multiple", "");
+        http.put("startDate", startDate);
+        http.put("endDate", endDate);
         http.put("pageNo", pageNo);
         http.put("pageSize", pageSize);
 
@@ -946,4 +949,25 @@ public class API {
         if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_num);
     }
+
+    /**
+     * 交路查询
+     *
+     * @param versionCode:版本号
+     * @param callback
+     */
+    public static void getWayList(String accountId,String trainsetName,String pageNo, String pageSize, MyHttp.ResultCallback<WayList>... callback) {
+
+        MyHttp<WayList> http = new MyHttp<>(WayList.class);
+        http.put("accountId", accountId);
+        http.put("trainsetName", trainsetName);
+        http.put("pageNo", pageNo);
+        http.put("pageSize", pageSize);
+
+
+        if (callback.length > 0) http.ResultCallback(callback[0]);
+        http.post(API.URL_WAY);
+    }
+
+
 }

@@ -13,8 +13,10 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:layout_weight="1"
+        android:singleLine="true"
         android:text="ddddddd"
-        android:textColor="#343434" />
+        android:textColor="#a39e9e"
+        android:textSize="16sp" />
 
     <ImageView
         android:layout_width="30dp"

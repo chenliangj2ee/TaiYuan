@@ -85,22 +85,27 @@ public class InspRepairIListActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         inspRepairListAdapter = new InspRepairListAdapter(this, datas);
         mRecyclerView.setAdapter(inspRepairListAdapter);
-        getRepairList(page,"","");
+
+        getRepairList(page, "", "");
+        mRefrshLoad();
+        initDatePicker();
+
+    }
+
+    private void mRefrshLoad() {
         mRefreshLayout.setEnableRefresh(true);//启用刷新
         mRefreshLayout.setEnableLoadMore(true);//启用加载
         //刷新
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                page=0;
+                page = 0;
                 datas.clear();
                 if (mTvSelectedDate.getText().equals("请选择开始时间") || mTvSelectedDateLast.getText().equals("请选择结束时间")) {
-                    getRepairList(page,"","");
+                    getRepairList(page, "", "");
                 } else {
-                    getRepairList(page,mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
-//            noRepairFragment = new RepairListFragment(mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
+                    getRepairList(page, mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
                 }
-
                 refreshlayout.finishRefresh();
             }
         });
@@ -110,34 +115,30 @@ public class InspRepairIListActivity extends BaseActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
                 page++;
                 if (mTvSelectedDate.getText().equals("请选择开始时间") || mTvSelectedDateLast.getText().equals("请选择结束时间")) {
-                    getRepairList(page,"","");
+                    getRepairList(page, "", "");
                 } else {
-                    getRepairList(page,mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
-//            noRepairFragment = new RepairListFragment(mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
+                    getRepairList(page, mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
                 }
                 refreshlayout.finishLoadmore();
             }
         });
-        initDatePicker();
-
     }
+
     int page;
     int pageSize = 20;
     private String accountId;
-    private void getRepairList(final int p,String first,String last) {
 
+    private void getRepairList(final int p, String first, String last) {
+        accountId = MySp.getUser(this).getAccountId();
         API.getRepariList(accountId, first, last, p + "", pageSize + "",
                 new MyHttp.ResultCallback<ResGetRepairList>() {
                     @Override
                     public void onSuccess(ResGetRepairList res) {
                         if (res.getCode() == 0) {
-//                            if (p == 0)
-//                                datas.clear();
-                            datas.addAll(res.getData());
+                            if (res.getData() != null) {
+                                datas.addAll(res.getData());
+                            }
                             inspRepairListAdapter.notifyDataSetChanged();
-//                            page++;
-                        } else {
-
                         }
                     }
 
@@ -146,6 +147,7 @@ public class InspRepairIListActivity extends BaseActivity {
                     }
                 });
     }
+
     public void firstTime(View view) {
         // 日期格式为yyyy-MM-dd
         mDatePicker.show(mTvSelectedDate.getText().toString());
@@ -161,7 +163,7 @@ public class InspRepairIListActivity extends BaseActivity {
             MyToast.showMessage(InspRepairIListActivity.this, "请选择开始时间或结束时间");
         } else {
             datas.clear();
-            getRepairList(page,mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
+            getRepairList(page, mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
 //            noRepairFragment = new RepairListFragment(mTvSelectedDate.getText().toString(), mTvSelectedDateLast.getText().toString());
         }
     }
