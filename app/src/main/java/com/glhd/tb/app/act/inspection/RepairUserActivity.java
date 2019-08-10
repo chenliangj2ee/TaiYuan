@@ -26,7 +26,7 @@ public class RepairUserActivity extends BaseActivity {
     private RadioGroup layout;
     private ArrayList<ResGetRepair.DataBean.RepairPersonnelBean> datas;
     boolean flag;
-
+    public static ArrayList<ResGetRepair.DataBean.RepairPersonnelBean> repairPersonnels;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +38,28 @@ public class RepairUserActivity extends BaseActivity {
     private ArrayList<ResGetRepair.DataBean.RepairPersonnelBean> results = new ArrayList<>();
 
     private void setData(final ArrayList<ResGetRepair.DataBean.RepairPersonnelBean> datas) {
+
+        ArrayList<String> ids=new ArrayList<>();
+        if(RepairUserActivity.repairPersonnels!=null){
+            for(int i=0;i<RepairUserActivity.repairPersonnels.size();i++){
+                ids.add(RepairUserActivity.repairPersonnels.get(i).getId());
+
+            }
+        }
+
         this.datas = datas;
         for (int i = 0; i < datas.size(); i++) {
             CheckBox button = new CheckBox(this);
             //todo 选中
 //            button.setChecked(true);
             button.setPadding(0, 50, 0, 50);
+
+
+            for(int index=0;index<ids.size();index++){
+                if(ids.get(index)!=null&&ids.get(index).equals(datas.get(i).getId())){
+                    button.setChecked(true);
+                }
+            }
 
             button.setText(datas.get(i).getName());
             layout.addView(button);
@@ -92,6 +108,7 @@ public class RepairUserActivity extends BaseActivity {
         if (results.size() > 0) {
             ResGetRepair.DataBean.RepairPersonnelBean bean = new ResGetRepair.DataBean.RepairPersonnelBean();
             bean.users = results;
+            RepairUserActivity.repairPersonnels=results;
             EventBus.getDefault().post(bean);
 
         }

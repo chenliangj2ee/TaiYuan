@@ -81,9 +81,8 @@ public class NotiUserActivity extends BaseActivity {
             }
         }
 
-        if (result.size() > 0) {
-            EventBus.getDefault().post(result);
-            finish();
-        }
+        TreeViewLayout.cache=result;
+        EventBus.getDefault().post(result);
+        finish();
     }
 }

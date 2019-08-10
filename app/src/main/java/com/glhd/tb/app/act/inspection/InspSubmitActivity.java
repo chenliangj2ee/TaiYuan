@@ -45,6 +45,7 @@ import com.glhd.tb.app.http.res.ResUpload;
 import com.glhd.tb.app.utils.MyImage;
 import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
+import com.glhd.tb.app.view.TreeViewLayout;
 import com.glhd.tb.app.view.banner.Banner;
 
 import org.greenrobot.eventbus.EventBus;
@@ -97,12 +98,7 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
     private static final String TAG = "InspSubmitActivity";
     //视频权限
-    private static final String[] VIDEO_PERMISSIONS = {
-            Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
+    private static final String[] VIDEO_PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
     @Override
@@ -416,6 +412,9 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onDestroy() {
         advert_banner.destroy();
+
+        RepairUserActivity.repairPersonnels = null;
+        TreeViewLayout.cache = null;
         super.onDestroy();
     }
 
@@ -524,4 +523,6 @@ public class InspSubmitActivity extends BaseActivity implements View.OnClickList
         }
         return true;
     }
+
+
 }

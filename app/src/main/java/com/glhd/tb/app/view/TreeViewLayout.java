@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.glhd.tb.app.R;
+import com.glhd.tb.app.act.inspection.RepairUserActivity;
 import com.glhd.tb.app.http.res.ResGetRepair;
 import com.glhd.tb.app.utils.MyToast;
 
@@ -24,12 +25,21 @@ import rx.internal.util.LinkedArrayList;
 public class TreeViewLayout extends LinearLayout {
 
 
+    public static ArrayList<ResGetRepair.DataBean.ViewStaffBean> cache;
+    ArrayList<String> ids=new ArrayList<>();
     public TreeViewLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
     public void setData(ArrayList<ResGetRepair.DataBean.ViewStaffBean> datas){
+
+        if(TreeViewLayout.cache!=null){
+            for(int i=0;i<TreeViewLayout.cache.size();i++){
+                ids.add(TreeViewLayout.cache.get(i).getId());
+            }
+        }
         init(0,datas,this);
+
     }
 
     private void init(int leave,ArrayList<ResGetRepair.DataBean.ViewStaffBean> datas,LinearLayout parentView){
@@ -74,6 +84,21 @@ public class TreeViewLayout extends LinearLayout {
         LinearLayout sub=currentView.findViewById(R.id.sub);
         textView.setText(data.getName());
         checkBox.setText(data.getName());
+
+
+        for(int index=0;index<ids.size();index++){
+            if(ids.get(index)!=null&&ids.get(index).equals(data.getId())){
+                data.setCheck(true);
+                checkBox.setChecked(true);
+                if(listener!=null){
+                    data.setCheck(checkBox.isChecked());
+                    listener.click(data);
+                }
+            }
+        }
+
+
+
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
         params.leftMargin=leave*50;
         leave++;
