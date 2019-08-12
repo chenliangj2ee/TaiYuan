@@ -1,14 +1,12 @@
 package com.glhd.tb.app.act.inspection;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -21,8 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ast365.library.listview.FullListView;
 import com.glhd.tb.app.API;
 import com.glhd.tb.app.R;
+import com.glhd.tb.app.adapter.ItemInspRepairAdapter;
 import com.glhd.tb.app.adapter.ItemInspSubmitMoreGridviewAdapter;
 import com.glhd.tb.app.base.BaseActivity;
 import com.glhd.tb.app.base.BaseRes;
@@ -39,7 +39,7 @@ import com.glhd.tb.app.http.MyHttpManager;
 import com.glhd.tb.app.http.res.GetInspRange;
 import com.glhd.tb.app.http.res.ResGetRepair;
 import com.glhd.tb.app.http.res.ResUpload;
-import com.glhd.tb.app.utils.MyImage;
+import com.glhd.tb.app.utils.MyLocation;
 import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
 import com.glhd.tb.app.view.TreeViewLayout;
@@ -51,8 +51,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 
-import me.nereo.multi_image_selector.Multi;
-
 /**
  * 巡检反馈 巡检报修登记
  */
@@ -63,6 +61,8 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
     protected TextView mediaType;
     protected TextView fault;
     protected EditText faultNum;
+    protected FullListView listview;
+    protected TextView totalNum;
     private TextView adsSize;
     private GridView gridView;
     protected LinearLayout addIcon;
@@ -82,12 +82,7 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
     private ArrayList<BeanSpinner> spinners;
 
     //视频权限
-    private static final String[] VIDEO_PERMISSIONS = {
-            Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
+    private static final String[] VIDEO_PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
 
     @Override
@@ -97,6 +92,16 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
         beans = (ArrayList<BeanAdvert>) getIntent().getSerializableExtra("beans");
         address = getIntent().getStringExtra("address");
         spinners = (ArrayList<BeanSpinner>) getIntent().getSerializableExtra("BeanSpinners");
+
+        name = getIntent().getStringExtra("name");
+        locationName = getIntent().getStringExtra("locationName");
+        properystationName = address;
+
+
+        if(MyLocation.bdLocation !=null){
+            locationName=MyLocation.bdLocation.getStreetNumber()+"-"+locationName;
+        }
+
         InspRepairActivity.success = false;
         initView();
     }
@@ -193,8 +198,7 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
     /*
      *
      * 设置维修人员
-     * */
-    String repairPersonnel = null;
+     * */ String repairPersonnel = null;
     String names = null;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -210,16 +214,14 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
                 names = names + "," + event.users.get(i).getName();
             }
         }
-        if (names != null)
-            repairUser.setText("维修人：" + names);
+        if (names != null) repairUser.setText("维修负责人：" + names);
 
     }
 
     /*
      *
      * 设置通知人员
-     * */
-    ArrayList<ResGetRepair.DataBean.ViewStaffBean> viewStaffBeans;
+     * */ ArrayList<ResGetRepair.DataBean.ViewStaffBean> viewStaffBeans;
     String viewStaff;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -238,12 +240,19 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
             }
         }
         viewStaff = ids;
-        notiUser.setText("通知人：" + mess);
+        notiUser.setText("报修通知人：" + mess);
     }
 
+    String name;
+    String locationName;
+    String taskId;
+    String properystationName;
+    String mediatypeName;
+    String mediaIds;
+    String faultMedia;
+
     private void inspFeedback(ArrayList<String> uploadUrls) {
-        if (dialog == null)
-            dialog = new ProgressDialog(this);
+        if (dialog == null) dialog = new ProgressDialog(this);
         dialog.setMessage("正在提交反馈....");
 
         String ids = "";
@@ -263,14 +272,63 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
             }
         }
 
-        API.inspRepair(MySp.getUser(this).getAccountId(),
-                ids,
-                fileName,
-                remarks.getText().toString().trim(),
-                repairPersonnel,
-                viewStaff,
-                faultId,
-                faultNum.getText().toString(),
+        taskId = "";
+        for (int i = 0; i < beans.size(); i++) {
+            taskId = beans.get(i).getTaskId();
+        }
+        mediaIds = "";
+        mediatypeName = "";
+        for (int i = 0; i < beans.size(); i++) {
+            if (i == beans.size() - 1) {
+                mediaIds = mediaIds + beans.get(i).getTaskId();
+                if (mediatypeName.contains(beans.get(i).getMediatype()) == false) {
+                    mediatypeName = mediatypeName + beans.get(i).getMediatype();
+                }
+
+            } else {
+                mediaIds = mediaIds + beans.get(i).getMediaId() + ",";
+
+                if (mediatypeName.contains(beans.get(i).getMediatype()) == false) {
+                    mediatypeName = mediatypeName + beans.get(i).getMediatype() + ",";
+                }
+            }
+        }
+
+
+        faultMedia = "";
+        for (int i = 0; i < listview.getChildCount(); i++) {
+            String type = ((TextView) listview.getChildAt(i).findViewById(R.id.type)).getText().toString();
+            String num = ((EditText) listview.getChildAt(i).findViewById(R.id.num)).getText().toString();
+            String repairType = ((TextView) listview.getChildAt(i).findViewById(R.id.repair_type)).getText().toString();
+
+            if ("".equals(num) == true) {
+                num = "0";
+                repairType = "无";
+            }
+            String item = type + "-" + num + "-" + repairType;
+
+            if (i == listview.getChildCount() - 1) {
+                faultMedia = faultMedia + item;
+            } else {
+                faultMedia = faultMedia + item + "_";
+            }
+
+        }
+
+
+        API.inspRepair(name,//完成
+                locationName,//完成
+                taskId,//完成
+                properystationName,//完成
+                mediatypeName, //完成
+                mediaIds,//完成
+                faultMedia, //完成
+                MySp.getUser(this).getAccountId(),//完成
+                ids,//完成
+                fileName,//完成
+                remarks.getText().toString().trim(),//完成
+                repairPersonnel,//完成
+                viewStaff,//完成
                 new MyHttp.ResultCallback<BaseRes>() {
                     @Override
                     public void onSuccess(BaseRes res) {
@@ -317,22 +375,60 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
         mediaType = (TextView) findViewById(R.id.mediaType);
         fault = (TextView) findViewById(R.id.fault);
         faultNum = (EditText) findViewById(R.id.fault_num);
+        listview = (FullListView) findViewById(R.id.listview);
+
+
+        ItemInspRepairAdapter adapter = new ItemInspRepairAdapter(this);
+        adapter.setObjects(spinners);
+        listview.setAdapter(adapter);
+        totalNum = (TextView) findViewById(R.id.total_num);
+
+        refreshNum();
+
+    }
+
+    private void refreshNum() {
+
+        if (totalNum != null) {
+            totalNum.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int num = 0;
+                    for (int i = 0; i < listview.getChildCount(); i++) {
+                        String text = ((TextView) listview.getChildAt(i).findViewById(R.id.num)).getText().toString();
+                        if ("".equals(text) == false) {
+                            num += Integer.parseInt(text);
+                        }
+                    }
+                    totalNum.setText("合计：共 " + num + " 个媒体报修");
+                    refreshNum();
+
+                }
+            }, 1000);
+        }
     }
 
     public void submitAction(View view) {
+        for (int i = 0; i < listview.getChildCount(); i++) {
+            int num = 0;
+            String type = ((TextView) listview.getChildAt(i).findViewById(R.id.type)).getText().toString();
+            String numText = ((TextView) listview.getChildAt(i).findViewById(R.id.num)).getText().toString();
+            String repairType = ((TextView) listview.getChildAt(i).findViewById(R.id.repair_type)).getText().toString();
+            if ("".equals(numText) == false) {
+                num = Integer.parseInt(numText);
+            }
 
-        if (mediatypeId == null) {
-            MyToast.showMessage(this, "请选择媒体类型");
-            return;
+            if (num > 0 && "请选择故障类型".equals(repairType)) {
+                MyToast.showMessage(this, "请选择" + type + "故障类型");
+                return;
+            }
+            if (num == 0 && !"请选择故障类型".equals(repairType)) {
+                MyToast.showMessage(this, "请选择" + type + "故障数量");
+                return;
+            }
+
         }
-        if (faultId == null) {
-            MyToast.showMessage(this, "请选择故障类型");
-            return;
-        }
-        if ("".equals(faultNum.getText().toString().trim())) {
-            MyToast.showMessage(this, "请输入报修数量");
-            return;
-        }
+
         if (iconStrs.isEmpty()) {
             MyToast.showMessage(this, "请添加照片");
             return;
@@ -359,6 +455,7 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 选择媒体类型
+     *
      * @param v
      */
     public void dialogChoice(View v) {
@@ -378,19 +475,18 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
         builder.setIcon(R.mipmap.ic_launcher);
-        builder.setSingleChoiceItems(items, typeSelectPosi,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mediatypeId = spinners.get(which).getId();
-                        mediaType.setText("媒体类型：" + spinners.get(which).getTitle());
-                        typeSelectPosi = which;
-                        dialog.dismiss();
-                        fault.setVisibility(View.VISIBLE);
-                        Log.i(TAG, "媒体类型 "+mediatypeId);
-                        GetInspFault(mediatypeId);
-                    }
-                });
+        builder.setSingleChoiceItems(items, typeSelectPosi, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mediatypeId = spinners.get(which).getId();
+                mediaType.setText("媒体类型：" + spinners.get(which).getTitle());
+                typeSelectPosi = which;
+                dialog.dismiss();
+                fault.setVisibility(View.VISIBLE);
+                Log.i(TAG, "媒体类型 " + mediatypeId);
+                GetInspFault(mediatypeId);
+            }
+        });
 
         builder.create().show();
     }
@@ -431,12 +527,12 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 选择故障类型
+     *
      * @param v
      */
     public void faultAction(View v) {
         final String items[] = new String[faultDatas.size()];
-        if (itemsBoo == null)
-            itemsBoo = new boolean[faultDatas.size()];
+        if (itemsBoo == null) itemsBoo = new boolean[faultDatas.size()];
 
         for (int i = 0; i < faultDatas.size(); i++) {
             items[i] = faultDatas.get(i).getTitle();
@@ -483,6 +579,7 @@ public class InspRepairActivity extends BaseActivity implements View.OnClickList
 
         builder.create().show();
     }
+
     /*
       通知人
        */

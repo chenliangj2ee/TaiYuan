@@ -15,7 +15,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#fff">
+        android:background="@color/titleColor">
 
         <ImageView
             android:layout_width="50dp"
@@ -29,11 +29,10 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="巡检报修登记"
-            android:textColor="#343434"
+            android:textColor="#fff"
             android:textSize="20sp" />
 
         <Button
-            android:visibility="gone"
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_gravity="right|center"
@@ -43,7 +42,8 @@
             android:onClick="submitAction"
             android:text="提交"
             android:textColor="#fff"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
     </FrameLayout>
 
     <View
@@ -58,18 +58,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:background="@drawable/selector_login_bg"
+            android:background="#fff"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/address_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="共计0个媒体" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#888" />
+
+            <com.ast365.library.listview.FullListView
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:divider="#0000"
+                android:dividerHeight="0dp" />
+            <TextView
+                android:id="@+id/total_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="#888"
+                android:padding="10dp"
+                  />
             <TextView
                 android:id="@+id/mediaType"
                 android:layout_width="match_parent"
@@ -79,7 +99,8 @@
                 android:gravity="center"
                 android:onClick="dialogChoice"
                 android:padding="10dp"
-                android:text="请选择媒体类型" />
+                android:text="请选择媒体类型"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/fault"
@@ -103,7 +124,8 @@
                 android:gravity="center"
                 android:hint="请输入报修数量"
                 android:inputType="number"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
@@ -181,9 +203,11 @@
                     android:onClick="SelectRepairUserAction"
                     android:padding="10dp"
                     android:text="维修负责人：" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginLeft="100dp"
                     android:background="#bbbbbb" />
 
                 <TextView
@@ -193,10 +217,12 @@
                     android:layout_marginTop="10dp"
                     android:onClick="SelectNotiUserAction"
                     android:padding="10dp"
-                    android:text="通知人：" />
+                    android:text="报修通知人：" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginLeft="100dp"
                     android:background="#bbbbbb" />
             </LinearLayout>
 
@@ -209,14 +235,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="备注" />
+                    android:text="说明" />
 
                 <EditText
-                    android:layout_margin="10dp"
-                    android:background="@drawable/selector_fu_kuan_bg"
                     android:id="@+id/remarks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/selector_fu_kuan_bg"
                     android:gravity="top"
                     android:minLines="3"
                     android:padding="10dp"
@@ -233,8 +259,7 @@
                 android:background="@drawable/selector_button"
                 android:onClick="submitAction"
                 android:text="提交"
-                android:textColor="#fff"
-                 />
+                android:textColor="#fff" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

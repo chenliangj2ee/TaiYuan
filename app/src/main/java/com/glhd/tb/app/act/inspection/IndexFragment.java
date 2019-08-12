@@ -48,6 +48,7 @@ import com.glhd.tb.app.utils.MyLog;
 import com.glhd.tb.app.utils.MySp;
 import com.glhd.tb.app.utils.MyToast;
 import com.glhd.tb.app.utils.MyUtils;
+import com.google.gson.Gson;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
@@ -207,6 +208,9 @@ public class IndexFragment extends MyBaseFragment implements View.OnClickListene
             intent.putExtra("beans", objs);
             intent.putExtra("address", add);
             intent.putExtra("BeanSpinners", inspAdsType.getData());
+            intent.putExtra("name", historyName);
+            intent.putExtra("locationName", title.getText().toString());
+            intent.putExtra("BeanSpinners", inspAdsType.getData());
             startActivity(intent);
 
         } else if (view.getId() == R.id.no_type_filter) {
@@ -235,7 +239,9 @@ public class IndexFragment extends MyBaseFragment implements View.OnClickListene
 
                 MyLocation.latitude = bdLocation.getLatitude() + "";
                 MyLocation.longitude = bdLocation.getLongitude() + "";
+                MyLocation.bdLocation =bdLocation;
                 Address address = bdLocation.getAddress();
+                MyLog.i("address",new Gson().toJson(bdLocation));
                 if (null == bdLocation.getFloor()) {
                     title.setText(address.city + address.district + address.street + address.streetNumber);
 
@@ -513,6 +519,8 @@ public class IndexFragment extends MyBaseFragment implements View.OnClickListene
     }
 
 
+    private String historyName;
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void EventInspFilter(EventInspFilter event) {
 
@@ -557,7 +565,7 @@ public class IndexFragment extends MyBaseFragment implements View.OnClickListene
         if (!"".equals(marshallingName)) {
             name = marshallingName;
         }
-
+        historyName=name;
         if (!"".equals(stationName) && "".equals(floorName)) {
             getetTrajectoryList();
             return;

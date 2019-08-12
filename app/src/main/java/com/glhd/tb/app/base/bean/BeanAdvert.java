@@ -27,6 +27,9 @@ public class BeanAdvert implements Serializable {
      */
 
     private String id = "";
+    private String taskId = "";
+    private String mediaId = "";
+    private String mediatype = "";
     private String coding = "";
     private String location = "";
     private String typeTitle = "";
@@ -47,6 +50,14 @@ public class BeanAdvert implements Serializable {
     private String properystation = "";
     private BeanInsp insp;
     private String waitDate;
+
+    public String getMediatype() {
+        return mediatype;
+    }
+
+    public void setMediatype(String mediatype) {
+        this.mediatype = mediatype;
+    }
 
     public String getWaitDate() {
         return waitDate;
@@ -70,6 +81,22 @@ public class BeanAdvert implements Serializable {
 
     public void setLocationdescribe(String locationdescribe) {
         this.locationdescribe = locationdescribe;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
     }
 
     private boolean isChecked = false;
