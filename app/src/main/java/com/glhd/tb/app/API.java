@@ -34,6 +34,7 @@ import com.glhd.tb.app.http.res.ResUpgrade;
 import com.glhd.tb.app.http.res.ResUpload;
 import com.glhd.tb.app.http.res.WayList;
 import com.glhd.tb.app.utils.MyLocation;
+import com.glhd.tb.app.utils.MySp;
 
 import java.io.File;
 
@@ -883,13 +884,33 @@ public class API {
         http.post(API.URL_GET_MY_INSP_fault);
     }
 
+
+
+
+
     /*
      *
      * 批量巡检
      * */
-    public static void inspRepair(String accountId, String ids, String fileName, String remarks, String repairPersonnel, String viewStaff, String faultType, String mediaNumber, MyHttp.ResultCallback<BaseRes>... callback) {
+    public static void inspRepair(
+            String name,
+            String locationName,
+            String taskId,
+            String properystationName,
+            String mediatypeName,
+            String mediaIds,
+            String faultMedia,
+            String accountId, String ids, String fileName, String remarks, String repairPersonnel, String viewStaff, MyHttp.ResultCallback<BaseRes>... callback) {
         MyHttp<BaseRes> http = new MyHttp<>(BaseRes.class);
 
+
+        http.put("name", name);
+        http.put("locationName", locationName);
+        http.put("taskId", taskId);
+        http.put("properystationName", properystationName);
+        http.put("mediatypeName", mediatypeName);
+        http.put("mediaIds", mediaIds);
+        http.put("faultMedia", faultMedia);
 
         http.put("accountId", accountId);
         http.put("ids", ids);
@@ -899,8 +920,6 @@ public class API {
         http.put("location", MyLocation.latitude + "," + MyLocation.longitude);
         http.put("repairPersonnel", repairPersonnel);
         http.put("viewStaff", viewStaff);
-        http.put("faultType", faultType);
-        http.put("mediaNumber", mediaNumber);
         if (callback.length > 0) http.ResultCallback(callback[0]);
         http.post(API.URL_INSP_repair);
     }
